@@ -1,0 +1,84 @@
+.auction-about-container {
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.auction-content {
+    background-color: #f2e8df;
+    border-radius: 20px;
+    box-shadow:0 26px 20px -18px rgb(221 208 197), 0px 9px 16px 0px rgb(200 189 180);
+    padding : 100px 100px;
+}
+
+.auction-detail {
+    background-color : white;
+    padding : 50px 60px;
+}
+
+.auction-head {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;    
+    height: 400px;
+    margin-bottom: 50px;
+}
+
+.character-img {
+    position:relative;
+    width: 45%;
+    height: 100%;
+    background-color: #bfb4b0;    
+}
+
+.character-info {
+    width: 45%;
+    height: 45%;
+}
+
+.character-currentPrice {
+    display: flex;
+    align-items: center;
+}
+
+.character-currentPrice h2, .character-goalPrice h2 {
+    margin-right : 20px;
+}
+
+.character-goalPrice {
+    display: flex;
+    align-items: center;
+} 
+
+.character-buy {
+   margin-top: 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.character-setPrice{
+    width : 200px;
+    margin-right:20px;;
+}
+.character-buyButton {
+    text-align: center;
+    font-size: 25px;
+    line-height: 230%;
+    width: 60%;
+    height: 15%;
+    color: white;
+    font-weight: bold;
+    border-radius: 2em;
+    background-color: #f2b591;
+}
+
+
+.owner-info h1::after {
+    content: "";
+    position: relative;
+    width : 100%;
+    display: block;
+    border-bottom: 3px solid #f2b591;
+}
