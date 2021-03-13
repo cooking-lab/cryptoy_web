@@ -4,7 +4,8 @@ const AuctionItem = () => {
     const dirpath = "/img/char_robot";
     return (
        <div className="auction-item">
-            <Link to="auction/1"><div className="item-img">
+            <Link to="auction/1">
+                <div className="item-img">
             <img src={`${dirpath}/body/body_color.png`} />
             <img src={`${dirpath}/body/body_shadow.png`}/>
             <img src={`${dirpath}/body/body_line.png`} />
@@ -16,7 +17,8 @@ const AuctionItem = () => {
             </div>
             <div className="item-info">
                 <span>item info</span>
-            </div> </Link>
+            </div> 
+            </Link>
         </div>
        
     )

@@ -7,7 +7,7 @@ const Auction = () => {
     const [active, setActive] = useState(null);
     const toggle = (position) => {
         if(position === active){
-            // 지금 액티브 되어있다면
+            // 吏?湲? ?븸?떚釉? ?릺?뼱?엳?떎硫?
             setActive(null);
         }else{
             setActive(position);
