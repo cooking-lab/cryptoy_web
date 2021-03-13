@@ -4,7 +4,7 @@ import "css/Detail.css";
 const AuctionAbout = () => {
     const [sPrice, setSPrice] = useState(10000);
     const [cPrice, setCPrice] = useState(10000);
-
+    // this is git test
     const BuyOnClick = () => {
         if(sPrice <= cPrice) { alert("현재 가격보다 높은 가격을 불러주세요."); return; }
         
