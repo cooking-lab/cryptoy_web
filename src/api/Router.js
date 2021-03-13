@@ -1,25 +1,23 @@
 import reactDom from "react-dom";
 import React from "react";
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from "./Navigation";
 import Auction from "routes/Auction";
 import Home from "routes/Home";
-import AuctionAbout from "features/TradingSystem/AuctionAbout";
+import AuctionRegister from "routes/AuctionRegister";
+import AuctionAbout from "routes/Detail";
 
 const AppRouter = () => {
     return (
         <>
             <Router>
                 <Navigation />
-                <Route exact path='/'>
-                    <Home />
-                </Route>
-                <Route exact path='/auction'>
-                    <Auction />
-                </Route>
-                <Route exact path='/auction/:id'>
-                    <AuctionAbout />
-                </Route>
+                <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route exact path='/auction' component={Auction} />
+                    <Route exact path='/auction/register' component={AuctionRegister} />
+                    <Route exact path='/auction/:id' component={AuctionAbout} />
+                </Switch>
             </Router>
             <footer>
             FOOTER
