@@ -1,0 +1,121 @@
+.AuctionRegisterContainer{
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.AuctionRegister-content{
+    background-color: #f2e8df;
+    border-radius: 20px;
+    box-shadow:0 26px 20px -18px rgb(221 208 197), 0px 9px 16px 0px rgb(200 189 180);
+    padding : 100px 100px;
+}
+
+.display_block {
+    display: block;
+}
+
+.display_hidden {
+    display: none;
+}
+
+.seletedPopup{
+    position: absolute;
+    top : 10%;
+    left : 25%;
+    width: 50%;
+    height: 70%;
+    background-color : #f2f2f2;
+    box-shadow: 0 0 12px 2px #b3b3b3;
+}
+
+.selectedPopup-button{
+    position: relative;
+    left : 85%;
+    top : 90%;
+    background-color: #f2b591;
+    font-size: 16px;
+    border : none;
+    border-radius: 1em;
+    font-weight: bold;
+    color: white;
+    padding : 10px 20px;
+    box-shadow: 0 2px 2px 0px #a77b60;
+    cursor: pointer;
+}
+
+.register-toy {
+    display: flex;
+}
+
+.selectedToy{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:250px;
+    height: 300px;
+    background-color: #bfb4b0;
+}
+
+.selectedBtn {
+    background-color: white;
+    font-size: 16px;
+    border : none;
+    border-radius: 1em;
+    font-weight: bold;
+    padding : 10px 20px;
+}
+
+.selectedToy-info{
+    margin-left: 50px;
+}
+
+.selectedToy-detailInfo {
+    margin-top: 20px;
+    background-color: #f2f2f2;
+    width : 800px;
+    height: 30%;
+}
+
+.choose-input{
+    display: grid;
+    grid-template-columns : repeat(auto-fit, minmax(200px, 1fr));
+    gap : 50px;
+}
+.choose-input > div{
+    margin-top: 20px;
+}
+
+.choose-input > div > h3 {
+    margin-bottom: 10px;
+}
+.choose-type > ul {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5px;
+    text-align: center;
+}
+.choose-type > ul li {
+    border-radius: 1em;
+    padding : 10px 2s0px;
+    color : white;
+}
+
+.choose-price > input {
+    margin-right : 10px;
+}
+
+.registerBtn {
+    position: relative;
+    left:90%;
+    background-color: #f2b591;
+    font-size: 16px;
+    border : none;
+    border-radius: 1em;
+    font-weight: bold;
+    color: white;
+    padding : 10px 20px;
+    box-shadow: 0 2px 2px 0px #a77b60;
+    cursor: pointer;
+}
