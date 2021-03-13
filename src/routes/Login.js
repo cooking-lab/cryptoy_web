@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Login = () => {
     return (
+        // GIT CONFLICT TEST
         <div className="login-container">
             <div className="login-content">
                 <h1 style={{textAlign:"center", marginTop:"0", paddingBottom:"10px", fontSize:"48px"}}>LOGIN</h1>

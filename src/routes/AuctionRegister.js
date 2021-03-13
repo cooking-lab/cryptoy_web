@@ -23,7 +23,6 @@ const AuctionRegister = () => {
 
     const toggle = (position) => {
         if(position === active){
-            // ì§€ê¸ˆ ì•¡í‹°ë¸Œ ë˜ì–´ìˆë‹¤ë©´
             setActive(null);
         }else{
             setActive(position);
@@ -44,17 +43,17 @@ const AuctionRegister = () => {
 
     const registerBtnOnClick = () => {
         if(deadline < new Date().toISOString().substring(0, 10)){
-            alert("ì¢…ë£Œ ì‹œì ì€ í˜„ì¬ ë‚ ì§œ ì´í›„ë§Œ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+            alert("ì¢…ë£Œ ?‹œ? ??? ?˜„?¬ ?‚ ì§? ?´?›„ë§? ê°??Š¥?•©?‹ˆ?‹¤.");
             return;
         }
         if(bPrice && minPrice) {
-            let ok = window.confirm("ë“±ë¡í•˜ì‹œê² ìŠµë‹ˆê¹Œ?");
+            let ok = window.confirm("?“±ë¡í•˜?‹œê² ìŠµ?‹ˆê¹??");
             if(ok) {
-                alert("ë“±ë¡ë˜ì—ˆìŠµë‹ˆë‹¤.");
+                alert("?“±ë¡ë˜?—ˆ?Šµ?‹ˆ?‹¤.");
                 history.push('/auction/:id');
             }
         }else{
-            alert("í•„ìš”í•œ ì •ë³´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+            alert("?•„?š”?•œ ? •ë³´ë?? ?…? ¥?•´ì£¼ì„¸?š”.");
         }
     }
 
@@ -89,8 +88,8 @@ const AuctionRegister = () => {
                             </div>
                             <div className="choose-price">
                                 <h3>Register Price</h3>
-                                <input type="number" value={minPrice} placeholder="ìµœì €ë§¤ê°ê°€ê²©" onChange={e=> setMinPrice(e.target.value)}/>
-                                <input type="number" value={bPrice} placeholder="ë°”ë¡œêµ¬ë§¤ê°€ê²©" onChange={e=> setBPrice(e.target.value)} />
+                                <input type="number" value={minPrice} placeholder="ìµœì??ë§¤ê°ê°?ê²?" onChange={e=> setMinPrice(e.target.value)}/>
+                                <input type="number" value={bPrice} placeholder="ë°”ë¡œêµ¬ë§¤ê°?ê²?" onChange={e=> setBPrice(e.target.value)} />
                             </div>
                             <div className="choose-deadline">
                                 <h3>Register Deadline</h3>
