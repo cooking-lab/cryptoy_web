@@ -26,14 +26,15 @@ const Auction = () => {
                 <ul>
                     <li style={{backgroundColor:changeColor(0)}} onClick={() => toggle(0)}>for sale</li>
                     <li style={{backgroundColor:changeColor(1)}} onClick={() => toggle(1)}>siring</li>
+                    <li style={{backgroundColor:changeColor(2)}} onClick={() => toggle(2)}>others</li>
                 </ul>
             </div>
             <div className="filter-item species-filter">
                 <span className="filter-span">Species</span>
                 <ul>
-                    <li style={{backgroundColor:changeColor(2)}} onClick={() => toggle(2)}>Doll</li>
-                    <li style={{backgroundColor:changeColor(3)}} onClick={() => toggle(3)}>Car</li>
-                    <li style={{backgroundColor:changeColor(4)}} onClick={() => toggle(4)}>Robot</li>
+                    <li style={{backgroundColor:changeColor(3)}} onClick={() => toggle(3)}>Doll</li>
+                    <li style={{backgroundColor:changeColor(4)}} onClick={() => toggle(4)}>Car</li>
+                    <li style={{backgroundColor:changeColor(5)}} onClick={() => toggle(5)}>Robot</li>
                 </ul>
             </div>
             <div className="filter-item price-filter">
@@ -49,13 +50,14 @@ const Auction = () => {
         <div className="auction-container">
             <div className="auction-content">
             {Filter}
-            <div className="auction-item-groups">
-                <AuctionItem />
-                <AuctionItem />
-                <AuctionItem />
-                <AuctionItem />
-                <AuctionItem />
-            </div>
+                <div className="auction-item-groups">
+                    <AuctionItem />
+                    <AuctionItem />
+                    <AuctionItem />
+                    <AuctionItem />
+                    <AuctionItem />
+                </div>
+            <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
             </div>
         </div>
     )
