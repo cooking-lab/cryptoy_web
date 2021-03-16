@@ -33,6 +33,7 @@
     display: block;
     width: 95%;
     height: 40px;
+    font-size: 24px;
 }
 
 .signup-input{
@@ -45,6 +46,10 @@
     font-family: 'CookieRun-Regular';
     border: none;
     color: black;
+}
+
+.signup-btn-groups{
+    margin-top:"30px";
 }
 
 .signup-btn{
