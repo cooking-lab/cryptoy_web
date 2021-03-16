@@ -1,35 +1,57 @@
-.login-container {
+.profile-update-container {
     background-color: white;
     justify-content: center;
     align-items: center;
-    padding: 15% 35%;
+    padding: 5% 25%;
 }
 
-.login-content {
+.profile-update-content {
     background-color: #f2e8df;
     border-radius: 20px;
     box-shadow:0 26px 20px -18px rgb(221 208 197), 0px 9px 16px 0px rgb(200 189 180);
     padding : 50px 100px;
 }
 
-.login-input-groups {
+.profile-update-input-groups {
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
 }
 
-.login-input{
-    margin: 10px auto;
+.profile-update-input-box{
+    padding: 10px 0;
+    width: 100%;
+    height: 60px;
     display: block;
-    width: 160px;
-    height: 30px;
-    font-size: 18px;
-    border-radius: 10px;
-    font-family: 'CookieRun-Regular';
+    background-color: white;
     border: 1px solid #f2b591;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.profile-update-label{
+    margin: 0 auto;
+    display: block;
+    width: 95%;
+    height: 40px;
+    font-size: 24px;
+}
+
+.profile-update-input{
+    margin: 10px auto;
+    margin-bottom: 50px;
+    display: block;
+    width: 95%;
+    height: 40px;
+    font-size: 18px;
+    font-family: 'CookieRun-Regular';
+    border: none;
     color: black;
 }
+.profile-update-btn-groups{
+    margin-top: 30px;
+}
 
-.login-btn{
+.profile-update-btn{
     margin: 10px auto;
     display: block;
     width: 120px;
