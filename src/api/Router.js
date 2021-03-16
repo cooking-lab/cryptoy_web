@@ -8,6 +8,8 @@ import Login from "routes/Login";
 import SignUp from "features/Login/SignUp";
 import AuctionRegister from "routes/AuctionRegister";
 import AuctionAbout from "routes/Detail";
+import Profile from "features/Profile/Profile";
+import ProfileUpdate from "features/Profile/ProfileUpdate";
 
 const AppRouter = () => {
     return (
@@ -21,6 +23,8 @@ const AppRouter = () => {
                     <Route exact path='/auction/:id' component={AuctionAbout} />
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/login/signup' component={SignUp} />
+                    <Route exact path='/profile' component={Profile} />
+                    <Route exact path='/profile/update' component={ProfileUpdate} />
                 </Switch>
             </Router>
             <footer>
