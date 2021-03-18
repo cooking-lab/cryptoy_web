@@ -13,21 +13,41 @@
 }
 
 .filter {
-    display: flex;
-    justify-content: space-around;
+    padding : 0 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px;
 }
 
+.filter-searchBtn{
+    font-size: 12px;
+    font-weight: bold;
+    padding : 5px 10px;
+    background-color: #f2b591;
+    float: right;
+    border-radius: 5px;
+}
 .filter-item {
-    
     position: relative;
 }
 
 .filter-span {
+    display: block;
     font-size: 20px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
-.filter-item ul:before {
+.filter-span::after {
+    margin-top: 5px;
+    content: "";
+    width: 100%;
+    height: 2px;
+    display: block;
+    background-color: #bfb4b0;
+}
+
+/* .filter-item ul:before {
     content: '';
     width: 100%;
     background-color : #bfa893;
@@ -51,38 +71,104 @@
     margin-right : 10px;
     background-color: #bfb4b0;
     cursor: pointer;
+} */
+
+.slider-price {
+    appearance: none;
+    width : 100%;
+    height : 15px;
+    border-radius: 5px;
+    background-color: #bfb4b0;
+    outline: none;
 }
+
+.slider-price::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    border-radius: 15px;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #f2b591; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .slider-price::-moz-range-thumb {
+    border-radius: 15px;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #f2b591; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
 
 .auction-item-groups {
     margin-top:40px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap : 50px 30px;
 }
 
 .auction-item {
-    width: 20%;
     position: relative;
-    margin : 20px 30px;
+}
+
+.item-type {
+    display: inline-block;
+    position: absolute;
+    background-color: #bfa893;
+    padding : 6px 30px;
+    box-shadow: 0px 2px 2px 0px #847465;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.type_sale {
+    background-color: #f2b591;
+    box-shadow: 0 2px 2px 0px #a77b60;
 }
 
 .item-img {
     height: 300px;
     background-color: white;
-    border-radius: 2em;
+    border-radius: 1em;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .item-img img{
     position: absolute;
-    top : -35px;
-    left : -175px;
     width: 260%;
     height: 120%;
 }
 
 .item-info {
     text-align: center;
+    margin-top: 10px;
+}
+
+.item-info > div {
+    margin: 5px 0;
+}
+
+.dashed {
+    border-bottom: 1px dashed #bfb4b0;
+    width: 100%;
+    height: 1px;
+}
+
+.item-name-price {
+    display: flex;
+    justify-content: space-around;
+}
+
+.item-detail {
+    display: flex;
+    justify-content: flex-start;
+    color : #bfb4b0;
+}
+
+.item-detail > h4 {
+    margin : 0 10px;
 }
 
 .auction-register {
