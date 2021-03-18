@@ -43,6 +43,7 @@ const AuctionRegister = () => {
 
     const registerBtnOnClick = () => {
         if(deadline < new Date().toISOString().substring(0, 10)){
+<<<<<<< HEAD
             alert("醫낅즺 ?떆?젏??? ?쁽?옱 ?궇吏? ?씠?썑留? 媛??뒫?빀?땲?떎.");
             return;
         }
@@ -54,6 +55,19 @@ const AuctionRegister = () => {
             }
         }else{
             alert("?븘?슂?븳 ?젙蹂대?? ?엯?젰?빐二쇱꽭?슂.");
+=======
+            alert("종료 날짜는 현재 날짜보다 이후로 설정해주세요.");
+            return;
+        }
+        if(bPrice && minPrice) {
+            let ok = window.confirm("등록하시겠습니까?");
+            if(ok) {
+                alert("등록되었습니다.");
+                history.push('/auction/:id');
+            }
+        }else{
+            alert("필수정보를 입력해주세요.");
+>>>>>>> c669d32ce7d04121832b9d680540fb28513e3118
         }
     }
 
@@ -88,8 +102,13 @@ const AuctionRegister = () => {
                             </div>
                             <div className="choose-price">
                                 <h3>Register Price</h3>
+<<<<<<< HEAD
                                 <input type="number" value={minPrice} placeholder="理쒖??留ㅺ컖媛?寃?" onChange={e=> setMinPrice(e.target.value)}/>
                                 <input type="number" value={bPrice} placeholder="諛붾줈援щℓ媛?寃?" onChange={e=> setBPrice(e.target.value)} />
+=======
+                                <input type="number" value={minPrice} placeholder="최소매각금액" onChange={e=> setMinPrice(e.target.value)}/>
+                                <input type="number" value={bPrice} placeholder="바로구매금액" onChange={e=> setBPrice(e.target.value)} />
+>>>>>>> c669d32ce7d04121832b9d680540fb28513e3118
                             </div>
                             <div className="choose-deadline">
                                 <h3>Register Deadline</h3>

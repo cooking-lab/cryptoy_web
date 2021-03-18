@@ -5,8 +5,8 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req,res) => {
-    // console.log(req.body.ID);
-    res.json({username:'please.......'});
+   // res.json({username:'test'});
+   res.send({username:"test"});
 });
 
 router.post('/', (req,res) => {
