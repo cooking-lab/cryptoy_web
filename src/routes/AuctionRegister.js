@@ -3,6 +3,7 @@ import "css/AuctionRegister.css";
 import { Redirect, useHistory } from "react-router-dom";
 
 const AuctionRegister = () => {
+    // 한글 인코딩 테스트
     const [isSelected, setIsSelected] = useState(false);
     const [isPopUp, setIsPopUp] = useState(false);
     const [active, setActive] = useState(null);
