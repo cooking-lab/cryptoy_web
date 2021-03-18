@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import "css/SignUp.css"
+import axios from "axios";
 
 const SignUp = () => {
     const [ID, setID] = useState(null);
@@ -11,7 +12,26 @@ const SignUp = () => {
                 PASSWORD : ${password}
                 NICKNAME : ${nickname}
                 Is it Correct?`);
+        submit();
     }
+
+    const submit = async () => {
+        // add condition for submit (restrict ID, PW)
+        // const client = axios.create();    
+        const response = await axios.post('/api', {
+            ID:ID,
+            PASSWORD:password,
+            NICKNAME:nickname,
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+        console.log("send");
+    }
+
     return (        
         <div className="signup-container">
             <div className="signup-content">

@@ -9,6 +9,10 @@ router.get('/', (req,res) => {
    res.send({username:"test"});
 });
 
+router.post('/', (req,res) => {
+    // console.log(req.body.ID);
+    res.json({username:'DK SHOWMAKER'});
+});
+
+
 module.exports = router;
-
-
