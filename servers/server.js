@@ -1,20 +1,21 @@
 // '/' directory
 
-const express = require('express'); 
 //import express from "express"; // ES6 Syntax
+const express = require('express'); 
+const cors = require('cors');
 
-const route = require('./routes/index');
+const index = require('./routes/index');
 const player = require('./routes/player');
 
 const app = express(); 
 const port = process.env.PORT || 3001;
 
 
-//(Express v4.16.0 ±âÁØ express°¡ ºôÆ®ÀÎ body-parser¸¦ ³Ö¾úÀ½ == bodyParser »ç¿ë X)
-app.use(express.json()); // JSONÀ¸·Î ¹Ş¾ÆµéÀÎ Á¤º¸ ºĞ¼® 
+//(Express v4.16.0 ê¸°ì¤€ expressê°€ ë¹ŒíŠ¸ì¸ body-parserë¥¼ ë„£ì—ˆìŒ == bodyParser ì‚¬ìš© X)
+app.use(express.json()); // JSONìœ¼ë¡œ ë°›ì•„ë“¤ì¸ ì •ë³´ ë¶„ì„ 
 app.use(express.urlencoded({extend:true}));  //
-
-app.use('/api', route); // ¾Æ·¡¿Í µ¿ÀÏ
+app.use(cors());
+app.use('/api', index); // ì•„ë˜ì™€ ë™ì¼
 // app.use('/api', (req,res) => res.json({username:'bryan'}));
 
 app.use('/player', player);

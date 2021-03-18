@@ -43,17 +43,17 @@ const AuctionRegister = () => {
 
     const registerBtnOnClick = () => {
         if(deadline < new Date().toISOString().substring(0, 10)){
-            alert("ì¢…ë£Œ ?‹œ? ??? ?˜„?¬ ?‚ ì§? ?´?›„ë§? ê°??Š¥?•©?‹ˆ?‹¤.");
+            alert("é†«ë‚…ì¦º ?ë–†?ì ??? ?ì½?ì˜± ?ê¶‡ï§? ?ì” ?ì‘ï§? åª›??ë’«?ë¹€?ë•²?ë–.");
             return;
         }
         if(bPrice && minPrice) {
-            let ok = window.confirm("?“±ë¡í•˜?‹œê² ìŠµ?‹ˆê¹??");
+            let ok = window.confirm("?ë²‘æ¿¡ì•ºë¸¯?ë–†å¯ƒì¢ë’¿?ë•²æº??");
             if(ok) {
-                alert("?“±ë¡ë˜?—ˆ?Šµ?‹ˆ?‹¤.");
+                alert("?ë²‘æ¿¡ì•¸ë¦º?ë¿€?ë’¿?ë•²?ë–.");
                 history.push('/auction/:id');
             }
         }else{
-            alert("?•„?š”?•œ ? •ë³´ë?? ?…? ¥?•´ì£¼ì„¸?š”.");
+            alert("?ë¸˜?ìŠ‚?ë¸³ ?ì ™è¹‚ëŒ€?? ?ì—¯?ì °?ë¹äºŒì‡±ê½­?ìŠ‚.");
         }
     }
 
@@ -88,8 +88,8 @@ const AuctionRegister = () => {
                             </div>
                             <div className="choose-price">
                                 <h3>Register Price</h3>
-                                <input type="number" value={minPrice} placeholder="ìµœì??ë§¤ê°ê°?ê²?" onChange={e=> setMinPrice(e.target.value)}/>
-                                <input type="number" value={bPrice} placeholder="ë°”ë¡œêµ¬ë§¤ê°?ê²?" onChange={e=> setBPrice(e.target.value)} />
+                                <input type="number" value={minPrice} placeholder="ï§¤ì’–??ï§ã…ºì»–åª›?å¯ƒ?" onChange={e=> setMinPrice(e.target.value)}/>
+                                <input type="number" value={bPrice} placeholder="è«›ë¶¾ì¤ˆæ´Ñ‰â„“åª›?å¯ƒ?" onChange={e=> setBPrice(e.target.value)} />
                             </div>
                             <div className="choose-deadline">
                                 <h3>Register Deadline</h3>
