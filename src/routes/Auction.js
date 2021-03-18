@@ -1,20 +1,83 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "css/Auction.css";
 import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
 
 const Auction = () => {
-    const [active, setActive] = useState(null);
     const [isChecked, setIsChecked] = useState([]);
     const [filterPrice, setFilterPrice] = useState(1000);
 
-    const checkboxOnChange = (e) => {
-        const id = e.target.id;
-        const checked = e.target.checked;
-        if(checked){
-            setIsChecked([...isChecked, id]);
+    const item = [
+        {
+            type : "sale",
+            name : "gugu kaka",
+            gene : {
+                eyes : "000",
+                mat1 : "0110",
+                mat2 : "0010",
+                mat3 : "0110",
+                nose_mouth : "000"
+            }
+        },
+        {
+            type : "rental",
+            name : "home nyomnyom",
+            gene : {
+                eyes : "001",
+                mat1 : "0111",
+                mat2 : "0011",
+                mat3 : "0111",
+                nose_mouth : "001"
+            }
+        },
+        {
+            type : "",
+            name : "hello world",
+            gene : {
+                eyes : "010",
+                mat1 : "1000",
+                mat2 : "0100",
+                mat3 : "1000",
+                nose_mouth : "010"
+            }
+        },
+        {
+            type : "sale",
+            name : "lily lily",
+            gene : {
+                eyes : "011",
+                mat1 : "1001",
+                mat2 : "0110",
+                mat3 : "1001",
+                nose_mouth : "011"
+            }
+        },
+        {
+            type : "rental",
+            name : "pika pika",
+            gene : {
+                eyes : "111",
+                mat1 : "1010",
+                mat2 : "0111",
+                mat3 : "1010",
+                nose_mouth : "110"
+            }
+        },
+    ]
+
+    const checkboxOnChange = e => {
+        setIsChecked({ ...isChecked, [e.target.id]: e.target.checked });
+    };
+
+    useEffect(() => {
+        console.log(isChecked);
+    }, [isChecked])
+
+    const changeColor = (check) => {
+        if(check) {
+            return "#f2b591";
         }else{
-            setIsChecked(isChecked.filter(f => f !== id));
+            return "#bfb4b0";
         }
     }
 
@@ -28,7 +91,7 @@ const Auction = () => {
             name : "rental"
         },
         {
-            type : "a_others",
+            type : "others",
             name : "others"
         }
     ]
@@ -48,25 +111,13 @@ const Auction = () => {
     ]
     const OPTION = ({type, name}) => {
         return (
-            <section>
-                <input type="checkbox" id={type} onChange={checkboxOnChange} />
-                <label for={type}>{name}</label>
-            </section>  
+            <>
+                <input type="checkbox" checked={isChecked[type]} id={type} onChange={checkboxOnChange} />
+                <label style={{backgroundColor:changeColor(isChecked[type])}} for={type}>{name}</label>
+            </>  
         )
     }
-    // const toggle = (position) => {
-    //     if(position === active){
-    //         setActive(null);
-    //     }else{
-    //         setActive(position);
-    //     }
-    // }
-    // const changeColor = (position) => {
-    //     if(position === active){
-    //         return "#f2b591";
-    //     }
-    //     return "#bfb4b0"
-    // }
+
     const Filter = (
         <>
         <div className="filter-searchBtn">SEARCH</div>
@@ -74,20 +125,15 @@ const Auction = () => {
         <div className="filter">
             <div className="filter-item auction-filter">
                 <span className="filter-span">Auction Type</span>
-                    {AUCTION_TYPE.map(a => { return <OPTION {...a}/>})}
-                {/* <ul>
-                    <li style={{backgroundColor:changeColor(0)}} onClick={() => toggle(0)}>for sale</li>
-                    <li style={{backgroundColor:changeColor(1)}} onClick={() => toggle(1)}>siring</li>
-                    <li style={{backgroundColor:changeColor(2)}} onClick={() => toggle(2)}>others</li>
-                </ul> */}
+                    <section>
+                     {AUCTION_TYPE.map(a => { return <OPTION {...a}/>})}
+                    </section>
             </div>
             <div className="filter-item species-filter">
                 <span className="filter-span">Species</span>
-                {/* <ul>
-                    <li style={{backgroundColor:changeColor(3)}} onClick={() => toggle(3)}>Doll</li>
-                    <li style={{backgroundColor:changeColor(4)}} onClick={() => toggle(4)}>Car</li>
-                    <li style={{backgroundColor:changeColor(5)}} onClick={() => toggle(5)}>Robot</li>
-                </ul> */}
+                    <section>
+                        {SPECIES_TYPE.map(a => { return <OPTION {...a}/>})}
+                    </section>
             </div>
             <div className="filter-item price-filter">
                 <span className="filter-span">Price : {filterPrice}</span>
@@ -101,11 +147,7 @@ const Auction = () => {
             <div className="auction-content">
             {Filter}
                 <div className="auction-item-groups">
-                    <AuctionItem type="1"/>
-                    <AuctionItem type="2"/>
-                    <AuctionItem type="0"/>
-                    <AuctionItem type="1"/>
-                    <AuctionItem type="2"/>
+                    {item.map(i => { return <AuctionItem {...i} />})}
                 </div>
             <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
             </div>
