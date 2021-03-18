@@ -2,10 +2,22 @@ import React, { useEffect, useState } from 'react';
 import "css/Auction.css";
 import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Auction = () => {
     const [isChecked, setIsChecked] = useState([]);
     const [filterPrice, setFilterPrice] = useState(1000);
+
+    const getAllToys = async()=> (
+        await axios.get('/toys')
+        .then(res => {
+            console.log(res.data);
+        })
+    )
+
+    useEffect(() => {
+        getAllToys();
+    }, []);
 
     const item = [
         {
