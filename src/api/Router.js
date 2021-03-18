@@ -8,8 +8,8 @@ import Login from "routes/Login";
 import SignUp from "features/Login/SignUp";
 import AuctionRegister from "routes/AuctionRegister";
 import AuctionAbout from "routes/Detail";
-import Profile from "features/Profile/Profile";
-import ProfileUpdate from "features/Profile/ProfileUpdate";
+import Profile from "features/Profile/profile";
+import ProfileUpdate from "features/Profile/profileUpdate";
 
 const AppRouter = () => {
     return (
@@ -31,7 +31,6 @@ const AppRouter = () => {
             FOOTER
             </footer>
         </>
-        
     )
 }
 
