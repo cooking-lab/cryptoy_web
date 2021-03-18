@@ -11,7 +11,7 @@ const AuctionRegister = () => {
     const [minPrice, setMinPrice] = useState(null);
     const [deadline, setDeadline] = useState(new Date().toISOString().substring(0, 10));
     const history = useHistory();
-
+    // 테스트
 
     const selectedBtnOnClick = () =>{
         setIsPopUp(true);
