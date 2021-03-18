@@ -88,8 +88,8 @@ const AuctionRegister = () => {
                             </div>
                             <div className="choose-price">
                                 <h3>Register Price</h3>
-                                <input type="number" value={minPrice} placeholder="최�??매각�?�?" onChange={e=> setMinPrice(e.target.value)}/>
-                                <input type="number" value={bPrice} placeholder="바로구매�?�?" onChange={e=> setBPrice(e.target.value)} />
+                                <input type="number" value={minPrice} placeholder="최소매각금액" onChange={e=> setMinPrice(e.target.value)}/>
+                                <input type="number" value={bPrice} placeholder="바로구매금액" onChange={e=> setBPrice(e.target.value)} />
                             </div>
                             <div className="choose-deadline">
                                 <h3>Register Deadline</h3>
