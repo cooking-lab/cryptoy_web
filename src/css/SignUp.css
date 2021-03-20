@@ -64,3 +64,8 @@
     border: 1px solid #f2b591;
     color: white;
 }
+
+
+.error-next-box{
+    display:none;
+}
