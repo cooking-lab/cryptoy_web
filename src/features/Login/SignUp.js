@@ -4,11 +4,24 @@ import "css/SignUp.css"
 import axios from "axios";
 
 const SignUp = () => {
-    const [ID, setID] = useState(null);
+    const [id, setId] = useState(null);
     const [password, setPassword] = useState(null);
     const [nickname, setNickname] = useState(null);
+
+    const changeIdBox = async () => {
+        const response = await axios.post('/player/checkid', {
+            id:id,
+        })
+        .then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        });
+        console.log("check ID fin");
+    }
+
     const SignUpBtnOnClick = () => {
-        alert(`ID : ${ID}
+        alert(`ID : ${id}
                 PASSWORD : ${password}
                 NICKNAME : ${nickname}
                 Is it Correct?`);
@@ -16,12 +29,10 @@ const SignUp = () => {
     }
 
     const submit = async () => {
-        // add condition for submit (restrict ID, PW)
-        // const client = axios.create();    
-        const response = await axios.post('/api', {
-            ID:ID,
-            PASSWORD:password,
-            NICKNAME:nickname,
+        const response = await axios.post('/player/signup', {
+            id:id,
+            password:password,
+            nickname:nickname,
         })
         .then((response) => {
             console.log(response);
@@ -40,7 +51,8 @@ const SignUp = () => {
                     <div className="signup-input-groups">
                         <label className="signup-label">ID</label>
                         <span className="signup-input-box">
-                            <input className="signup-input" placeholder="ID" onChange={e => setID(e.target.value)}></input>
+                            <input className="signup-input for-id" placeholder="ID" onBlur={changeIdBox} onChange={e => setId(e.target.value)}></input>
+                            <span className="error-next-box" id="id-msg"></span>
                         </span>
                         <label className="signup-label">PW</label>
                         <span className="signup-input-box">

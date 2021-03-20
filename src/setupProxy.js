@@ -6,9 +6,13 @@ module.exports = function(app){
           target: 'http://localhost:3001/',
           changeOrigin: true
       }),
+      createProxyMiddleware('/player', {
+          target: 'http://localhost:3001/',
+          changeOrigin: true
+      }),
       createProxyMiddleware('/toys', {
-        target: 'http://localhost:3001/',
-        changeOrigin: true
-    })
+          target: 'http://localhost:3001/',
+          changeOrigin: true
+      })
   )
 };
