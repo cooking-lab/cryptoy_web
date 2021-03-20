@@ -51,9 +51,9 @@ router.post('/signup', (req, res) => {
 
 // checkid
 router.post('/checkid', (req, res) => {
-    console.log("check id");
-    const data = Players.findOne({id:req.body.id});
-    return res.status(200).send(data);
+    Players.findOne({id:req.body.id}).exec((err, player) => {
+        res.status(200).send(player);
+    })
 });
 
 
