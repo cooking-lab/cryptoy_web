@@ -9,7 +9,7 @@ const Auction = () => {
     const [filterPrice, setFilterPrice] = useState(1000);
 
     const getAllToys = async()=> (
-        await axios.get('/toys')
+        await axios.post('/toys/test',{id:1})
         .then(res => {
             console.log(res.data);
         })

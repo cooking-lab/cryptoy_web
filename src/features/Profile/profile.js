@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import "css/Profile.css";
 
 const Profile = () => {
+    // 파일명 테스트
     const [userId, setUserId] = useState("USER_ID");
     const [userNickname, setUserNickname] = useState("USER_NICKNAME");
     const [userIntroduce, setUserIntroduce] = useState("USER_INTRODUCE");
