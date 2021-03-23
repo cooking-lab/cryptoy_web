@@ -58,6 +58,15 @@ router.post('/checkid', (req, res) => {
    // return res.status(200).send(data);
 });
 
+router.post('/login', (req, res) => {
+    Players.findOne({
+        id:req.body.id,
+        password:req.body.password
+    }).exec((err, player) => {
+        if(err) res.status(500).send("로그인 오류");
+        res.status(200).send(player);
+    })
+});
 
 router.get('/', (req, res) => {
     console.log("GOOD CONNECT");
