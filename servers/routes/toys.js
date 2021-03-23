@@ -1,22 +1,56 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const Auction = require('../models/auction.js');
+const Toy = require('../models/toy.js');
+const dbAddress = "mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Toy?retryWrites=true&w=majority";
+
+mongoose.connect(dbAddress, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: true,
+})
+.then(() => console.log("Toy DB!"))
+.catch(err => console.log(err));
+
 
 var path = require("path");
 var java = require("java");
 
-// java.classpath.push(path.resolve('./lib/ver0.85.jar'));
-// var DBClass = java.import('manager.GameManager');
-// var gm = new DBClass();
+java.classpath.push(path.resolve('./lib/ver0.85.jar'));
+var DBClass = java.import('manager.GameManager');
+var gm = new DBClass();
 
-<<<<<<< HEAD
-// router.get('/', (req, res) => {
-//     res.send(gm.getCharacterSync("00000cf0b1e487ad9b6e8386fd1d34f3f0b6e018dd7c0835c6e9e2d404269510"));
-// });
-=======
-router.post('/test', (req, res) => {
-    res.send("test2");
+router.get('/', (req, res) => {
+    Toy.find((err, toy) => {
+        res.send(toy);
+    })
+});
+
+router.get('/owner/:userId', (req, res) => {
+    Toy.find({ownerId : req.params.userId}, (err, toy) => {
+        res.send(toy);
+    })
 })
 
->>>>>>> 6e65e2a55882d5417a0d780f1a051af6c01cd6c8
+router.post('/market/register', (req, res) => {
+    /****************업데이트가 안됨********************/
+    Toy.findOneAndUpdate({id : req.body.toyId}, {$set : {market : true}}) 
+    .then(toy => {
+        let newAuction = new Auction({...req.body});
+        newAuction.save(err => {
+        if(err) return res.send(err);
+        res.status(200).send("SUCCESS REGISTER!");
+    })
+    })
+})
+
+router.get('/market/:id', (req, res) => {
+    Auction.findOne({toyId : req.params.id}, (err, auction) => {
+        res.send(auction);
+    })
+})
+
 
 module.exports = router;

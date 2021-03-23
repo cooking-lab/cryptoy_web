@@ -2,7 +2,7 @@ const moment = require("moment");
 const mongoose = require("mongoose");
 const auctionSchema = new mongoose.Schema({
     regiNum : {
-        type : Number,
+        type : String,
         required : true,
         unique : true
     },
@@ -18,7 +18,7 @@ const auctionSchema = new mongoose.Schema({
     startedAt : {
         type : Date,
         required : true,
-        default : moment.format("YYYY-MM-DD")
+        default : moment().format("YYYY-MM-DD")
     },
     endedAt : {
         type : Date,

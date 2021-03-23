@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "css/Detail.css";
+import axios from 'axios';
 
 const AuctionAbout = () => {
     const [sPrice, setSPrice] = useState(10000);
     const [cPrice, setCPrice] = useState(10000);
+    const [isOnAuction, setIsOnAuction] = useState(false);
+    const [auctionData, setAuctionData] = useState();
     // this is git test
     const BuyOnClick = () => {
         if(sPrice <= cPrice) { alert("현재 가격보다 높은 가격을 불러주세요."); return; }
@@ -14,6 +17,21 @@ const AuctionAbout = () => {
             alert("입찰되었습니다.");
         }
     }
+
+    // const getMarketInfo = async() => {
+    //     const uri = '/toys/market/'+ item.id;
+    //     await axios.get(uri)
+    //     .then(res => {
+    //         if(res.data){
+    //             setIsOnAuction(true);
+    //             setAuctionData(res.data);
+    //         }
+    //     })
+    // }
+
+    // useEffect(() => {
+    //     getMarketInfo();
+    // }, [])
     
     return (
         <div className="DetailContainer">
@@ -26,20 +44,27 @@ const AuctionAbout = () => {
                             <div className="character-name">
                                 <h1>gugu kkakka</h1>
                             </div>
-                            <div className="character-currentPrice">
-                                <h2>현재 가격</h2>
-                                <h3>{cPrice} <span style={{ fontSize: "14px" }}>/ YAM</span></h3>
-                            </div>
-                            <div className="character-goalPrice">
-                                <h2>목표 가격</h2>
-                                <h3>20,000 <span style={{ fontSize: "14px" }}>/ YAM</span></h3>
-                            </div>
+                            {isOnAuction ? (
+                                <>
+                                <div className="character-currentPrice">
+                                    <h2>현재 가격</h2>
+                                    <h3>{auctionData.currentPrice} <span style={{ fontSize: "14px" }}>/ YAM</span></h3>
+                                </div>
+                                <div className="character-goalPrice">
+                                    <h2>목표 가격</h2>
+                                    <h3>{auctionData.goalPrice} <span style={{ fontSize: "14px" }}>/ YAM</span></h3>
+                                </div>
 
-                            <div className="character-buy">
-                                <input className="character-setPrice" type="number" value={sPrice} onChange={e => setSPrice(e.target.value)} />
-                                <div onClick={BuyOnClick} className="character-buyButton">입찰</div>
-                            </div>
+                                <div className="character-buy">
+                                    <input className="character-setPrice" type="number" value={sPrice} onChange={e => setSPrice(e.target.value)} />
+                                    <div onClick={BuyOnClick} className="character-buyButton">입찰</div>
+                                </div>
+                                </>
+                            )
+                            : <></>
+                            }
                         </div>
+                        
                     </div>
                     <div className="auction-body">
                         <div className="toy-info">

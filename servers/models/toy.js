@@ -13,7 +13,7 @@ const toySchema = new mongoose.Schema({
         required : true
     },
     gender : {
-        type : Boolean,
+        type : String,
         required : true
     },
     generation : {
@@ -45,5 +45,6 @@ const toySchema = new mongoose.Schema({
         default : 0
     }
 }, { versionKey : false } )
+
 
 module.exports = mongoose.model('Toy', toySchema);
