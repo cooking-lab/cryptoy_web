@@ -5,77 +5,22 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const Auction = () => {
+    const [items, setItems] = useState([]);
+    const [toys, setToys] = useState([]);
     const [isChecked, setIsChecked] = useState([]);
     const [filterPrice, setFilterPrice] = useState(1000);
 
     const getAllToys = async()=> (
-        await axios.post('/toys/test',{id:1})
+        await axios.get('/toys')
         .then(res => {
             console.log(res.data);
+            setToys(res.data);
         })
     )
 
     useEffect(() => {
         getAllToys();
     }, []);
-
-    const item = [
-        {
-            type : "sale",
-            name : "gugu kaka",
-            gene : {
-                eyes : "000",
-                mat1 : "0110",
-                mat2 : "0010",
-                mat3 : "0110",
-                nose_mouth : "000"
-            }
-        },
-        {
-            type : "rental",
-            name : "home nyomnyom",
-            gene : {
-                eyes : "001",
-                mat1 : "0111",
-                mat2 : "0011",
-                mat3 : "0111",
-                nose_mouth : "001"
-            }
-        },
-        {
-            type : "",
-            name : "hello world",
-            gene : {
-                eyes : "010",
-                mat1 : "1000",
-                mat2 : "0100",
-                mat3 : "1000",
-                nose_mouth : "010"
-            }
-        },
-        {
-            type : "sale",
-            name : "lily lily",
-            gene : {
-                eyes : "011",
-                mat1 : "1001",
-                mat2 : "0110",
-                mat3 : "1001",
-                nose_mouth : "011"
-            }
-        },
-        {
-            type : "rental",
-            name : "pika pika",
-            gene : {
-                eyes : "111",
-                mat1 : "1010",
-                mat2 : "0111",
-                mat3 : "1010",
-                nose_mouth : "110"
-            }
-        },
-    ]
 
     const checkboxOnChange = e => {
         setIsChecked({ ...isChecked, [e.target.id]: e.target.checked });
@@ -159,7 +104,7 @@ const Auction = () => {
             <div className="auction-content">
             {Filter}
                 <div className="auction-item-groups">
-                    {item.map(i => { return <AuctionItem {...i} />})}
+                    {toys?.map(i => { return <AuctionItem item={i} />})}
                 </div>
             <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
             </div>

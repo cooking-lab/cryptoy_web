@@ -1,9 +1,8 @@
 // '/' directory
-
 //import express from "express"; // ES6 Syntax
-const express = require('express'); 
-const cors = require('cors');
+const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const index = require('./routes/index');
 const player = require('./routes/player');

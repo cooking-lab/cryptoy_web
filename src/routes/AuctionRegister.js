@@ -1,30 +1,43 @@
 import React, { useState } from "react";
 import "css/AuctionRegister.css";
 import { Redirect, useHistory } from "react-router-dom";
+import axios from "axios";
+import ToyImage from "features/TradingSystem/ToyImage";
 
 const AuctionRegister = () => {
+    const userId = "admin";
+    const [userToys, setUserToys] = useState();
     const [isSelected, setIsSelected] = useState(false);
     const [isPopUp, setIsPopUp] = useState(false);
-    const [active, setActive] = useState(null);
+    const [active, setActive] = useState("sale");
     const [bPrice, setBPrice] = useState(null);
     const [minPrice, setMinPrice] = useState(null);
     const [deadline, setDeadline] = useState(new Date().toISOString().substring(0, 10));
+    const [selectedToy, setSelectedToy] = useState();
+    const [marketType, setMarketType] = useState("sale");
     const history = useHistory();
+
+    const getUserToys = async() => {
+        const url = '/toys/owner/' + userId;
+        await axios.get(url)
+        .then(res => setUserToys(res.data));
+    }
 
     const selectedBtnOnClick = () =>{
         setIsPopUp(true);
+        getUserToys();
     }
 
-    const selectedPopupBtnOnClick = () => {
+    const selectedPopupBtnOnClick = (toy) => {
         setIsSelected(true);
         setIsPopUp(false);
+        setSelectedToy(toy);
     }
 
     const toggle = (position) => {
-        if(position === active){
-            setActive(null);
-        }else{
+        if(position !== active){
             setActive(position);
+            setMarketType(position);
         }
     }
     const changeColor = (position) => {
@@ -34,13 +47,7 @@ const AuctionRegister = () => {
         return "#bfb4b0"
     }
 
-    const item = {
-        name : "gugu kkakka",
-        gen : 0,
-        createdAt : "2021-03-11"
-    }
-
-    const registerBtnOnClick = () => {
+    const registerBtnOnClick = async() => {
         if(deadline < new Date().toISOString().substring(0, 10)){
             alert("종료 날짜는 현재 날짜보다 이후로 설정해주세요.");
             return;
@@ -48,8 +55,25 @@ const AuctionRegister = () => {
         if(bPrice && minPrice) {
             let ok = window.confirm("등록하시겠습니까?");
             if(ok) {
-                alert("등록되었습니다.");
-                history.push('/auction/:id');
+                const data = {
+                    regiNum : new Date().getTime().toString(16),
+                    type : marketType,
+                    toyId : selectedToy.id,
+                    deadline,
+                    initPrice : minPrice,
+                    currentPrice : minPrice,
+                    goalPrice : bPrice
+                }
+                await axios.post('toys/market/register', data)
+                .then((res, err) => {
+                    if(err) alert("등록 실패");
+                    else {
+                        console.log(res.data);
+                        alert("등록되었습니다.");
+                        history.push('/auction/:id');
+                    }
+                })
+               
             }
         }else{
             alert("필수정보를 입력해주세요.");
@@ -59,13 +83,15 @@ const AuctionRegister = () => {
     return (
         <div className="AuctionRegisterContainer">
             <div className={isPopUp ? "seletedPopup display_block" : "seletedPopup display_hidden" }>
-                <button onClick={selectedPopupBtnOnClick} className="selectedPopup-button">SELECT</button>
+                <div className="myToysList">
+                    {userToys?.map(toy => {return <div onClick={() => selectedPopupBtnOnClick(toy)} className="myToyImage"><ToyImage dna={toy.dna} /></div>})}
+                </div>   
             </div>
             <div className="AuctionRegister-content">
                 <div className="register-toy">
                     <div className="selectedToy">
                         { isSelected ? (
-                            <h3>Toy Picture</h3>
+                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy?.dna} /></div>
                         ) : (
                             <button onClick={selectedBtnOnClick} className="selectedBtn">Click</button>
                         )}
@@ -73,7 +99,7 @@ const AuctionRegister = () => {
                     <div className="selectedToy-info">
                         { isSelected && 
                         <>
-                        <h1>{item.name}</h1>
+                        <h1>{selectedToy?.name}</h1>
                         <div className="selectedToy-detailInfo">
                             detail info
                         </div>
@@ -81,8 +107,8 @@ const AuctionRegister = () => {
                             <div className="choose-type">
                                 <h3>Register Type</h3>
                                 <ul>
-                                    <li style={{backgroundColor:changeColor(0)}} onClick={() => toggle(0)}>Sale</li>
-                                    <li style={{backgroundColor:changeColor(1)}} onClick={() => toggle(1)}>Rental</li>
+                                    <li style={{backgroundColor:changeColor("sale")}} onClick={() => toggle("sale")}>Sale</li>
+                                    <li style={{backgroundColor:changeColor("rental")}} onClick={() => toggle("rental")}>Rental</li>
                                 </ul>
                             </div>
                             <div className="choose-price">

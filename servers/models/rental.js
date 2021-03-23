@@ -1,8 +1,8 @@
-const moment = require("moment")
+const moment = require("moment");
 const mongoose = require("mongoose");
 const rentalSchema = new mongoose.Schema({
     regiNum : {
-        type : Number,
+        type : String,
         required : true,
         unique : true
     },
@@ -19,7 +19,7 @@ const rentalSchema = new mongoose.Schema({
     startedAt : {
         type : Date,
         required : true,
-        default : moment.format("YYYY-MM-DD")
+        default : moment().format("YYYY-MM-DD")
     },
     rentalDuration : {
         type : Number,
