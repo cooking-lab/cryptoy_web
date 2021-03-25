@@ -6,14 +6,16 @@ const router = express.Router();
 
 const dbAddress = "mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority";
 
-mongoose.connect(dbAddress, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: true,
-})
-.then(() => console.log("DB CONNECT!"))
-.catch(err => console.log(err));
+let connectionGameDB = mongoose.createConnection("mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority");
+
+// mongoose.connect(dbAddress, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useCreateIndex: true,
+//     useFindAndModify: true,
+// })
+// .then(() => console.log("DB CONNECT!"))
+// .catch(err => console.log(err));
 
 const playerSchema = new mongoose.Schema({
     id: String,
