@@ -6,6 +6,7 @@ const router = express.Router();
 
 const dbAddress = "mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority";
 
+<<<<<<< HEAD
 let connectionGameDB = mongoose.createConnection("mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority");
 
 // mongoose.connect(dbAddress, {
@@ -16,6 +17,16 @@ let connectionGameDB = mongoose.createConnection("mongodb+srv://GeneLab:GeneLabP
 // })
 // .then(() => console.log("DB CONNECT!"))
 // .catch(err => console.log(err));
+=======
+mongoose.createConnection(dbAddress, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: true,
+})
+.then(() => console.log("DB CONNECT!"))
+.catch(err => console.log(err));
+>>>>>>> f1514adf02d8dff90e4284884081b646009cd154
 
 const playerSchema = new mongoose.Schema({
     id: String,
@@ -53,9 +64,11 @@ router.post('/signup', (req, res) => {
 
 // checkid
 router.post('/checkid', (req, res) => {
-    Players.findOne({id:req.body.id}).exec((err, player) => {
-        res.status(200).send(player);
-    })
+    console.log("check id");
+    const data = Players.findOne({id:req.body.id}).exec((err, user) => {
+        res.send(user);
+    });
+   // return res.status(200).send(data);
 });
 
 router.post('/login', (req, res) => {
