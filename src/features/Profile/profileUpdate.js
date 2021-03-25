@@ -11,9 +11,9 @@ const ProfileUpdate = () => {
 
     const ProfileUpdateBtnOnClick = () => {
         alert(
-            `PASSWORD : ${password}
-            NICKNAME : ${nickName}
-            INTRODUCE : ${introduce}
+            `PASSWORD : ${password}\n
+            NICKNAME : ${nickName}\n
+            INTRODUCE : ${introduce}\n
             Is it Correct?.`
             );
     }

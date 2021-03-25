@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import "css/Profile.css";
+import axios from "axios";
 
 const Profile = () => {
     const [userId, setUserId] = useState("USER_ID");
     const [userNickname, setUserNickname] = useState("USER_NICKNAME");
     const [userIntroduce, setUserIntroduce] = useState("USER_INTRODUCE");    
+
+    const test1 = async () => {
+        await axios.get('/api').then((response) => {
+            console.log("GOOD CALL TEST1");
+        }).catch((err) => {console.log(err)});
+    }
+
+    const test2 = async () => {
+        await axios.get('/api').then((response) => {
+            console.log("GOOD CALL TEST2");
+        }).catch((err) => {console.log(err)});
+    }
 
     return(
         <div className="profile-container">
@@ -13,6 +26,8 @@ const Profile = () => {
                 <h1 style={{textAlign:"center", marginTop:"0", paddingBottom:"50px", fontSize:"48px"}}>USER INFO</h1>           
                 <div className="profile-list-groups">   
                     <table>
+                        <button onClick={test1}>DB1에 저장하기</button>
+                        <button onClick={test2}>DB2에 저장하기</button>
                         <tr>
                             <th><label className="profile-label">ID</label></th>
                             <td><label className="profile-label" value={userId}>{userId}</label></td>
