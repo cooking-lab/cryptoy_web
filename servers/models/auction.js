@@ -49,4 +49,5 @@ const auctionSchema = new mongoose.Schema({
     }
 },  { versionKey : false } );
 
-module.exports = mongoose.model('Market', auctionSchema);
+module.exports = auctionSchema;
+// module.exports = mongoose.model('Market', auctionSchema);
