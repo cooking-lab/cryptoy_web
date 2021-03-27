@@ -36,7 +36,6 @@ router.get('/owner/:userId', (req, res) => {
 router.post('/market/register', (req, res) => {
     Toy.findOneAndUpdate({ id: req.body.toyId }, { market: true }, { new: true })
         .then(toy => {
-            console.log(req.body.regiNum);
             let newAuction = new Auction({ ...req.body });
             newAuction.save(err => {
                 if(err) throw err;

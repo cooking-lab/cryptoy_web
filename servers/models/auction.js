@@ -4,6 +4,7 @@ const auctionSchema = new mongoose.Schema({
     regiNum : {
         type : String,
         required : true,
+        unique : true
     },
     type : {
         type : String,
@@ -12,6 +13,7 @@ const auctionSchema = new mongoose.Schema({
     toyId : {
         type : String,
         required : true,
+        unique : true
     },
     startedAt : {
         type : Date,
