@@ -4,13 +4,15 @@ import {Link} from "react-router-dom";
 import ToyImage from "features/TradingSystem/ToyImage";
 
 const AuctionItem = ({item}) => {
-
     const [auctionType, setAuctionType] = useState(null);
     const [auctionTypeClass, setAuctionTypeClass] = useState(null);
 
     const getMarketDB = async(id) => {
-        await axios.get('/toys/market:id')
-        .then()
+        let url = '/toys/market/' + id;
+        await axios.get(url)
+        .then(res => {
+            setAuctionTypeClass(auction_type_class(res.data.type));
+        })
     }
 
     const checkIsOnMarket = () => {
@@ -19,17 +21,18 @@ const AuctionItem = ({item}) => {
         }
     }
     
-    // const auction_type_class = () => {
-    //     switch (type) {
-    //         case "sale" : setAuctionType("ON SALE"); return "type_sale";
-    //         case "rental" : setAuctionType("RENTAL"); return "type_rental";
-    //         case "" : return "";
-    //     }
-    // }
+    const auction_type_class = (type) => {
+        switch (type) {
+            case "sale" : setAuctionType("ON SALE"); return "type_sale";
+            case "rental" : setAuctionType("RENTAL"); return "type_rental";
+            case "" : return "";
+        }
+    }
 
-    // useEffect(() => {
-    //     setAuctionTypeClass(auction_type_class());
-    // })
+    useEffect(() => {
+        checkIsOnMarket();
+    }, []);
+
     return (
         <Link to={`auction/${item.id}`}> 
             <div className="auction-item">

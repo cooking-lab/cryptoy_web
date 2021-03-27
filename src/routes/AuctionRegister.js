@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "css/AuctionRegister.css";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import ToyImage from "features/TradingSystem/ToyImage";
 
@@ -70,7 +70,7 @@ const AuctionRegister = () => {
                     else {
                         console.log(res.data);
                         alert("등록되었습니다.");
-                        history.push('/auction/:id');
+                        history.push('/auction/'+selectedToy.id);
                     }
                 })
                
