@@ -46,5 +46,6 @@ const toySchema = new mongoose.Schema({
     }
 }, { versionKey : false } )
 
+module.exports = toySchema;
 
-module.exports = mongoose.model('Toy', toySchema);
+//module.exports = mongoose.model('Toy', toySchema);
