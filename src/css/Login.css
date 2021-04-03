@@ -41,3 +41,7 @@
     border: 1px solid #f2b591;
     color: white;
 }
+
+input:focus {
+    outline: none;
+}

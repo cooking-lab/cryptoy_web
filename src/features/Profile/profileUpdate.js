@@ -45,7 +45,7 @@ const ProfileUpdate = () => {
                             <input className="profile-update-input" placeholder="INTRODUCE" onChange={e => setIntroduce(e.target.value)}></input>
                         </span>
                         <div className="profile-update-btn-groups">
-                            <Link to="/home" style={{ textDecoration: 'none' }}>
+                            <Link to="/" style={{ textDecoration: 'none' }}>
                                 <button onClick={ProfileUpdateBtnOnClick}type="submit" className="profile-update-btn">UPDATE</button>
                             </Link>
                         </div>
