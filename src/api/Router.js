@@ -1,6 +1,6 @@
 import reactDom from "react-dom";
 import React from "react";
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from "./Navigation";
 import Auction from "routes/Auction";
 import Home from "routes/Home";
