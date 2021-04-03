@@ -22,33 +22,49 @@ var DBClass = java.import('manager.GameManager');
 var gm = new DBClass();
 
 router.get('/', (req, res) => {
-    Toy.find((err, toy) => {
+    console.log(req.query);
+    const {auctionType, species, maxPrice} = req.query;
+    Toy.find({
+        $or : [
+            {'species' : {$in : species}},
+            {}
+        ]}, (err, toy) => {
         res.send(toy);
     })
 });
 
-router.get('/owner/:userId', (req, res) => {
+router.get('/owners/:userId', (req, res) => {
     Toy.find({ ownerId: req.params.userId, market: false }, (err, toy) => {
         res.send(toy);
     })
 })
 
-router.post('/market/register', (req, res) => {
-    Toy.findOneAndUpdate({ id: req.body.toyId }, { market: true }, { new: true })
+router.post('/markets/register', (req, res) => {
+    Toy.findOne({ id: req.body.toyId })
         .then(toy => {
             let newAuction = new Auction({ ...req.body });
             newAuction.save(err => {
                 if(err) throw err;
-                res.status(200).send("SUCCESS REGISTER!");
+                toy.market = true;
+                toy.save(err => {
+                    if(err) throw err;
+                    res.status(200).send(newAuction);
+                })
             })
         })
 })
 
-router.get('/market/:id', (req, res) => {
-    Auction.findOne({ toyId: req.params.id }, (err, auction) => {
+router.get('/markets', (req, res) => {
+    Auction.find((err, auction) => {
         res.send(auction);
     })
 })
+
+// router.get('/market/:id', (req, res) => {
+//     Auction.findOne({ toyId: req.params.id }, (err, auction) => {
+//         res.send(auction);
+//     })
+// })
 
 
 module.exports = router;
