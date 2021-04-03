@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "css/AuctionRegister.css";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import ToyImage from "features/TradingSystem/ToyImage";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllOwnerToys,selectAllOwnerToysNotMarket } from "features/Toy/ToysSlice";
+import { addMarket, getMarkets } from "features/TradingSystem/MarketsSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const AuctionRegister = () => {
     const userId = "admin";
-    const [userToys, setUserToys] = useState();
+    const dispatch = useDispatch();
+    const marketStatus = useSelector((state) => state.markets.status);
+    const userToys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
     const [isSelected, setIsSelected] = useState(false);
     const [isPopUp, setIsPopUp] = useState(false);
     const [active, setActive] = useState("sale");
@@ -17,15 +23,13 @@ const AuctionRegister = () => {
     const [marketType, setMarketType] = useState("sale");
     const history = useHistory();
 
-    const getUserToys = async() => {
-        const url = '/toys/owner/' + userId;
-        await axios.get(url)
-        .then(res => setUserToys(res.data));
-    }
+    useEffect(() => {
+        if(marketStatus === 'idle')
+            dispatch(getMarkets());
+    }, [dispatch, marketStatus])
 
     const selectedBtnOnClick = () =>{
         setIsPopUp(true);
-        getUserToys();
     }
 
     const selectedPopupBtnOnClick = (toy) => {
@@ -40,6 +44,7 @@ const AuctionRegister = () => {
             setMarketType(position);
         }
     }
+
     const changeColor = (position) => {
         if(position === active){
             return "#f2b591";
@@ -64,27 +69,30 @@ const AuctionRegister = () => {
                     currentPrice : minPrice,
                     goalPrice : bPrice
                 }
-                await axios.post('toys/market/register', data)
-                .then((res, err) => {
-                    if(err) alert("등록 실패");
-                    else {
-                        console.log(res.data);
+
+                await dispatch(addMarket(data))
+                .then((res) => {
+                    if(res.payload.status === 200) {
                         alert("등록되었습니다.");
+                            
                         history.push('/auction/'+selectedToy.id);
+                    }else{
+                        alert("등록 실패");
+                        history.push('/auction');
                     }
-                })
-               
+                   
+                })            
             }
         }else{
             alert("필수정보를 입력해주세요.");
         }
-    }
+    }   
 
     return (
         <div className="AuctionRegisterContainer">
             <div className={isPopUp ? "seletedPopup display_block" : "seletedPopup display_hidden" }>
                 <div className="myToysList">
-                    {userToys?.map(toy => {return <div onClick={() => selectedPopupBtnOnClick(toy)} className="myToyImage"><ToyImage dna={toy.dna} /></div>})}
+                    {userToys?.map(toy => {return <div key={toy.id} onClick={() => selectedPopupBtnOnClick(toy)} className="myToyImage"><ToyImage  dna={toy.dna} /></div>})}
                 </div>   
             </div>
             <div className="AuctionRegister-content">

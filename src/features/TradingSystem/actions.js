@@ -1,4 +1,4 @@
-import {createAction, createEntityAdapter} from '@reduxjs/toolkit';
+import {createAction} from '@reduxjs/toolkit';
 
 export const getToys = createAction('GET-_TOYS', filter => {
     filter ? {payload : {params : {...filter}}} : {}

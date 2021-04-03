@@ -2,32 +2,50 @@ import React, { useEffect, useState } from 'react';
 import "css/Auction.css";
 import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getToys, selectAllToys } from 'features/Toy/ToysSlice';
+import { getMarkets } from 'features/TradingSystem/MarketsSlice';
 
 const Auction = () => {
-    const [items, setItems] = useState([]);
-    const [toys, setToys] = useState([]);
-    const [isChecked, setIsChecked] = useState([]);
-    const [filterPrice, setFilterPrice] = useState(1000);
-
-    const getAllToys = async()=> (
-        await axios.get('/toys')
-        .then(res => {
-            console.log(res.data);
-            setToys(res.data);
-        })
-    )
+    const dispatch = useDispatch();
+    const toys = useSelector(selectAllToys);
+    const marketStatus = useSelector((state) => state.markets.status);
+    const toysStatus = useSelector((state) => state.toys.status);
+    const error = useSelector((state) => state.toys.error);
 
     useEffect(() => {
-        getAllToys();
-    }, []);
+        if(toysStatus === 'idle'){
+            dispatch(getToys());
+        }
+    }, [toysStatus, dispatch]);
+
+    useEffect(() => {
+        if(marketStatus === 'idle'){
+            dispatch(getMarkets());
+        }
+    }, [marketStatus, dispatch])
+
+    let content;
+    if(toysStatus === 'loading'){
+        content = <div className="loading">Loading...</div>
+    }else if(toysStatus === 'succeeded'){
+        content = toys.map(toy => (
+             <AuctionItem key={toy.id} item={toy} />
+        ));
+        
+    }else if(toysStatus === 'failed'){
+        content = <div>{error}</div>
+    };
+
+    const [isChecked, setIsChecked] = useState([]);
+    const [filterPrice, setFilterPrice] = useState(1000);
 
     const checkboxOnChange = e => {
         setIsChecked({ ...isChecked, [e.target.id]: e.target.checked });
     };
 
     useEffect(() => {
-        console.log(isChecked);
+        //console.log(isChecked);
     }, [isChecked])
 
     const changeColor = (check) => {
@@ -70,7 +88,7 @@ const Auction = () => {
         return (
             <>
                 <input type="checkbox" checked={isChecked[type]} id={type} onChange={checkboxOnChange} />
-                <label style={{backgroundColor:changeColor(isChecked[type])}} for={type}>{name}</label>
+                <label style={{backgroundColor:changeColor(isChecked[type])}} htmlFor={type}>{name}</label>
             </>  
         )
     }
@@ -83,13 +101,13 @@ const Auction = () => {
             <div className="filter-item auction-filter">
                 <span className="filter-span">Auction Type</span>
                     <section>
-                     {AUCTION_TYPE.map(a => { return <OPTION {...a}/>})}
+                     {AUCTION_TYPE.map(a => { return <OPTION key={a.type} {...a}/>})}
                     </section>
             </div>
             <div className="filter-item species-filter">
                 <span className="filter-span">Species</span>
                     <section>
-                        {SPECIES_TYPE.map(a => { return <OPTION {...a}/>})}
+                        {SPECIES_TYPE.map(a => { return <OPTION key={a.type} {...a}/>})}
                     </section>
             </div>
             <div className="filter-item price-filter">
@@ -104,7 +122,7 @@ const Auction = () => {
             <div className="auction-content">
             {Filter}
                 <div className="auction-item-groups">
-                    {toys?.map(i => { return <AuctionItem item={i} />})}
+                    {content}
                 </div>
             <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
             </div>

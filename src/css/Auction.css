@@ -101,6 +101,11 @@
     gap : 50px 30px;
 }
 
+.loading {
+    font-size: 26px;
+    font-weight: bold;
+}
+
 .auction-item {
     position: relative;
 }

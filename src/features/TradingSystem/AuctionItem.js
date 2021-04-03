@@ -1,38 +1,20 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import ToyImage from "features/TradingSystem/ToyImage";
+import { useDispatch, useSelector } from "react-redux";
+import { getMarkets, selectMarketById } from "features/TradingSystem/MarketsSlice";
 
 const AuctionItem = ({item}) => {
-    const [auctionType, setAuctionType] = useState(null);
-    const [auctionTypeClass, setAuctionTypeClass] = useState(null);
-
-    const getMarketDB = async(id) => {
-        let url = '/toys/market/' + id;
-        await axios.get(url)
-        .then(res => {
-            setAuctionTypeClass(auction_type_class(res.data.type));
-        })
-    }
-
-    const checkIsOnMarket = () => {
-        if(item.market){
-            getMarketDB(item.id);
-        }
-    }
-    
+    const market = useSelector((state) => selectMarketById(state,item.id));
+    let auctionType = "";
     const auction_type_class = (type) => {
         switch (type) {
-            case "sale" : setAuctionType("ON SALE"); return "type_sale";
-            case "rental" : setAuctionType("RENTAL"); return "type_rental";
+            case "sale" : auctionType = "ON SALE"; return "type_sale";
+            case "rental" : auctionType = "RENTAL"; return "type_rental";
             case "" : return "";
         }
     }
-
-    useEffect(() => {
-        checkIsOnMarket();
-    }, []);
-
+    let auctionTypeClass = auction_type_class(market?.type);
     return (
         <Link to={`auction/${item.id}`}> 
             <div className="auction-item">
@@ -43,7 +25,7 @@ const AuctionItem = ({item}) => {
                     )
                     }
                 <div className="item-img">
-                    <ToyImage dna={item.dna} />
+                    <ToyImage dna={item.dna} species={item.species} />
                 </div>
             </div>   
             <div className="item-info">

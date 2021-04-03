@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const ToyImage = ({ dna }) => {
-    const dirpath = "/img/chara_robot/chara_robot010";
+const ToyImage = ({ dna, species }) => {
+    const dirpath = `/img/chara_${species}/`;
     const [parsedDNA, setParsedDNA] = useState();
     const [damage, setDamage] = useState(false);
 
