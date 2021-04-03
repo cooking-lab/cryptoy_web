@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import "css/Detail.css";
-import axios from 'axios';
 
 const AuctionAbout = () => {
     const [sPrice, setSPrice] = useState(10000);
@@ -17,21 +16,6 @@ const AuctionAbout = () => {
             alert("입찰되었습니다.");
         }
     }
-
-    // const getMarketInfo = async() => {
-    //     const uri = '/toys/market/'+ item.id;
-    //     await axios.get(uri)
-    //     .then(res => {
-    //         if(res.data){
-    //             setIsOnAuction(true);
-    //             setAuctionData(res.data);
-    //         }
-    //     })
-    // }
-
-    // useEffect(() => {
-    //     getMarketInfo();
-    // }, [])
     
     return (
         <div className="DetailContainer">

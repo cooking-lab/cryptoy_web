@@ -1,5 +1,6 @@
 const moment = require("moment");
 const mongoose = require("mongoose");
+
 const rentalSchema = new mongoose.Schema({
     regiNum : {
         type : String,
