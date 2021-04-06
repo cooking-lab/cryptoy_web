@@ -3,12 +3,13 @@ import "css/Auction.css";
 import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getToys, selectAllToys } from 'features/Toy/ToysSlice';
+import { getToys, selectAllToys,selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
 import { getMarkets } from 'features/TradingSystem/MarketsSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 const Auction = () => {
     const dispatch = useDispatch();
-    const toys = useSelector(selectAllToys);
+    const toys = useSelector(selectAllFilteredToys);
     const marketStatus = useSelector((state) => state.markets.status);
     const toysStatus = useSelector((state) => state.toys.status);
     const error = useSelector((state) => state.toys.error);
@@ -37,25 +38,6 @@ const Auction = () => {
         content = <div>{error}</div>
     };
 
-    const [isChecked, setIsChecked] = useState([]);
-    const [filterPrice, setFilterPrice] = useState(1000);
-
-    const checkboxOnChange = e => {
-        setIsChecked({ ...isChecked, [e.target.id]: e.target.checked });
-    };
-
-    useEffect(() => {
-        //console.log(isChecked);
-    }, [isChecked])
-
-    const changeColor = (check) => {
-        if(check) {
-            return "#f2b591";
-        }else{
-            return "#bfb4b0";
-        }
-    }
-
     const AUCTION_TYPE = [
         {
             type : "sale",
@@ -66,8 +48,8 @@ const Auction = () => {
             name : "rental"
         },
         {
-            type : "others",
-            name : "others"
+            type : "other",
+            name : "other"
         }
     ]
     const SPECIES_TYPE = [
@@ -84,30 +66,91 @@ const Auction = () => {
             name : "Robot"
         }
     ]
-    const OPTION = ({type, name}) => {
+
+    const [isSpeciesChecked, setIsSpeciesChecked] = useState({
+            'doll' : true,
+            'car' : true,
+            'robot' : true
+        });
+    const [isMarketChecked, setIsMarketChecked] = useState({
+        'sale' : true,
+        'rental' : true,
+        'other' : true
+    });
+
+    const [filterPrice, setFilterPrice] = useState(1000);
+
+    const speciesCheckboxOnChange = e => {
+        setIsSpeciesChecked({ ...isSpeciesChecked, [e.target.id]: e.target.checked });
+    };
+
+    const marketCheckboxOnChange = e => {
+        setIsMarketChecked({ ...isMarketChecked, [e.target.id]: e.target.checked });
+    };
+
+    const changeColor = (check) => {
+        if(check) {
+            return "#f2b591";
+        }else{
+            return "#bfb4b0";
+        }
+    }
+
+    
+    const SPECIES_OPTION = ({type, name}) => {
         return (
             <>
-                <input type="checkbox" checked={isChecked[type]} id={type} onChange={checkboxOnChange} />
-                <label style={{backgroundColor:changeColor(isChecked[type])}} htmlFor={type}>{name}</label>
+                <input type="checkbox" checked={isSpeciesChecked[type]} id={type} onChange={speciesCheckboxOnChange} />
+                <label style={{backgroundColor:changeColor(isSpeciesChecked[type])}} htmlFor={type}>{name}</label>
             </>  
         )
     }
 
+    const MARKET_OPTION = ({type, name}) => {
+        return (
+            <>
+                <input type="checkbox" checked={isMarketChecked[type]} id={type} onChange={marketCheckboxOnChange} />
+                <label style={{backgroundColor:changeColor(isMarketChecked[type])}} htmlFor={type}>{name}</label>
+            </>  
+        )
+    }
+
+    const onFilterSubmit = () => {
+        let auction_filter = [];
+        let species_filter = [];
+        AUCTION_TYPE.map(at => {
+            if(isMarketChecked[at.type]){
+                auction_filter.push(at.type);
+            }
+        })
+        SPECIES_TYPE.map(at => {
+            if(isSpeciesChecked[at.type]){
+                species_filter.push(at.type);
+            }
+        })
+        const data = {
+            auction_filter,
+            species_filter
+        }
+        dispatch(updateFilteredToys(data));
+        
+    }
+
     const Filter = (
         <>
-        <div className="filter-searchBtn">SEARCH</div>
+        <div onClick={onFilterSubmit} className="filter-searchBtn">SEARCH</div>
         <p >&nbsp;</p>
         <div className="filter">
             <div className="filter-item auction-filter">
                 <span className="filter-span">Auction Type</span>
                     <section>
-                     {AUCTION_TYPE.map(a => { return <OPTION key={a.type} {...a}/>})}
+                     {AUCTION_TYPE.map(a => { return <MARKET_OPTION key={a.type} {...a}/>})}
                     </section>
             </div>
             <div className="filter-item species-filter">
                 <span className="filter-span">Species</span>
                     <section>
-                        {SPECIES_TYPE.map(a => { return <OPTION key={a.type} {...a}/>})}
+                        {SPECIES_TYPE.map(a => { return <SPECIES_OPTION key={a.type} {...a}/>})}
                     </section>
             </div>
             <div className="filter-item price-filter">

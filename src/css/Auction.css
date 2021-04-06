@@ -26,6 +26,7 @@
     background-color: #f2b591;
     float: right;
     border-radius: 5px;
+    cursor: pointer;
 }
 .filter-item {
     position: relative;

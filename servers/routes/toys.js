@@ -9,6 +9,7 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
+
 let connectionToyDB = mongoose.createConnection(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@lab.q3vtm.mongodb.net/${process.env.TOY_DB_NAME}?retryWrites=true&w=majority`);
 
 const Toy = connectionToyDB.model("Toy", ToyModel);
@@ -22,13 +23,7 @@ var DBClass = java.import('manager.GameManager');
 var gm = new DBClass();
 
 router.get('/', (req, res) => {
-    console.log(req.query);
-    const {auctionType, species, maxPrice} = req.query;
-    Toy.find({
-        $or : [
-            {'species' : {$in : species}},
-            {}
-        ]}, (err, toy) => {
+    Toy.find((err, toy) => {
         res.send(toy);
     })
 });
@@ -44,10 +39,11 @@ router.post('/markets/register', (req, res) => {
         .then(toy => {
             let newAuction = new Auction({ ...req.body });
             newAuction.save(err => {
-                if(err) throw err;
+                if (err) throw err;
                 toy.market = true;
+                toy.marketType = req.body.type;
                 toy.save(err => {
-                    if(err) throw err;
+                    if (err) throw err;
                     res.status(200).send(newAuction);
                 })
             })

@@ -3,18 +3,13 @@ import axios from "axios"
 
 const initialState = {
     toys : [],
+    filteredToys : [],
     status : 'idle',
     error : null
 }
 
-const initFilter = {
-    auctionType : [],
-    species : ["robot", "doll"],
-    maxPrice : 1000
-}
-
-export const getToys = createAsyncThunk('toys/getToys', async(filter=initFilter) => {
-    const response = await axios.get('/toys', {params : filter});
+export const getToys = createAsyncThunk('toys/getToys', async() => {
+    const response = await axios.get('/toys');
     return response.data;
 })
 
@@ -24,6 +19,11 @@ const toysSlice = createSlice({
     reducers : {
         updateToysStatus : (state, action) => {
             state.status = action.payload;
+        },
+        updateFilteredToys : (state, action) => {
+            let { auction_filter,  species_filter } = action.payload;
+            let filteredValues = state.toys.filter((toy) => species_filter.includes(toy.species) && auction_filter.includes(toy.marketType));
+            state.filteredToys = filteredValues;
         }
     },
     extraReducers : {
@@ -33,6 +33,7 @@ const toysSlice = createSlice({
         [getToys.fulfilled] : (state, action) => {
             state.status = 'succeeded';
             state.toys = state.toys.concat(action.payload);
+            state.filteredToys = state.toys;
         },
         [getToys.rejected] : (state, action) => {
             state.status = 'failed';
@@ -41,11 +42,13 @@ const toysSlice = createSlice({
     }
 })
 
-export const { updateToysStatus } = toysSlice.actions;
+export const { updateToysStatus, updateFilteredToys } = toysSlice.actions;
 
 export default toysSlice.reducer;
 
 export const selectAllToys = (state) => state.toys.toys;
+
+export const selectAllFilteredToys = (state) => state.toys.filteredToys;
 
 export const selectToyById = (state, toyId) => state.toys.toys.find((toy) => toy.id === toyId);
 
