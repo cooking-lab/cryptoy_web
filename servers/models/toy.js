@@ -43,6 +43,9 @@ const toySchema = new mongoose.Schema({
     cooltime : {
         type : Number,
         default : 0
+    },
+    marketType : {
+        type : String
     }
 }, { versionKey : false } )
 

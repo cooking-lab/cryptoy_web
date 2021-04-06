@@ -92,14 +92,14 @@ const AuctionRegister = () => {
         <div className="AuctionRegisterContainer">
             <div className={isPopUp ? "seletedPopup display_block" : "seletedPopup display_hidden" }>
                 <div className="myToysList">
-                    {userToys?.map(toy => {return <div key={toy.id} onClick={() => selectedPopupBtnOnClick(toy)} className="myToyImage"><ToyImage  dna={toy.dna} /></div>})}
+                    {userToys?.map(toy => {return <div key={toy.id} onClick={() => selectedPopupBtnOnClick(toy)} className="myToyImage"><ToyImage  dna={toy.dna} species={toy.species} /></div>})}
                 </div>   
             </div>
             <div className="AuctionRegister-content">
                 <div className="register-toy">
                     <div className="selectedToy">
                         { isSelected ? (
-                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy?.dna} /></div>
+                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy?.dna} species={selectedToy?.species} /></div>
                         ) : (
                             <button onClick={selectedBtnOnClick} className="selectedBtn">Click</button>
                         )}
