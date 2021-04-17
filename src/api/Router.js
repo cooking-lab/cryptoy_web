@@ -7,9 +7,10 @@ import Home from "routes/Home";
 import Login from "routes/Login";
 import SignUp from "features/Login/SignUp";
 import AuctionRegister from "routes/AuctionRegister";
-import AuctionAbout from "routes/Detail";
+import AuctionAbout from "features/TradingSystem/Detail";
 import Profile from "features/Profile/Profile";
 import ProfileUpdate from "features/Profile/ProfileUpdate";
+import Breeding from "features/Toy/Breeding";
 
 const AppRouter = () => {
     return (
@@ -25,6 +26,7 @@ const AppRouter = () => {
                     <Route exact path='/login/signup' component={SignUp} />
                     <Route exact path='/profile' component={Profile} />
                     <Route exact path='/profile/update' component={ProfileUpdate} />
+                    <Route exact path='/breeding' component={Breeding} />
                 </Switch>
             </Router>
             <footer>

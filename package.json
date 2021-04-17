@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
     "@reduxjs/toolkit": "^1.5.1",
+=======
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@reduxjs/toolkit": "^1.5.0",
+>>>>>>> 7563613bcfe90cbcff6837e7c6888d3f707d409f
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.2",
@@ -18,6 +24,8 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "fs": "*",
+    "http": "*",
     "http-proxy-middleware": "^1.0.6",
     "java": "^0.12.1",
     "moment": "^2.29.1",
@@ -27,8 +35,10 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
-    "react": "^17.0.1",
+    "react": "^17.0.2",
+    "react-countdown": "^2.3.1",
     "react-dom": "^17.0.1",
+    "react-live-clock": "^5.0.16",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
