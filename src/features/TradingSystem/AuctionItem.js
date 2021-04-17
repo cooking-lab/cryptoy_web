@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 import ToyImage from "features/TradingSystem/ToyImage";
-import { useDispatch, useSelector } from "react-redux";
-import { getMarkets, selectMarketById } from "features/TradingSystem/MarketsSlice";
 
 const AuctionItem = ({item}) => {
-    const market = useSelector((state) => selectMarketById(state,item.id));
     let auctionType = "";
     const auction_type_class = (type) => {
         switch (type) {
             case "sale" : auctionType = "ON SALE"; return "type_sale";
             case "rental" : auctionType = "RENTAL"; return "type_rental";
-            case "" : return "";
+            case null : return "";
         }
     }
-    let auctionTypeClass = auction_type_class(market?.type);
+
+    let auctionTypeClass = auction_type_class(item.market?.type);
     return (
-        <Link to={`auction/${item.id}`}> 
+        <Link to={`/auction/${item.id}`}> 
             <div className="auction-item">
                     {auctionType && (
                         <div className={`item-type ${auctionTypeClass}`}>
@@ -31,7 +29,7 @@ const AuctionItem = ({item}) => {
             <div className="item-info">
                     <div className="item-name-price">
                         <h3>{item.name}</h3>
-                        <h3>200 YAM</h3>
+                        <h3>{item.market ? item.market.initPrice+" YAM" : ""} </h3>
                     </div>
                     <div className="dashed"></div>
                     <div className="item-detail">

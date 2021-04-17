@@ -4,13 +4,13 @@ import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getToys, selectAllToys,selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
-import { getMarkets } from 'features/TradingSystem/MarketsSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
+import { makeStyles, Slider, withStyles } from '@material-ui/core';
+// import { getMarkets } from 'features/TradingSystem/MarketsSlice';
 
 const Auction = () => {
     const dispatch = useDispatch();
     const toys = useSelector(selectAllFilteredToys);
-    const marketStatus = useSelector((state) => state.markets.status);
+    // const marketStatus = useSelector((state) => state.markets.status);
     const toysStatus = useSelector((state) => state.toys.status);
     const error = useSelector((state) => state.toys.error);
 
@@ -20,16 +20,11 @@ const Auction = () => {
         }
     }, [toysStatus, dispatch]);
 
-    useEffect(() => {
-        if(marketStatus === 'idle'){
-            dispatch(getMarkets());
-        }
-    }, [marketStatus, dispatch])
-
     let content;
     if(toysStatus === 'loading'){
         content = <div className="loading">Loading...</div>
     }else if(toysStatus === 'succeeded'){
+        console.log(toys);
         content = toys.map(toy => (
              <AuctionItem key={toy.id} item={toy} />
         ));
@@ -78,7 +73,7 @@ const Auction = () => {
         'other' : true
     });
 
-    const [filterPrice, setFilterPrice] = useState(1000);
+    const [filterPrice, setFilterPrice] = useState([0, 10000]);
 
     const speciesCheckboxOnChange = e => {
         setIsSpeciesChecked({ ...isSpeciesChecked, [e.target.id]: e.target.checked });
@@ -130,11 +125,20 @@ const Auction = () => {
         })
         const data = {
             auction_filter,
-            species_filter
+            species_filter,
+            filterPrice
         }
         dispatch(updateFilteredToys(data));
         
     }
+
+    const useStyle = makeStyles({
+        root : {
+            color : "rgb(242, 181, 145)"
+        }
+    })
+
+    const classes = useStyle();
 
     const Filter = (
         <>
@@ -154,8 +158,17 @@ const Auction = () => {
                     </section>
             </div>
             <div className="filter-item price-filter">
-                <span className="filter-span">Price : {filterPrice}</span>
-                <input name="slider-fill" className="slider-price" id="slider-fill" type="range" min="0" max="1000" step="10" value={filterPrice} data-highlight="true" onChange={e => setFilterPrice(e.target.value)}/>
+                <span className="filter-span">Price : {filterPrice[0]} ~ {filterPrice[1]}</span>
+                <Slider
+                className={classes.root}
+                max={10000}
+                min={0}
+                step={10}
+                value={filterPrice}
+                onChange={(e, newValue) => setFilterPrice(newValue)}
+                valueLabelDisplay="auto"
+                marks={true}
+            />
             </div>
         </div>
         </>
@@ -164,10 +177,11 @@ const Auction = () => {
         <div className="auction-container">
             <div className="auction-content">
             {Filter}
+            <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
                 <div className="auction-item-groups">
                     {content}
                 </div>
-            <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
+            
             </div>
         </div>
     )

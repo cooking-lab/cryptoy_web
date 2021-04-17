@@ -3,7 +3,6 @@ const toySchema = new mongoose.Schema({
     id : {
         type : String,
         required : true,
-        unique : true
     },
     owner : {
         type : String
@@ -31,9 +30,8 @@ const toySchema = new mongoose.Schema({
         type : String
     },
     market : {
-        type : Boolean,
-        required : true,
-        default : false
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Auction'
     },
     adventure : {
         type : Boolean,
@@ -43,9 +41,6 @@ const toySchema = new mongoose.Schema({
     cooltime : {
         type : Number,
         default : 0
-    },
-    marketType : {
-        type : String
     }
 }, { versionKey : false } )
 

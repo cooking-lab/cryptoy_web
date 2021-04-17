@@ -1,6 +1,9 @@
 // '/api' directory
 
 const express = require('express');
+const http = require('http');
+const fs = require('fs');
+
 
 let mongoose = require('mongoose');
 
@@ -21,19 +24,20 @@ const dbTwo = connection2.model('testTwo',schemaTwo);
 const router = express.Router();
 
 router.get('/', (req,res) => {
-    const firstConnect = new dbOne({one:"yeah"});
-    const secondConnect = new dbTwo({two:"ok"});
+    res.writeHead(200,{"Content-Type":"text/html"});
+    // const firstConnect = new dbOne({one:"yeah"});
+    // const secondConnect = new dbTwo({two:"ok"});
     
-    firstConnect.save((err, one) => {
-        if(err) console.log(err);
-        else console.log(one);
-    });
-    secondConnect.save((err, two) => {
-        if(err) console.log(err);
-        else console.log(two);
-    });
+    // firstConnect.save((err, one) => {
+    //     if(err) console.log(err);
+    //     else console.log(one);
+    // });
+    // secondConnect.save((err, two) => {
+    //     if(err) console.log(err);
+    //     else console.log(two);
+    // });
 
-    res.send({username:"test2"});
+    // res.send({username:"test2"});
 });
 
 router.post('/', (req,res) => {

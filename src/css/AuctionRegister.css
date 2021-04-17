@@ -1,7 +1,5 @@
 .AuctionRegisterContainer{
     background-color: white;
-    justify-content: center;
-    align-items: center;
     padding: 20px 50px;
 }
 
@@ -102,12 +100,17 @@
     height: 250px;  
 }
 
-.choose-input{
+/* .choose-input{
     position: relative;
     z-index: 100;
     display: grid;
     grid-template-columns : repeat(auto-fit, minmax(200px, 1fr));
     gap : 50px;
+} */
+
+.choose-input {
+    display: flex;
+    flex-direction: column;
 }
 .choose-input > div{
     margin-top: 20px;
@@ -117,13 +120,17 @@
     margin-bottom: 10px;
 }
 .choose-type > ul {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
-    column-gap: 5px;
+    column-gap: 100px; */
+    display: flex;
     text-align: center;
 }
 .choose-type > ul li {
     border-radius: 1em;
+    width: 30%;
+    min-width: 100px;
+    margin-right: 20px;
     padding : 10px 2s0px;
     color : white;
 }

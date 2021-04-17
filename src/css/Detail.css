@@ -17,51 +17,87 @@
     padding : 50px 60px;
 }
 
+.character-name {
+    width : 100%;
+    text-align: center;
+    margin : 0 auto;   
+    font-size: 54px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.character-owner {
+    width : 100%;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 30px;
+}
+
 .auction-head {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     box-sizing: border-box;
     width: 100%;    
     height: 400px;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .character-img {
     position:relative;
-    width: 45%;
+    width: 60%;
     height: 100%;
-    background-color: #bfb4b0;    
+    /* background-color: #bfb4b0;  */
+    background-color: #f2f2f2;
+    display: flex;
+    justify-content: center; 
+}
+
+.character-img img{
+    position: absolute;
+    width: 60%;
+    height: 100%;
 }
 
 .character-info {
-    width: 45%;
-    height: 45%;
-}
-
-.character-currentPrice {
+    margin-left: 50px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.character-currentPrice h2, .character-goalPrice h2 {
-    margin-right : 20px;
+.character-auctionData > div {
+    margin-bottom: 25px;
 }
 
-.character-goalPrice {
-    display: flex;
-    align-items: center;
+.character-price > div:first-child {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.character-price > div:last-child {
+    font-size: 54px;
+}
+
+.character-currentUser > div:first-child {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.character-currentUser > div:last-child {
+    margin-top: 15px;
+    font-size: 16px;
+    padding : 10px 0;
 } 
 
 .character-buy {
-   margin-top: 100px;
     display: flex;
-    justify-content: space-between;
 }
 
 .character-setPrice{
     width : 200px;
-    margin-right:20px;;
+    margin-right:20px;
 }
+
 .character-buyButton {
     text-align: center;
     font-size: 25px;
@@ -75,24 +111,48 @@
     cursor: pointer;
 }
 
+
+.DetailContainer .left-day {
+    padding : 10px;
+    border: 1px solid #e7e7e7;
+    display: flex;
+    justify-content: center;
+}
+
+.DetailContainer .left-day > div > div:first-child {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.DetailContainer .left-day > div> div:last-child {
+    font-size: 54px;
+}
+
+/***************************auction body******************/
+
+
 .auction-body {
-    margin-top:50px;
     padding : 0 100px;
+    margin-top: 50px;
 }
 
 .auction-body > div{
     margin-bottom: 50px;
 }
 
-/* .auction-body > div >h1::after {
-    content : "";
-    background-color: #f2b591;
-    display: block;
-    width: 100%;
-    height: 3px;
-} */
 
 .auction-body > div > div {
-    background-color: #f2f2f2;
-    height: 200px;
+    border : 1px solid #e7e7e7;
+    padding : 10px 20px;
+    margin-top: 5px;
+}
+
+.auction-body .toy-info > div > ul > li {
+    margin : 10px 0;
+    font-size: 18px;
+}
+
+.auction-body .toy-info > div > ul > li > span {
+    font-weight: bold;
+    margin-right: 20px;
 }
