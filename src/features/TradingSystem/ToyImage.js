@@ -6,14 +6,14 @@ const ToyImage = ({ dna, species }) => {
     const [damage, setDamage] = useState(false);
 
     const dnaParsing = () => {
-        if(dna.substring(3,4) === '0'){
+        if(dna?.substring(3,4) === '0'){
             setDamage(true);
         }
-        let mat1 = dna.substring(7, 11);
-        let mat2 = dna.substring(11, 15);
-        let mat3 = dna.substring(15, 19);
-        let eyes = dna.substring(19, 22);
-        let nose_mouth = dna.substring(46, 49);
+        let mat1 = dna?.substring(7, 11);
+        let mat2 = dna?.substring(11, 15);
+        let mat3 = dna?.substring(15, 19);
+        let eyes = dna?.substring(19, 22);
+        let nose_mouth = dna?.substring(22, 25);
         const dnaData = {
             damage,
             mat1,

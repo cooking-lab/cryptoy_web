@@ -18,7 +18,7 @@ const Home = () => {
     return (
         <div className="content-container">
             <div className="content">
-            SH
+            {/* <iframe src="/5th/index.html" title="game" height="540px" width="960px"/> */}
             </div>
         </div>
     )

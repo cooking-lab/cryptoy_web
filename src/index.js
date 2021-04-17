@@ -6,6 +6,9 @@ import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 // import { store, persistor } from 'api/store';
 import store from "api/store";
+import { getToys } from 'features/Toy/ToysSlice';
+
+store.dispatch(getToys());
 
 ReactDOM.render(
   <React.StrictMode>

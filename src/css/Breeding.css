@@ -1,0 +1,12 @@
+.breedingImage {
+    display: flex;
+}
+
+.breedingImage > div {
+    margin : 10px;
+    width : 400px;
+}
+
+.breedingImage > div img {
+    position: absolute;
+}
