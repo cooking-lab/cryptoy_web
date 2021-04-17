@@ -14,12 +14,12 @@ let connectionToyDB = mongoose.createConnection(`mongodb+srv://${process.env.DB_
 const Toy = connectionToyDB.model("Toy", ToyModel);
 const Auction = connectionToyDB.model("Market", AuctionModel);
 
-var path = require("path");
-var java = require("java");
+// var path = require("path");
+// var java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.85.jar'));
-var DBClass = java.import('manager.GameManager');
-var gm = new DBClass();
+// java.classpath.push(path.resolve('./lib/ver0.85.jar'));
+// var DBClass = java.import('manager.GameManager');
+// var gm = new DBClass();
 
 router.get('/', (req, res) => {
     console.log(req.query);

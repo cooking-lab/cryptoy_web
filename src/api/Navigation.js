@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 
-
 const Navigation = () => {
     const [ok, setOk] = useState(false);
     const auth = async () => {
@@ -22,7 +21,7 @@ const Navigation = () => {
                 <ul className="header-menu">
                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/auction"><li>All Toys</li></Link>
                     <Link style={{ textDecoration: 'none', color: 'black' }} to="/profile"><li>Profile(test)</li></Link>
-                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/login"><li className="logIn">${ok ? "Logout" : "Login"}</li></Link>
+                    <Link style={{ textDecoration: 'none', color: 'black' }} to="/login"><li className="logIn">{ok ? "Logout" : "Login"}</li></Link>
                 </ul>
             </div>
         </header>
