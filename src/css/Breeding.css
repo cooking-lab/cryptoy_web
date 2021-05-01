@@ -10,3 +10,7 @@
 .breedingImage > div img {
     position: absolute;
 }
+/* .breedingImage > div img:first-child {
+    -webkit-filter:opacity(0.5) drop-shadow(0 0 0 red);
+    filter: opacity(0.5) drop-shadow(0 0 0 red);
+} */

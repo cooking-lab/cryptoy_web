@@ -5,6 +5,10 @@
     padding: 20px 50px;
 }
 
+.DetailContainer .loading {
+    text-align: center;
+}
+
 .auction-content {
     background-color: #f2e8df;
     border-radius: 20px;
@@ -142,7 +146,7 @@
 
 
 .auction-body > div > div {
-    border : 1px solid #e7e7e7;
+    border : 1px solid hsl(0, 0%, 91%);
     padding : 10px 20px;
     margin-top: 5px;
 }
@@ -155,4 +159,28 @@
 .auction-body .toy-info > div > ul > li > span {
     font-weight: bold;
     margin-right: 20px;
+}
+
+.DetailContainer .family {
+    display: flex;
+}
+
+.DetailContainer .family .family-img {
+    position: relative;
+    cursor: pointer;
+    margin : 0 5px;
+    height: 200px;
+    width: 100%;
+}
+
+.DetailContainer .family .family-img img {
+    position: absolute;
+    width: 60%;
+    height: 100%;
+    transition: width 0.1s, height 0.1s;
+}
+
+.DetailContainer .family .family-img:hover img {
+    width : 61%;
+    height: 101%;
 }

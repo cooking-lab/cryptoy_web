@@ -136,9 +136,8 @@ router.get('/auth', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    console.log(req.player);
-    console.log("GOOD CONNECT");
-    res.send("OK");
+    console.log("현재 유저 : " + req.user);
+    
 });
 
 module.exports = router;

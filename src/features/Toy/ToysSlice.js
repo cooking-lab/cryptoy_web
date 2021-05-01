@@ -20,8 +20,8 @@ export const addMarket = createAsyncThunk('toys/addMarket', async(data) => {
 })
 
 export const updateMarket = createAsyncThunk('markets/updateMarket', async(data) => {
-    const res = await axios.put('/toys/markets/update/'+data.toyId, data);
-    return res.data;
+        const res = await axios.put('/toys/markets/update/'+data.toyId, data);
+        return res.data;
 })
 
 export const breeding = createAsyncThunk('toys/breeding', async(data) => {
@@ -74,13 +74,12 @@ const toysSlice = createSlice({
             state.breedingStatus = 'loading';
         },
         [breeding.fulfilled] : (state, action) => {
-            state.breedingStatus = 'succeeded';
-            state.toys = state.toys.concat(action.payload);
-            state.status = 'idle';
-        },
-        [breeding.rejected] : (state, action) => {
-            state.breedingStatus = 'failed'
-            state.error = action.payload;
+            if(action.payload.status == 200){
+                state.breedingStatus = 'succeeded';
+                state.toys = state.toys.concat(action.payload.toy);
+            }else{
+                state.breedingStatus = 'failed';
+            }       
         }
     }
 })
@@ -97,4 +96,6 @@ export const selectToyById = (state, toyId) => state.toys.toys.find((toy) => toy
 
 export const selectAllOwnerToys = (state, ownerId) => state.toys.toys.filter((toy) => toy.ownerId === ownerId);
 
+// 마켓에 올라올 수 있는 토이즈
+// 1. 마켓 등록x, 모험x, 대여x 등
 export const selectAllOwnerToysNotMarket = (state, ownerId) => state.toys.toys.filter((toy) => toy.ownerId === ownerId && (toy.market === undefined || toy.market === null));

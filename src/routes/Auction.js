@@ -4,13 +4,13 @@ import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getToys, selectAllToys,selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
-import { makeStyles, Slider, withStyles } from '@material-ui/core';
+import { CircularProgress, makeStyles, Slider, withStyles } from '@material-ui/core';
 // import { getMarkets } from 'features/TradingSystem/MarketsSlice';
 
 const Auction = () => {
     const dispatch = useDispatch();
     const toys = useSelector(selectAllFilteredToys);
-    // const marketStatus = useSelector((state) => state.markets.status);
+    //const marketStatus = useSelector((state) => state.markets.status);
     const toysStatus = useSelector((state) => state.toys.status);
     const error = useSelector((state) => state.toys.error);
 
@@ -22,7 +22,7 @@ const Auction = () => {
 
     let content;
     if(toysStatus === 'loading'){
-        content = <div className="loading">Loading...</div>
+        content = <div className="loading"><CircularProgress color="secondary" /></div>
     }else if(toysStatus === 'succeeded'){
         console.log(toys);
         content = toys.map(toy => (
