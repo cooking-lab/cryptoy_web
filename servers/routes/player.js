@@ -2,16 +2,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
-const flash = require('connect-flash');
 const auth = require('../lib/auth');
+
+const path = require("path");
+const java = require("java");
+
+java.classpath.push(path.resolve('./lib/ver0.86.jar'));
+let DBClass = java.import('manager.GameManager');
+let gm = new DBClass();
 
 const playerSchema = require('../models/player');
 
-let connectionGameDB = mongoose.createConnection("mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority");
+let connectionGameDB = mongoose.createConnection(`mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority`);
 const Players = connectionGameDB.model('Players', playerSchema);
 
 // router.use(express.json());
@@ -54,17 +56,20 @@ router.post('/signup', (req, res) => {
     const userId = req.body.id;
     const userPassword = req.body.password;
     const userNickname = req.body.nickname;
-    const player = new Players({
-        id: userId,
-        password: userPassword,
-        nickname: userNickname,
-        introduction: ""
-    });
-    console.log("회원가입 : " + player);
-    player.save((err, player) => {        
-        if(err) return res.status(500).send("STATUS 500 : 회원가입 오류");
-        return res.status(200).send(player.profileView());
-    });
+    console.log(gm);
+    gm.signUpSync(userId, userPassword, userNickname);
+    // const player = new Players({
+    //     id: userId,
+    //     password: userPassword,
+    //     nickname: userNickname,
+    //     introduction: ""
+    // });
+    // console.log(player);
+    // player.save((err, player) => {
+    //     if(err) return res.status(500).send("STATUS 500 : 회원가입 오류");
+    //     return res.status(200).send(player.profileView());
+    // });
+    return res.status(200).send(true);
 });
 
 // checkid

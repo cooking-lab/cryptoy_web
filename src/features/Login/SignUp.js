@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link , useHistory } from "react-router-dom";
 import "css/SignUp.css"
 import axios from "axios";
@@ -16,7 +16,7 @@ const SignUp = () => {
     const [checkIdBox, setCheckIdBox] = useState(false);
     const [checkPasswordBox, setCheckPasswordBox] = useState(false);
     const [checkNicknameBox, setCheckNicknameBox] = useState(false);
-    // -> set 함수를 호출한 위치가 종료되어야만 변수 반영됨, => 렌더링을 다시하기 때문
+    // -> set 함수를 호출한 '위치'가 종료되어야만 변수 반영됨, => 렌더링을 다시하기 때문
 
     // useEffect(() => {
     //     console.log("아이디 박스의 내용이 변했네요");

@@ -16,7 +16,7 @@ const port = process.env.PORT || 3001;
 
 const playerSchema = require('./models/player');
 
-let connectionGameDB = mongoose.createConnection("mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority");
+let connectionGameDB = mongoose.createConnection(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@lab.q3vtm.mongodb.net/${process.env.GAME_DB_NAME}?retryWrites=true&w=majority`);
 const Players = connectionGameDB.model('Players', playerSchema);
 
 //(Express v4.16.0 기준 express가 빌트인 body-parser를 넣었음 == bodyParser 사용 X)
@@ -83,27 +83,6 @@ app.post('/player/login',
 app.use('/api', index); // 아래와 동일
 app.use('/player', player);
 app.use('/toys', toys);
-
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    next(err);
-})
-app.use((err, req, res, next) => {
-    if (req.xhr) {
-        res.status(500).send({ error: 'Something failed!' });
-      } else {
-        next(err);
-      }
-})
-app.use((err, req, res, next) => {
-    res.status(500);
-    res.render('error', { error: err });
-})
-
-// app.get('/', (req,res) => {
-//     if(auth()) res.status(200).send(true);
-//     else res.status(200).send(false);
-// });
 
 app.listen(port, () => {
     console.log(`express is running on ${port}`);
