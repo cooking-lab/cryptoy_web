@@ -84,6 +84,22 @@ app.use('/api', index); // 아래와 동일
 app.use('/player', player);
 app.use('/toys', toys);
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    next(err);
+})
+app.use((err, req, res, next) => {
+    if (req.xhr) {
+        res.status(500).send({ error: 'Something failed!' });
+      } else {
+        next(err);
+      }
+})
+app.use((err, req, res, next) => {
+    res.status(500);
+    res.render('error', { error: err });
+})
+
 // app.get('/', (req,res) => {
 //     if(auth()) res.status(200).send(true);
 //     else res.status(200).send(false);

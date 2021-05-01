@@ -60,7 +60,7 @@ router.post('/signup', (req, res) => {
         nickname: userNickname,
         introduction: ""
     });
-    console.log(player);
+    console.log("회원가입 : " + player);
     player.save((err, player) => {        
         if(err) return res.status(500).send("STATUS 500 : 회원가입 오류");
         return res.status(200).send(player.profileView());
@@ -131,9 +131,8 @@ router.get('/auth', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    console.log(req.player);
-    console.log("GOOD CONNECT");
-    res.send("OK");
+    console.log("현재 유저 : " + req.user);
+    
 });
 
 module.exports = router;
