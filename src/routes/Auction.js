@@ -3,7 +3,7 @@ import "css/Auction.css";
 import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getToys, selectAllToys,selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
+import { getToys, selectAllToys, selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
 import { makeStyles, Slider, withStyles } from '@material-ui/core';
 // import { getMarkets } from 'features/TradingSystem/MarketsSlice';
 
