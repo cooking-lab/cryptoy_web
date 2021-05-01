@@ -1,26 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import "css/Detail.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { selectToyById, updateMarket } from 'features/Toy/ToysSlice';
-import { Button, makeStyles, TextField } from '@material-ui/core';
+import { updateMarket } from 'features/Toy/ToysSlice';
+import { Button, CircularProgress, makeStyles, TextField } from '@material-ui/core';
 import ToyImage from './ToyImage';
-import moment from 'moment';
 import Countdown from 'react-countdown';
+import { getToy } from 'features/Toy/ToySlice';
+import axios from 'axios';
 
 const AuctionAbout = ({match}) => {
     const dispatch = useDispatch();
     const toyId = match.params.id;
-    const toy = useSelector((state) => selectToyById(state, toyId));
+    const toyStatus = useSelector((state) => state.toy.status);
+    const toy = useSelector((state) => state.toy.toy);
+    const [mama, setMama] = useState();
+    const [papa, setPapa] = useState();
     const [sPrice, setSPrice] = useState();
-    const [auctionData, setAuctionData] = useState();
-    const [deadline, setDeadline] = useState();
     const [isOnTime, seIsOnTime] = useState(true);
 
-    useEffect(() =>{
-        setAuctionData(toy?.market);
-        setDeadline(moment(toy?.market?.deadline)); 
-    }, [toy])
+    useEffect( () => {
+        dispatch(getToy(toyId))
+        .then(async(res) => {
+            if(res.payload.mamaId !== ""){
+                await axios.get('/toys/'+res.payload.mamaId)
+                .then(res => {
+                    console.log(res.data);
+                    setMama(res.data)});
+                await axios.get('/toys/'+res.payload.papaId)
+                .then(res => setPapa(res.data));
+            }else {
+                setMama("none");
+                setPapa("none");
+            }
 
+        });
+    }, [])
+    
     const renderer = ({days, hours, minutes, seconds, completed }) => {
         if (completed) {
             seIsOnTime(false);
@@ -79,6 +94,10 @@ const AuctionAbout = ({match}) => {
         }
     }
 
+    const anotherDetail = (parentId) => {
+        window.location.href = "/auction/"+parentId;
+    }
+
     const useStyle = makeStyles({
         textfiled : {
             marginRight : '10px'
@@ -116,6 +135,12 @@ const AuctionAbout = ({match}) => {
     return (
         <div className="DetailContainer">
             <div className="auction-content">
+            { toyStatus === 'loading' ? (
+                <div className="loading">
+                <CircularProgress color="secondary" />
+                </div>
+            ) : (
+                <>
                 <div className="auction-detail">
                     <div className="character-name">
                             {toy?.name}
@@ -127,23 +152,24 @@ const AuctionAbout = ({match}) => {
                         <div className="character-img">
                             {toy && <ToyImage dna={toy.dna} species={toy.species}/>}
                         </div>
-                        <div className="character-info">
-                            
-                            {auctionData ? 
-                                ( auctionData.type === 'sale' ? (
+                        
+                        {toy?.market ? 
+                            <>
+                            <div className="character-info">
+                                { toy.market.type === 'sale' ? (
                                 <>
                                 <div className="character-auctionData">
                                     <div className="character-price character-currentPrice">
                                         <div>현재 가격</div>
-                                        <div>{auctionData.currentPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
+                                        <div>{toy?.market.currentPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
                                     </div>
                                     <div className="character-price character-goalPrice">
                                         <div>목표 가격</div>
-                                        <div>{auctionData.goalPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
+                                        <div>{toy?.market.goalPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
                                     </div>
                                     <div className="character-currentUser">
                                         <div>가장 높은 가격으로 입찰한 유저</div>
-                                        <div>{auctionData.currentUser ? auctionData.currentUser : "첫 입찰자가 되어보세요!"}</div>
+                                        <div>{toy?.market.currentUser ? toy?.market.currentUser : "첫 입찰자가 되어보세요!"}</div>
                                     </div>
                                 </div>
                                     <div className="character-buy">
@@ -163,42 +189,48 @@ const AuctionAbout = ({match}) => {
                                 <div className="character-auctionData">
                                     <div className="character-price character-currentPrice">
                                         <div>대여비</div>
-                                        <div>{auctionData.initPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
+                                        <div>{toy?.market.initPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
                                     </div>
                                     <div className="character-price character-goalPrice">
                                         <div>대여 기간</div>
-                                        <div>{auctionData.rentalDuration} <span style={{ fontSize: "16px" }}>일</span></div>
+                                        <div>{toy?.market.rentalDuration} <span style={{ fontSize: "16px" }}>일</span></div>
                                     </div>
                                     <div className="character-currentUser">
                                         <div>현재 대여중인 플레이어</div>
-                                        <div>{auctionData.rentalUser ? auctionData.rentalUser : "대여 가능!"}</div>
+                                        <div>{toy?.market.rentalUser ? toy?.market.rentalUser : "대여 가능!"}</div>
                                     </div>
                                 </div>
                                     <div className="character-buy">
-                                        {auctionData?.isAvailable && isOnTime ? <Button onClick={RentalOnClick} className={classes.rentalButton} variant="contained">지금 대여하기</Button> : <Button disabled className={classes.rentalButton} variant="contained">대여 불가</Button>}
+                                        {toy?.market?.isAvailable && isOnTime ? <Button onClick={RentalOnClick} className={classes.rentalButton} variant="contained">지금 대여하기</Button> : <Button disabled className={classes.rentalButton} variant="contained">대여 불가</Button>}
                                     </div>
                                 </>
+                                
                                 )
-                            )
-                            : <>
+                                }
+                                </div>
+                            </>
+                            : 
+                            <>
+                            <div className="character-info">
                                 <div className="character-auctionData">
                                     <div className="nonAuction">
                                         판매중인 장난감이 아닙니다.
                                     </div>
                                 </div>
-                            </>
-                            }
-                        </div> 
-                    </div>
-                    { auctionData &&
-                        <div className="left-day">
-                            <div>
-                                <div>남은 기간</div>   
-                                <Countdown date={deadline} renderer={renderer} />
-                                {/* <div>{leftDate.day}일 {leftDate.hour}시 {leftDate.minute}분 {leftDate.second}초</div> */}
                             </div>
+                            </>
+                        }
+                        
+                    </div>
+                    {toy?.market && (
+                    <div className="left-day">
+                        <div>
+                            <div>남은 기간</div>   
+                            <Countdown date={toy?.market.deadline} renderer={renderer} />
                         </div>
-                    }
+                    </div>
+                    )}
+                    
                     <div className="auction-body">
                         <div className="toy-info">
                             <h1>장난감 정보</h1>
@@ -216,10 +248,53 @@ const AuctionAbout = ({match}) => {
                         </div>
                         <div className="toy-family">
                             <h1>Family</h1>
-                            <div>toy-stat</div>   
+                            <div className="family">
+                        
+                            { mama ? (
+                                <>
+                                { mama === "none" ? (
+                                    <>
+                                    </>
+                                ) : (
+                                    <div onClick={e => anotherDetail(mama.id)} className="family-img">
+                                    <ToyImage dna={mama.dna} species={mama.species}/>                       
+                                    </div>
+                                )
+                                }
+                                </>
+                            )
+                            : (
+                                <div className="loading">
+                                <CircularProgress color="secondary" />
+                                </div>
+                                )
+                            }
+                            { papa ? (
+                                <>
+                                { papa === "none" ? (
+                                    <>
+                                    </>
+                                ) : (
+                                    <div onClick={e => anotherDetail(papa.id)} className="family-img">
+                                    <ToyImage dna={papa.dna} species={papa.species}/>                           
+                                    </div>
+                                )
+                                }
+                                </>
+                            )
+                            : (
+                                <div className="loading">
+                                <CircularProgress color="secondary" />
+                                </div>
+                                )
+                            }
+                            </div>
                         </div>      
                     </div>
                 </div>
+                </>
+                )
+            }
             </div>
         </div>
     )

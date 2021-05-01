@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllOwnerToysNotMarket, selectToyById, breeding } from "./ToysSlice";
 import "css/Breeding.css";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Breeding = () => {
-    const userId = "admin";
+    const userId = "t1";
     const dispatch = useDispatch();
     const toys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
     const [papaId, setPapaId] = useState();
@@ -16,12 +17,15 @@ const Breeding = () => {
     const mamaToy = useSelector(state => selectToyById(state, mamaId));
     const babyToy = useSelector(state => selectToyById(state, babyId));
     const breedingStatus = useSelector(state => state.toys.breedingStatus);
+    const breedingError = useSelector(state => state.toys.error);
 
     let content;
     if(breedingStatus === 'loading'){
         content = <div className="loading">Loading...</div>
     }else if(breedingStatus === 'succeeded'){
         content = babyToy ? <ToyImage dna={babyToy.dna} species={babyToy.species}/> : null;
+    }else if(breedingStatus === 'failed') {
+        content = breedingError;
     }
     // else if(toysStatus === 'failed'){
     //     content = <div>{error}</div>
@@ -29,10 +33,18 @@ const Breeding = () => {
 
     const breedingOnClick = async(e) => {
         e.preventDefault();
-        dispatch(breeding({mamaId, papaId}))
+        await dispatch(breeding({mamaId, papaId}))
         .then(res => {
-            setBabyId(res.payload.id);
+            console.log(res.payload);
+            const resStatus = res.payload.status;
+            if(resStatus === 200) {
+                alert("교배 성공");
+                setBabyId(res.payload.toy.id);
+            }else{
+                alert(res.payload.error);
+            }
         })
+        .catch(err => console.log(err));
     }
 
     return (

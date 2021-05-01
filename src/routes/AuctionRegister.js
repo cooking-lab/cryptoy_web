@@ -10,7 +10,7 @@ import { makeStyles, TextField } from "@material-ui/core";
 // import { addMarket, getMarkets } from "features/TradingSystem/MarketsSlice";
 
 const AuctionRegister = ({match}) => {
-    const userId = "admin";
+    const userId = "t1";
     const dispatch = useDispatch();
     // const marketStatus = useSelector((state) => state.markets.status);
     const userToys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));

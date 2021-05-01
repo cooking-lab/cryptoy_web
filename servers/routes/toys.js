@@ -10,7 +10,6 @@ mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
-
 let connectionToyDB = mongoose.createConnection(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@lab.q3vtm.mongodb.net/${process.env.TOY_DB_NAME}?retryWrites=true&w=majority`);
 
 const Toy = connectionToyDB.model("Toy", ToyModel);
@@ -22,7 +21,7 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.88.jar'));
+java.classpath.push(path.resolve('./lib/ver0.814.jar'));
 const DBClass = java.import('manager.GameManager');
 const gm = new DBClass();
 
@@ -31,6 +30,14 @@ router.get('/', (req, res) => {
         res.send(toy);
     })
 });
+
+router.get('/:id', (req, res) => {
+    Toy.findOne({id : req.params.id}).populate('market').exec((err, toy) => {
+        if(err) throw err;
+        console.log(toy);
+        res.status(200).send(toy);
+    })
+})
 
 // router.get('/owners/:userId', (req, res) => {
 //     Toy.find({ ownerId: req.params.userId, market: false }, (err, toy) => {
@@ -91,16 +98,20 @@ router.post('/markets/register', (req, res) => {
         })
 })
 
+/******************Breeding java에서 오류********************/
+/******************Breeding java에서 오류********************/
+/******************Breeding java에서 오류********************/
 router.post("/breeding", (req, res) => {
     const babyId = gm.doBreedingSync("t1", req.body.mamaId, req.body.papaId);
-
-    console.log(babyId);
-    // if(response.status != 200){
-    //     res.status(504).send(response.error);
-    // }
-    // Toy.findOne({id : babyId}).populate('market').exec((err, toy) => {
-    //     res.send(toy);
-    // })
+    const response = JSON.parse(babyId);
+    console.log(response);
+    if(response.map.status != 200){
+        res.send(response.map);
+    }else{
+        Toy.findOne({id : response.map.baby._id}).populate('market').exec((err, toy) => {
+            res.send({status : 200, toy:toy});
+        })
+    }
 })
 
 // router.get('/markets', (req, res) => {

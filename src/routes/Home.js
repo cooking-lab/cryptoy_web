@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import axios from "axios";
 
 const Home = () => {
     const getUser = async () => {
-        console.log("홈");
         await axios.get('/player/auth')
             .then(response => {
                 console.log(response);
@@ -11,14 +10,56 @@ const Home = () => {
             }).catch(err => {console.log(err)});
     }
 
+    let canvas;
+    let canvasRef = createRef();
+
+    let pos = {
+        drawable : false,
+        X : -1,
+        Y : -1
+    }
+    let ctx;
+
+    const getPosition = (event) => {
+        return {
+            X : event.offsetX,
+            Y : event.offsetY
+        }
+    }
+
+    const initDraw = (event) => {
+        ctx.beginPath();
+        pos = {drawable : true, ...getPosition(event)};
+        ctx.moveTo(pos.X, pos.Y);
+    }
+
+    const draw = (event) => {
+        if(pos.drawable) {
+            pos = {...pos, ...getPosition(event)};
+            ctx.lineTo(pos.X, pos.Y);
+            ctx.stroke();
+        }
+    }
+
+    const finishDraw = () => {
+        pos = {drawable : false, X : -1, Y : -1};
+    }
+
     useEffect(() => {
-        getUser();    
+        getUser();
+        
+        canvas = canvasRef.current;
+        ctx = canvas.getContext("2d");
+        canvas.addEventListener("mousedown", initDraw);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", finishDraw);
+        canvas.addEventListener("mouseout", finishDraw);
     }, []);
 
     return (
         <div className="content-container">
             <div className="content">
-            {/* <iframe src="/5th/index.html" title="game" height="540px" width="960px"/> */}
+                <canvas ref={canvasRef} width="400" height={"300"} />
             </div>
         </div>
     )
