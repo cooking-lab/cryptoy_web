@@ -18,21 +18,12 @@ const Base = connectionToyDB.model('Auction', new mongoose.Schema({}));
 const Auction = Base.discriminator("Sale", auctionSchema);
 const Rental = Base.discriminator("Rental", rentalSchema);
 
-<<<<<<< HEAD
-// var path = require("path");
-// var java = require("java");
-
-// java.classpath.push(path.resolve('./lib/ver0.85.jar'));
-// var DBClass = java.import('manager.GameManager');
-// var gm = new DBClass();
-=======
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.814.jar'));
+java.classpath.push(path.resolve('./lib/ver0.816.jar'));
 const DBClass = java.import('manager.GameManager');
 const gm = new DBClass();
->>>>>>> 7563613bcfe90cbcff6837e7c6888d3f707d409f
 
 router.get('/', (req, res) => {
     Toy.find().populate('market').exec((err, toy) => {
@@ -43,7 +34,6 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Toy.findOne({id : req.params.id}).populate('market').exec((err, toy) => {
         if(err) throw err;
-        console.log(toy);
         res.status(200).send(toy);
     })
 })
