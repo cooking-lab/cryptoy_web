@@ -1,7 +1,10 @@
 import React, { createRef, useEffect } from "react";
 import axios from "axios";
+import cookie from "react-cookies";
 
 const Home = () => {
+    console.log(cookie.load('connect.sid'));
+
     const getUser = async () => {
         await axios.get('/player/auth')
             .then(response => {

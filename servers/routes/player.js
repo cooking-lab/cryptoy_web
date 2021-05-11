@@ -114,10 +114,8 @@ router.get('/login', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    req.session.save(err => {
-        if(err) console.log(err);
-        res.redirect('/');
-    })
+    res.clearCookie('connect.sid');
+    res.redirect('http://localhost:3000/');
 })
 
 // router.post('/login', (req, res) => {
@@ -136,9 +134,14 @@ router.get('/auth', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    let object = JSON.stringify(req.user);
-    let jsonData = JSON.parse(object);
-    res.send(jsonData.Players.id);
+    console.log("현재유저 : " + req.user);
+    if(req.user){
+        let object = JSON.stringify(req.user);
+        let jsonData = JSON.parse(object);
+        res.send(jsonData.Players);
+    }else{
+        res.send(null);
+    }
 });
 
 router.get('/profile', (req, res) => {
