@@ -21,7 +21,7 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.814.jar'));
+java.classpath.push(path.resolve('./lib/ver0.816.jar'));
 const DBClass = java.import('manager.GameManager');
 const gm = new DBClass();
 
@@ -34,7 +34,6 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Toy.findOne({id : req.params.id}).populate('market').exec((err, toy) => {
         if(err) throw err;
-        console.log(toy);
         res.status(200).send(toy);
     })
 })

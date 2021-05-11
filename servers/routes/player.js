@@ -7,14 +7,14 @@ const auth = require('../lib/auth');
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.86.jar'));
+java.classpath.push(path.resolve('./lib/ver0.816.jar'));
 let DBClass = java.import('manager.GameManager');
 let gm = new DBClass();
 
 const playerSchema = require('../models/player');
 
 let connectionGameDB = mongoose.createConnection(`mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority`);
-const Players = connectionGameDB.model('Players', playerSchema);
+const Players = connectionGameDB.model('players', playerSchema);
 
 // router.use(express.json());
 // router.use(express.urlencoded({extend:true}));
@@ -138,6 +138,7 @@ router.get('/auth', (req, res) => {
 router.get('/', (req, res) => {
     console.log("현재 유저 : " + req.user);
     
-});
+    console.log();
+}); 
 
 module.exports = router;

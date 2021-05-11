@@ -17,7 +17,7 @@ const port = process.env.PORT || 3001;
 const playerSchema = require('./models/player');
 
 let connectionGameDB = mongoose.createConnection(`mongodb+srv://${process.env.DB_ID}:${process.env.DB_PW}@lab.q3vtm.mongodb.net/${process.env.GAME_DB_NAME}?retryWrites=true&w=majority`);
-const Players = connectionGameDB.model('Players', playerSchema);
+const Players = connectionGameDB.model('players', playerSchema);
 
 //(Express v4.16.0 기준 express가 빌트인 body-parser를 넣었음 == bodyParser 사용 X)
 app.use(express.json()); // JSON으로 받아들인 정보 분석 
@@ -59,13 +59,16 @@ passport.use(new LocalStrategy({
     },
     (id, password, done) => {
         Players.findOne({
-            id: id,
-            password: password
+            'Players.id': id,
+            'Players.password': password
         }).exec((err, player) => {
             // error
             if (err) return done(err);
             // fail 
-            if (!player) return done(null, false, { message: "Incorrect userInfo" });
+            if (!player) {
+                return done(null, false, { message: "Incorrect userInfo" });
+            }
+
             // success
             return done(null, player);
         });

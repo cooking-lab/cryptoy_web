@@ -3,8 +3,8 @@ import ToyImage from "features/TradingSystem/ToyImage";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllOwnerToysNotMarket, selectToyById, breeding } from "./ToysSlice";
+import { getToys } from "./ToysSlice";
 import "css/Breeding.css";
-import { unwrapResult } from "@reduxjs/toolkit";
 
 const Breeding = () => {
     const userId = "t1";
@@ -30,6 +30,9 @@ const Breeding = () => {
     // else if(toysStatus === 'failed'){
     //     content = <div>{error}</div>
     // };
+    useEffect(() => {
+        dispatch(getToys());
+    }, [])
 
     const breedingOnClick = async(e) => {
         e.preventDefault();
