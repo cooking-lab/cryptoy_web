@@ -136,9 +136,13 @@ router.get('/auth', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    console.log("현재 유저 : " + req.user);
-    
-    console.log();
-}); 
+    let object = JSON.stringify(req.user);
+    let jsonData = JSON.parse(object);
+    res.send(jsonData.Players.id);
+});
+
+router.get('/profile', (req, res) => {
+    console.log()
+})
 
 module.exports = router;

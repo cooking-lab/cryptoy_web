@@ -36,7 +36,7 @@ router.get('/:id', (req, res) => {
         if(err) throw err;
         res.status(200).send(toy);
     })
-})
+});
 
 // router.get('/owners/:userId', (req, res) => {
 //     Toy.find({ ownerId: req.params.userId, market: false }, (err, toy) => {
