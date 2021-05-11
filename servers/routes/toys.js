@@ -34,7 +34,6 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Toy.findOne({id : req.params.id}).populate('market').exec((err, toy) => {
         if(err) throw err;
-        console.log(toy);
         res.status(200).send(toy);
     })
 });

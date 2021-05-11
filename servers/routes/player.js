@@ -14,7 +14,7 @@ let gm = new DBClass();
 const playerSchema = require('../models/player');
 
 let connectionGameDB = mongoose.createConnection(`mongodb+srv://GeneLab:GeneLabPw@lab.q3vtm.mongodb.net/Game?retryWrites=true&w=majority`);
-const Players = connectionGameDB.model('Players', playerSchema);
+const Players = connectionGameDB.model('players', playerSchema);
 
 // router.use(express.json());
 // router.use(express.urlencoded({extend:true}));
