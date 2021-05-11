@@ -21,7 +21,7 @@ const Players = connectionGameDB.model('Players', playerSchema);
 
 //(Express v4.16.0 기준 express가 빌트인 body-parser를 넣었음 == bodyParser 사용 X)
 app.use(express.json()); // JSON으로 받아들인 정보 분석 
-app.use(express.urlencoded({extend:true}));  //
+app.use(express.urlencoded({extend:true})); 
 app.use(cors());
 
 app.use(cookieParser('keyboard cat'));
@@ -30,8 +30,8 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({mongooseConnection: connectionGameDB}),
-    })
-);
+    cookie:{maxAge:(3600)}
+}));
 
 const passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
@@ -59,8 +59,8 @@ passport.use(new LocalStrategy({
     },
     (id, password, done) => {
         Players.findOne({
-            id: id,
-            password: password
+            'Players.id': id,
+            'Players.password': password
         }).exec((err, player) => {
             // error
             if (err) return done(err);

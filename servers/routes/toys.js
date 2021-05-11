@@ -21,7 +21,7 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.814.jar'));
+java.classpath.push(path.resolve('./lib/ver0.816.jar'));
 const DBClass = java.import('manager.GameManager');
 const gm = new DBClass();
 
@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
         console.log(toy);
         res.status(200).send(toy);
     })
-})
+});
 
 // router.get('/owners/:userId', (req, res) => {
 //     Toy.find({ ownerId: req.params.userId, market: false }, (err, toy) => {
