@@ -17,6 +17,13 @@ const SignUp = () => {
     const [checkPasswordBox, setCheckPasswordBox] = useState(false);
     const [checkNicknameBox, setCheckNicknameBox] = useState(false);
     // -> set 함수를 호출한 '위치'가 종료되어야만 변수 반영됨, => 렌더링을 다시하기 때문
+    const [dimmed, setDimmed] = useState(false);
+
+    if(dimmed){
+        document.body.style.overflow = "hidden";
+    }else{
+        document.body.style.overflow = "unset";
+    }
 
     // useEffect(() => {
     //     console.log("아이디 박스의 내용이 변했네요");
@@ -90,8 +97,6 @@ const SignUp = () => {
         if(checkIdBox && checkPasswordBox && checkNicknameBox){
             alert(`ID : ${id}\nPASSWORD : ${password}\nNICKNAME : ${nickname}\nIs it Correct?`);
             submit();
-            alert(`회원가입이 완료되었습니다.\n로그인페이지로 이동합니다.`);
-            history.push("/login");
         }else{
             if(!checkIdBox) alert(`아이디를 확인해주세요.`);
             else if(!checkPasswordBox) alert(`비밀번호는 필수 항목입니다.`);
@@ -101,13 +106,21 @@ const SignUp = () => {
     }
 
     const submit = async () => {
+        setDimmed(true);
         const response = await axios.post('/player/signup', {
             id:id,
             password:password,
             nickname:nickname,
         })
         .then((response) => {
-            console.log(response);
+            setDimmed(false);
+            if(response.status === 200){
+                alert(`회원가입이 완료되었습니다.\n로그인페이지로 이동합니다.`);
+                history.push("/login");
+            }else{
+                alert('잠시후 다시 시도하세요.');
+                history.push('/');
+            }
         })
         .catch((error) => {
             console.log(error)
@@ -116,6 +129,14 @@ const SignUp = () => {
     }
 
     return (
+        <>
+        {dimmed && 
+            <>
+            <div className="pending">
+                <h1>캐릭터 생성중...</h1>
+            </div>
+            </>
+        }
         <div className="signup-container">
             <div className="signup-content">
                 <h1 style={{textAlign:"center", marginTop:"0", paddingBottom:"10px", fontSize:"48px"}}>WELCOME!</h1>
@@ -143,6 +164,7 @@ const SignUp = () => {
                 </form>
             </div>
         </div>
+        </>
     )
 }
 

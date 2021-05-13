@@ -65,3 +65,15 @@ footer{
     min-width: 720px;
     height: 300px;
 }
+
+.pending {
+    width: 100vw;
+    height: 100vh;
+    line-height: 100vh;
+    background-color: rgba(0,0,0,0.8);
+    position: absolute;
+    z-index: 100;
+    text-align: center;
+    vertical-align: middle;
+    color : white;
+}

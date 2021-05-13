@@ -33,7 +33,6 @@ const ToyImage = ({ dna, species }) => {
             g : parseInt(body_color.substring(8,16), 2),
             b : parseInt(body_color.substring(16,24), 2),
         }
-        console.log(color);
        
         const style = {
             filter : "opacity(0.5) drop-shadow(0 0 0 rgb("+color.r+" "+color.g+" "+color.b+"))",
@@ -50,6 +49,7 @@ const ToyImage = ({ dna, species }) => {
         <>{
             parsedDNA && (
                 <>
+                <img  src={`${dirpath}/body/body_color_white.png`} />
                 <img style={body_color_style(parsedDNA?.body_color)} src={`${dirpath}/body/body_color_white.png`} />
                 <img src={`${dirpath}/body/body_shape.png`} />
                 {damage ? <img src={`${dirpath}/body/damage.png`} /> : null}
