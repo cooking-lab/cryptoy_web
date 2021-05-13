@@ -5,35 +5,50 @@ import { updateMarket } from 'features/Toy/ToysSlice';
 import { Button, CircularProgress, makeStyles, TextField } from '@material-ui/core';
 import ToyImage from './ToyImage';
 import Countdown from 'react-countdown';
-import { getToy } from 'features/Toy/ToySlice';
 import axios from 'axios';
+import { useHistory } from 'react-router';
 
 const AuctionAbout = ({match}) => {
+    const history = useHistory();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     const toyId = match.params.id;
-    const toyStatus = useSelector((state) => state.toy.status);
-    const toy = useSelector((state) => state.toy.toy);
+    const [toy, setToy] = useState();
     const [mama, setMama] = useState();
     const [papa, setPapa] = useState();
-    const [sPrice, setSPrice] = useState();
     const [isOnTime, seIsOnTime] = useState(true);
+    const [dimmed, setDimmed] = useState(false);
 
-    useEffect( () => {
-        dispatch(getToy(toyId))
+    if(dimmed){
+        document.body.style.overflow = "hidden";
+    }else{
+        document.body.style.overflow = "unset";
+    }
+    
+    const getToy = async() => {
+        await axios.get('/toys/'+toyId)
         .then(async(res) => {
-            if(res.payload.mamaId !== ""){
-                await axios.get('/toys/'+res.payload.mamaId)
-                .then(res => {
-                    console.log(res.data);
-                    setMama(res.data)});
-                await axios.get('/toys/'+res.payload.papaId)
-                .then(res => setPapa(res.data));
-            }else {
-                setMama("none");
-                setPapa("none");
+            if(res.data){
+                setToy(res.data);
+                if(res.data.mamaId !== ""){
+                    await axios.get('/toys/'+res.data.mamaId)
+                    .then(res => {
+                        setMama(res.data)});
+                    await axios.get('/toys/'+res.data.papaId)
+                    .then(res => setPapa(res.data));
+                }else {
+                    setMama("none");
+                    setPapa("none");
+                }
+            }else{
+                alert('잘못된 페이지입니다.');
+                history.push("/");
             }
+        })
+    }
 
-        });
+    useEffect(() => {
+        getToy();
     }, [])
     
     const renderer = ({days, hours, minutes, seconds, completed }) => {
@@ -46,30 +61,44 @@ const AuctionAbout = ({match}) => {
     };
 
     const BuyOnClick = async() => {
-        if(sPrice <= toy?.market?.currentPrice) { alert("현재 가격보다 높은 가격을 불러주세요."); return; }
-        
-        let ok = window.confirm(`${sPrice}로 입찰하시겠습니까?`);
+        if(user?.coin < toy?.market.goalPrice){
+            alert("코인이 부족합니다.");
+            window.reload();
+        }
+        let ok = window.confirm(`바로 구매가 진행됩니다. 진행하시겠습니까?`);
         if(ok) {
+            setDimmed(true);
             const data = {
                 toyId,
                 marketType : "sale",
-                currentPrice : parseInt(sPrice),
-                currentUser : "admin"
-            }
-            await dispatch(updateMarket(data))
-            .then((res) => {
-                if(res.error) {
-                    alert("실패하였습니다.");
-                    window.location.reload();
+                price : toy?.market.goalPrice,
+                to : user.id,
+                from : toy?.ownerId
+            };
+            await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
+            .then(res => {
+                setDimmed(false);
+                if(res.data){
+                    alert("구매가 완료되었습니다. 마이룸에서 확인해주세요!");
+                    window.reload();
                 }
-                if(res?.payload.status === 200){
-                    alert("입찰되었습니다.");
-                    window.location.reload();
-                    
-                }
+
             });
-            
+                // await dispatch(updateMarket(data))
+                // .then((res) => {
+                //     if(res.error) {
+                //         alert("실패하였습니다.");
+                //         window.location.reload();
+                //     }
+                //     if(res?.payload.status === 200){
+                //         alert("입찰되었습니다.");
+                //         window.location.reload();
+                        
+                //     }
+                // });
         }
+        
+            
     }
     
     const RentalOnClick = async() => {
@@ -116,7 +145,7 @@ const AuctionAbout = ({match}) => {
               },
         },
         rentalButton : {
-            padding : "10px 100px",
+            padding : "10px 150px",
             fontSize : "16px",
             fontWeight : "bold",
             backgroundColor : "#f2b591",
@@ -133,9 +162,17 @@ const AuctionAbout = ({match}) => {
     const classes = useStyle();
     
     return (
+        <>
+        {dimmed && 
+            <>
+            <div className="pending">
+                <h1>Trading...</h1>
+            </div>
+            </>
+        }
         <div className="DetailContainer">
             <div className="auction-content">
-            { toyStatus === 'loading' ? (
+            { !toy ? (
                 <div className="loading">
                 <CircularProgress color="secondary" />
                 </div>
@@ -143,7 +180,7 @@ const AuctionAbout = ({match}) => {
                 <>
                 <div className="auction-detail">
                     <div className="character-name">
-                            {toy?.name}
+                            {toy?.id}
                     </div>
                     <div className="character-owner">
                             {toy?.ownerId}
@@ -158,8 +195,23 @@ const AuctionAbout = ({match}) => {
                             <div className="character-info">
                                 { toy.market.type === 'sale' ? (
                                 <>
+                                <div className="character-buy">
+                                        {/* <TextField
+                                            className={classes.textfiled}
+                                            id="outlined-basic"  
+                                            variant="outlined" 
+                                            value={sPrice}
+                                            onChange={e => setSPrice(e.target.value)}
+                                            disabled={!isOnTime}
+                                        /> */}
+                                        <Button disabled={!isOnTime} onClick={BuyOnClick} className={classes.rentalButton} variant="contained">바로 구매</Button>
+                                    </div>
                                 <div className="character-auctionData">
-                                    <div className="character-price character-currentPrice">
+                                    <div className="character-price character-goalPrice">
+                                        <div>가격</div>
+                                        <div>{toy?.market.goalPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
+                                    </div>
+                                    {/* <div className="character-price character-currentPrice">
                                         <div>현재 가격</div>
                                         <div>{toy?.market.currentPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
                                     </div>
@@ -170,19 +222,9 @@ const AuctionAbout = ({match}) => {
                                     <div className="character-currentUser">
                                         <div>가장 높은 가격으로 입찰한 유저</div>
                                         <div>{toy?.market.currentUser ? toy?.market.currentUser : "첫 입찰자가 되어보세요!"}</div>
-                                    </div>
+                                    </div> */}
                                 </div>
-                                    <div className="character-buy">
-                                        <TextField
-                                            className={classes.textfiled}
-                                            id="outlined-basic"  
-                                            variant="outlined" 
-                                            value={sPrice}
-                                            onChange={e => setSPrice(e.target.value)}
-                                            disabled={!isOnTime}
-                                        />
-                                        <Button disabled={!isOnTime} onClick={BuyOnClick} className={classes.button} variant="contained">입찰</Button>
-                                    </div>
+                                    
                                 </>
                                 ) : (
                                     <>
@@ -297,6 +339,7 @@ const AuctionAbout = ({match}) => {
             }
             </div>
         </div>
+        </>
     )
 }
 

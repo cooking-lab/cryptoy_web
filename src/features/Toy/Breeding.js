@@ -7,7 +7,7 @@ import { getToys } from "./ToysSlice";
 import "css/Breeding.css";
 
 const Breeding = () => {
-    const userId = "t1";
+    const userId = useSelector((state) => state.user.user?.id);
     const dispatch = useDispatch();
     const toys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
     const [papaId, setPapaId] = useState();

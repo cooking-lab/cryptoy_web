@@ -10,7 +10,7 @@ import { makeStyles, TextField } from "@material-ui/core";
 // import { addMarket, getMarkets } from "features/TradingSystem/MarketsSlice";
 
 const AuctionRegister = ({match}) => {
-    const userId = "t1";
+    const userId = useSelector((state) => state.user.user?.id);
     const dispatch = useDispatch();
     // const marketStatus = useSelector((state) => state.markets.status);
     const userToys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
@@ -158,6 +158,7 @@ const AuctionRegister = ({match}) => {
                                             <TextField
                                                 className={classes.textfiled}
                                                 type="number"
+                                                step="0.1"
                                                 defaultValue={minPrice}
                                                 label="최소매각금액"    
                                                 onChange={e => setMinPrice(e.target.value)}
@@ -165,6 +166,7 @@ const AuctionRegister = ({match}) => {
                                             <TextField
                                                 className={classes.textfiled}
                                                 type="number"
+                                                step="0.1"
                                                 defaultValue={bPrice}
 
                                                 label="바로구매금액"
@@ -178,6 +180,7 @@ const AuctionRegister = ({match}) => {
                                             <TextField
                                                 className={classes.textfiled}
                                                 type="number"
+                                                step="0.1"
                                                 defaultValue={bPrice}
                                 
                                                 label="대여 비용"

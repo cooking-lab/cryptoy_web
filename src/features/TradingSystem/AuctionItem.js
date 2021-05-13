@@ -28,7 +28,7 @@ const AuctionItem = ({item}) => {
             </div>   
             <div className="item-info">
                     <div className="item-name-price">
-                        <h3>{item.name}</h3>
+                        {/* <h3>{item.name}</h3> */}
                         <h3>{item.market ? item.market.initPrice+" YAM" : ""} </h3>
                     </div>
                     <div className="dashed"></div>
