@@ -7,7 +7,7 @@ const auth = require('../lib/auth');
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.816.jar'));
+java.classpath.push(path.resolve('./lib/ver0.1.jar'));
 let DBClass = java.import('manager.GameManager');
 let gm = new DBClass();
 
