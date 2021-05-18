@@ -97,6 +97,22 @@ router.post('/markets/register', (req, res) => {
         })
 })
 
+router.post('/markets/transaction/:id', (req, res) => {
+    const data = req.body;
+    if(data.marketType === 'sale'){
+        const ret = gm.sellCharacterSync(data.from, data.to, data.price, req.params.id);
+        if(ret) {
+            // 거래 완료
+            Auction.deleteOne({regiNum : req.params.id})
+            .then(() => {
+                res.send('OK');
+            })
+        }
+    }else if(data.marketType === 'rental'){
+
+    }
+})
+
 /******************Breeding java에서 오류********************/
 /******************Breeding java에서 오류********************/
 /******************Breeding java에서 오류********************/

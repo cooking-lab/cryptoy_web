@@ -28,6 +28,9 @@
     font-size: 54px;
     font-weight: bold;
     margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .character-owner {
@@ -66,7 +69,6 @@
     margin-left: 50px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 .character-auctionData > div {
@@ -94,7 +96,8 @@
 } 
 
 .character-buy {
-    display: flex;
+    margin-bottom: 30px;
+    /* display: flex; */
 }
 
 .character-setPrice{
