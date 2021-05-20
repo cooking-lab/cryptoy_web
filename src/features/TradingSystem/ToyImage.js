@@ -54,9 +54,9 @@ const ToyImage = ({ dna, species }) => {
                 <img src={`${dirpath}/body/body_shape.png`} />
                 {damage ? <img src={`${dirpath}/body/damage.png`} /> : null}
                 <img src={`${dirpath}/eyes/${parsedDNA?.eyes}.png`} />
-                <img src={`${dirpath}/mat1/${parsedDNA?.mat1}.png`} />
-                <img src={`${dirpath}/mat2/${parsedDNA?.mat2}.png`} />
                 <img src={`${dirpath}/mat3/${parsedDNA?.mat3}.png`} />
+                <img src={`${dirpath}/mat1/${parsedDNA?.mat1}.png`} />
+                <img src={`${dirpath}/mat2/${parsedDNA?.mat2}.png`} /> 
                 <img src={`${dirpath}/nose_mouth/${parsedDNA?.nose_mouth}.png`} />
                 </>
             )
