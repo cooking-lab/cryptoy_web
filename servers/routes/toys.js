@@ -21,7 +21,7 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.821.jar'));
+java.classpath.push(path.resolve('./lib/ver0.824.jar'));
 const DBClass = java.import('manager.GameManager');
 const gm = new DBClass();
 
@@ -117,7 +117,7 @@ router.post('/markets/transaction/:id', (req, res) => {
 /******************Breeding java에서 오류********************/
 /******************Breeding java에서 오류********************/
 router.post("/breeding", (req, res) => {
-    const babyId = gm.doBreedingSync("t1", req.body.mamaId, req.body.papaId);
+    const babyId = gm.doBreedingSync(req.body.userId, req.body.mamaId, req.body.papaId);
     const response = JSON.parse(babyId);
     console.log(response);
     if(response.map.status != 200){

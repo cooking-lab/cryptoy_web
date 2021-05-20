@@ -36,7 +36,7 @@ const Breeding = () => {
 
     const breedingOnClick = async(e) => {
         e.preventDefault();
-        await dispatch(breeding({mamaId, papaId}))
+        await dispatch(breeding({mamaId, papaId, userId}))
         .then(res => {
             console.log(res.payload);
             const resStatus = res.payload.status;
@@ -54,7 +54,7 @@ const Breeding = () => {
         <>
         <div>
             {toys?.map(toy => {
-                return <p>{toy.gender} : {toy.id}</p>
+                return <p>{toy.species} ( {toy.gender} ) : {toy.id}</p>
             })}
         </div>
         <div>
