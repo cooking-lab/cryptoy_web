@@ -107,7 +107,7 @@ const SignUp = () => {
 
     const submit = async () => {
         setDimmed(true);
-        const response = await axios.post('/player/signup', {
+        await axios.post('/player/signup', {
             id:id,
             password:password,
             nickname:nickname,

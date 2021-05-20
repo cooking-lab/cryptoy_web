@@ -56,7 +56,6 @@ router.post('/signup', (req, res) => {
     const userId = req.body.id;
     const userPassword = req.body.password;
     const userNickname = req.body.nickname;
-    console.log(gm);
     gm.signUpSync(userId, userPassword, userNickname);
     // const player = new Players({
     //     id: userId,
@@ -69,6 +68,7 @@ router.post('/signup', (req, res) => {
     //     if(err) return res.status(500).send("STATUS 500 : 회원가입 오류");
     //     return res.status(200).send(player.profileView());
     // });
+    console.log("사인업 끝");
     return res.status(200).send(true);
 });
 
@@ -144,8 +144,27 @@ router.get('/', (req, res) => {
     }
 });
 
-router.get('/profile', (req, res) => {
-    console.log()
+// 프로필 정보 변경
+/*******************업데이트안돼!!!!!!!************* */
+router.post('/profile/:id', (req, res) => {
+    const data = req.body;
+    console.log("테스트 : ", req.params.id);
+    Players.findOne({
+        'Players.id' : req.params.id
+    }).exec((err, player) => {
+        if(err) throw err;
+        console.log("parse 실행 전", player.players.id);
+        let object = JSON.stringify(player);
+        let jsonData = JSON.parse(object);
+        console.log("mongoDB 리턴 결과 : ", jsonData.Players);
+        let findId = JSON.stringify(jsonData.Players);
+        let findIdJson = JSON.parse(findId);
+        console.log("최종 ID : ", findIdJson.wallet.publicKey);
+        
+        // if(player) {
+        //     console.log(player.);
+        // }
+    })
 })
 
 module.exports = router;

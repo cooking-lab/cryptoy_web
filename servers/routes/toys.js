@@ -117,7 +117,7 @@ router.post('/markets/transaction/:id', (req, res) => {
 /******************Breeding java에서 오류********************/
 /******************Breeding java에서 오류********************/
 router.post("/breeding", (req, res) => {
-    const babyId = gm.doBreedingSync("t1", req.body.mamaId, req.body.papaId);
+    const babyId = gm.doBreedingSync(req.body.userId, req.body.mamaId, req.body.papaId);
     const response = JSON.parse(babyId);
     console.log(response);
     if(response.map.status != 200){
