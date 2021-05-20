@@ -3,7 +3,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { v4: uuidv4 } = require('uuid');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
@@ -30,11 +29,8 @@ app.use(session({
     secret: 'asdfsdfadf',
     resave: false,
     saveUninitialized: true,
-    store: new MongoStore({
-        mongooseConnection: connectionGameDB,
-        ttl : 3
-    }),
-    cookie:{maxAge:(1000*60*60)}
+    store: new MongoStore({mongooseConnection: connectionGameDB}),
+    cookie:{maxAge:(3600)}
 }));
 
 const passport = require('passport'),
@@ -47,16 +43,11 @@ app.use(flash());
 passport.serializeUser((user, done) => {
     console.log("로그인 성공 및 세션 저장 완료");
     console.log(user);
-    // let object = JSON.stringify(user);
-    // let jsonData = JSON.parse(object);
-    //console.log(jsonData.Players.id);
     done(null, user._id);
-    //done(null, jsonData.Players.id);
 });
 
 passport.deserializeUser((id, done) => {
     console.log(id);
-    //done(null, id);
     Players.findById(id, (err, user) => {
         done(err, user);
     });
@@ -77,7 +68,6 @@ passport.use(new LocalStrategy({
             if (!player) {
                 return done(null, false, { message: "Incorrect userInfo" });
             }
-
             // success
             return done(null, player);
         });
