@@ -1,6 +1,6 @@
 import React, {useState, useEffect,  useRef} from "react";
 import "css/Login.css";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from "axios"
 
 
@@ -23,8 +23,8 @@ const Login = () => {
     }, []);
 
     const login = async () => {
-        if(inputId == "" || inputId == null) alert("ID를 입력해주세요.");
-        else if(inputPassword == "" || inputPassword == null) alert("비밀번호를 입력해주세요.");
+        if(inputId === "" || inputId === null) alert("ID를 입력해주세요.");
+        else if(inputPassword === "" || inputPassword === null) alert("비밀번호를 입력해주세요.");
     }
 
     return (
@@ -34,7 +34,7 @@ const Login = () => {
                 <form action="/player/login" method="post" className="login-form">
                     <div className="login-input-groups">
                         <input className="login-input" name="id" ref={idFocus} placeholder="ID" onChange={e => setInputId(e.target.value)}></input>
-                        <input className="login-input" name="password" placeholder="PW" onChange={e => setInputPassword(e.target.value)}></input>
+                        <input type="password" className="login-input" name="password" placeholder="PW" onChange={e => setInputPassword(e.target.value)}></input>
                     </div>
                     <div className="login-btn-groups" style={{marginTop:"30px"}}>
                     <input type="submit" value="SIGN IN" className="login-btn" onClick={login}></input>

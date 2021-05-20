@@ -74,7 +74,7 @@ const toysSlice = createSlice({
             state.breedingStatus = 'loading';
         },
         [breeding.fulfilled] : (state, action) => {
-            if(action.payload.status == 200){
+            if(action.payload.status === 200){
                 state.breedingStatus = 'succeeded';
                 state.toys = state.toys.concat(action.payload.toy);
             }else{
