@@ -34,7 +34,7 @@ const Login = () => {
                 <form action="/player/login" method="post" className="login-form">
                     <div className="login-input-groups">
                         <input className="login-input" name="id" ref={idFocus} placeholder="ID" onChange={e => setInputId(e.target.value)}></input>
-                        <input className="login-input" name="password" placeholder="PW" onChange={e => setInputPassword(e.target.value)}></input>
+                        <input type="password" className="login-input" name="password" placeholder="PW" onChange={e => setInputPassword(e.target.value)}></input>
                     </div>
                     <div className="login-btn-groups" style={{marginTop:"30px"}}>
                     <input type="submit" value="SIGN IN" className="login-btn" onClick={login}></input>
