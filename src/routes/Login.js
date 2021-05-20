@@ -1,6 +1,6 @@
 import React, {useState, useEffect,  useRef} from "react";
 import "css/Login.css";
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from "axios"
 
 
@@ -23,8 +23,8 @@ const Login = () => {
     }, []);
 
     const login = async () => {
-        if(inputId == "" || inputId == null) alert("ID를 입력해주세요.");
-        else if(inputPassword == "" || inputPassword == null) alert("비밀번호를 입력해주세요.");
+        if(inputId === "" || inputId === null) alert("ID를 입력해주세요.");
+        else if(inputPassword === "" || inputPassword === null) alert("비밀번호를 입력해주세요.");
     }
 
     return (

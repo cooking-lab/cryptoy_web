@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import "css/Detail.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateMarket } from 'features/Toy/ToysSlice';
-import { Button, CircularProgress, makeStyles, TextField } from '@material-ui/core';
+import { Button, CircularProgress, makeStyles } from '@material-ui/core';
 import ToyImage from './ToyImage';
 import Countdown from 'react-countdown';
 import axios from 'axios';
