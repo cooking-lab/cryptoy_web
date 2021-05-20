@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "css/AuctionRegister.css";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import ToyImage from "features/TradingSystem/ToyImage";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllOwnerToys, selectAllOwnerToysNotMarket, addMarket } from "features/Toy/ToysSlice";
+import { selectAllOwnerToysNotMarket, addMarket } from "features/Toy/ToysSlice";
 import { makeStyles, TextField } from "@material-ui/core";
 // import { addMarket, getMarkets } from "features/TradingSystem/MarketsSlice";
 
