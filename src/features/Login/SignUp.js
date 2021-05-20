@@ -113,6 +113,7 @@ const SignUp = () => {
             nickname:nickname,
         })
         .then((response) => {
+            console.log("다 됐다? ", response);
             setDimmed(false);
             if(response.status === 200){
                 alert(`회원가입이 완료되었습니다.\n로그인페이지로 이동합니다.`);
