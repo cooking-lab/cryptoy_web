@@ -49,15 +49,15 @@ const ToyImage = ({ dna, species }) => {
         <>{
             parsedDNA && (
                 <>
-                <img  src={`${dirpath}/body/body_color_white.png`} />
-                <img style={body_color_style(parsedDNA?.body_color)} src={`${dirpath}/body/body_color_white.png`} />
-                <img src={`${dirpath}/body/body_shape.png`} />
-                {damage ? <img src={`${dirpath}/body/damage.png`} /> : null}
-                <img src={`${dirpath}/eyes/${parsedDNA?.eyes}.png`} />
-                <img src={`${dirpath}/mat3/${parsedDNA?.mat3}.png`} />
-                <img src={`${dirpath}/mat1/${parsedDNA?.mat1}.png`} />
-                <img src={`${dirpath}/mat2/${parsedDNA?.mat2}.png`} /> 
-                <img src={`${dirpath}/nose_mouth/${parsedDNA?.nose_mouth}.png`} />
+                <img alt='body_back' src={`${dirpath}/body/body_color_white.png`} />
+                <img alt='body_color' style={body_color_style(parsedDNA?.body_color)} src={`${dirpath}/body/body_color_white.png`} />
+                <img alt='body_shape' src={`${dirpath}/body/body_shape.png`} />
+                {damage ? <img alt='damage' src={`${dirpath}/body/damage.png`} /> : null}
+                <img alt='eyes' src={`${dirpath}/eyes/${parsedDNA?.eyes}.png`} />
+                <img alt='mat3' src={`${dirpath}/mat3/${parsedDNA?.mat3}.png`} />
+                <img alt='mat1' src={`${dirpath}/mat1/${parsedDNA?.mat1}.png`} />
+                <img alt='mat2' src={`${dirpath}/mat2/${parsedDNA?.mat2}.png`} /> 
+                <img alt='nose_mouth' src={`${dirpath}/nose_mouth/${parsedDNA?.nose_mouth}.png`} />
                 </>
             )
         }
