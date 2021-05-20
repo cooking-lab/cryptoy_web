@@ -9,6 +9,7 @@ const AuctionItem = ({item}) => {
             case "sale" : auctionType = "ON SALE"; return "type_sale";
             case "rental" : auctionType = "RENTAL"; return "type_rental";
             case null : return "";
+            default : return "";
         }
     }
 
@@ -35,7 +36,6 @@ const AuctionItem = ({item}) => {
                     <div className="item-detail">
                         <h4>#{item.generation}Gen</h4>
                         <h4>#{item.gender}</h4>
-                        <h4></h4>
                     </div>
                 </div> 
         </Link>
