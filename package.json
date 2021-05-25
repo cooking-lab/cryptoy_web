@@ -24,6 +24,7 @@
     "http": "*",
     "http-proxy-middleware": "^1.0.6",
     "java": "^0.12.1",
+    "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "mongoose": "^5.12.1",
     "mongoose-session": "0.0.4",

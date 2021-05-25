@@ -1,0 +1,222 @@
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import "css/Scene.css";
+import ToyImage from "features/TradingSystem/ToyImage";
+import axios from "axios";
+
+const Scene = () => {
+    const user = useSelector((state) => state.user.user);
+    const toys = user?.characterList;
+    const [channel, setChannel] = useState(0); // 0 : mixzone, 1 : shop, 2 : room
+    const [sellFirst, setSellFirst] = useState();
+    const [sellSecond, setSellSecond] = useState();
+    const [sellThird, setSellThird] = useState();
+
+    const uiBtnOnClick = (ch) => {
+        setChannel(ch);
+    }
+
+    const MixZone = () => {
+        const [lChar, setLChar] = useState();
+        const [rChar, setRChar] = useState();
+        const [baby, setBaby] = useState();
+        const [select, setSelect] = useState(0);
+        const [dimmed, setDimmed] = useState(false);
+
+        const breedingOnClick = async() => {
+            if(lChar && rChar) {
+                var avail = true;
+                if(lChar.dna.charAt(3) !== '0') {
+                    alert("왼쪽에는 남자를 선택해주세요.");
+                    avail = false;
+                }
+                if(rChar.dna.charAt(3) !== '1') {
+                    alert("오른쪽에는 여자를 선택해주세요.");
+                    avail = false;
+                }
+                if(avail) {
+                    await axios.post("/toys/breeding", {userId : user.id, papaId : lChar.id, mamaId : rChar.id})
+                    .then(res => {
+                        if(res.status === 200) {
+                            alert("교배가 완료되었습니다.");
+                            setBaby(res.data.toy);
+                        }else{
+                            alert(res.data.error);
+                        }
+                    })
+                }
+            }else {
+                alert("교배 대상을 선택해주세요.");
+            }
+        }
+
+        return (
+            <>
+            <div className="basic_bg" style={{backgroundImage:`url("/img/background_mix/bg_mix.png")`, backgroundSize:'cover'}}>
+                <img onClick={e => uiBtnOnClick(2)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_shelf_left.png" />
+                <img onClick={e => uiBtnOnClick(1)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shop_right.png" />
+                <img onClick={breedingOnClick} className="red_button" src="/img/background_mix/bg_mix_btn_normal.png" />
+                <div className="left_mixBox mixBox">
+                    { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setLChar} except={[rChar?.id]}/>}
+                    { lChar ? (
+                        <>
+                        <div className="mixBox_toy_left mixBox_toy">
+                            <ToyImage dna={lChar.dna} species={lChar.species} />
+                        </div>
+                        </>
+                    ) :
+                        <>
+                        <img onClick={e => setSelect(1)} className="star_button star_button_left" src="/img/stars.png" />
+                        </>
+                    }
+                    </div>
+                <div className="right_mixBox mixBox">
+                    { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setLChar} except={[lChar?.id]}/>}
+                    { rChar ? (
+                        <>
+                        <div className="mixBox_toy_right mixBox_toy">
+                            <ToyImage dna={rChar.dna} species={rChar.species} />
+                        </div>
+                        </>
+                    ) : 
+                    <>
+                        { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setRChar} except={[lChar.id]} /> }
+                        <img onClick={e => setSelect(2)} className="star_button star_button_right" src="/img/stars.png" />
+                        </>
+                    }
+                </div>
+                <div className="baby_box">
+                    { baby && 
+                        <ToyImage dna={baby.dna} species={baby.dna.substring(4,7)} />
+                    }
+                    </div>
+            </div>
+            </>
+        )
+    }
+
+    const ShopZone = () => {
+        const [select, setSelect] = useState(0);
+
+        return (
+            <>
+            <div className="basic_bg" style={{backgroundImage:`url("/img/background_shop/bg_shop.png")`, backgroundSize:'cover'}}>
+                <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_mix_left.png" />
+                <img onClick={e=> uiBtnOnClick(2)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shelf_right.png" />
+                <img className="customer_img" src="/img/background_shop/bg_shop_chara1.png" />
+                <img className="message_box" src="/img/background_shop/bg_shop_sbubble.png" />
+                <img className="bell_img" src="/img/background_shop/bg_shop_bell.png" />
+                <div className="selling_toys">
+                { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
+                    {sellFirst ? (
+                        <>
+                        <div onClick={e=> setSelect(1)} className="selling_item_first selling_item">
+                            <ToyImage dna={sellFirst.dna} species={sellFirst.dna.substring(4,7)} />
+                        </div>
+                        </>
+                    ) : (
+                        <>
+                        <div onClick={e=> setSelect(1)} className="selling_not_first selling_not">
+                            <i  class="fas fa-plus-circle"></i>
+                        </div>
+                        </>
+                    )}
+                    { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setSellSecond} except={[]}/>}
+                    {sellSecond ? (
+                        <>
+                        <div onClick={e=> setSelect(2)} className="selling_item_second selling_item">
+                            <ToyImage dna={sellSecond.dna} species={sellSecond.dna.substring(4,7)} />
+                        </div>                        
+                        </>
+                    ) : (
+                        <>
+                        <div onClick={e=> setSelect(2)} className="selling_not_second selling_not">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        </>
+                    )}
+                    { select === 3 && <SimpleShelf setSelect={setSelect} setChar={setSellThird} except={[]}/>}
+                    {sellThird ? (
+                        <>
+                        <div onClick={e=> setSelect(3)} className="selling_item_third selling_item">
+                            <ToyImage dna={sellThird.dna} species={sellThird.dna.substring(4,7)} />
+                        </div>                        
+                        </>
+                    ) : (
+                        <>
+                        { select === 3 && <SimpleShelf setSelect={setSelect} setChar={setSellThird} except={[]}/>}
+                        <div onClick={e=> setSelect(3)} className="selling_not_third selling_not">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        </>
+                    )}
+                </div>
+            </div>
+            </>            
+        )
+    }
+
+    const SimpleShelf = ({setSelect, setChar, except}) => {
+        return (
+            <>
+            <div className="basic_bg simple_shelf" style={{backgroundImage:`url("/img/background_shelf/bg_shelf_final.png")`, backgroundSize:'cover'}} >
+                <div onClick={e => setSelect(false)} className="cancel"><i className="fas fa-times"></i></div>
+                <div className="chara_item_list">
+                    {toys?.filter(toy => !except.includes(toy._id)).map(toy => {
+                        let species = toy._DNA.substring(4, 7);
+                        return <div key={toy._id} onClick={e => {setChar({id : toy._id, dna : toy._DNA, species}); setSelect(false);}} className="chara_item"><ToyImage dna={toy._DNA} species={species}/></div>
+                    })}
+                </div>
+            </div>
+            </>
+        )
+    }
+
+    const ShelfZone = () => {
+        const moveDetail = (toyId) => {
+            var ok = window.confirm("해당 캐릭터 페이지로 이동하시겠습니까?");
+            if(ok) {
+                window.location.href = "/auction/"+toyId;
+            }
+        }
+        return (
+            <>
+            <div className="basic_bg" style={{backgroundImage:`url("/img/background_shelf/bg_shelf_final.png")`, backgroundSize:'cover'}}>
+                <img onClick={e=> uiBtnOnClick(1)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_shop_left.png" />
+                <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_mix_right.png" />
+                <div className="chara_item_list">
+                    {toys?.map(toy => {
+                        let species = toy._DNA.substring(4, 7);
+                        return <div onClick={e => moveDetail(toy._id)} key={toy._id} className="chara_item"><ToyImage dna={toy._DNA} species={species}/></div>
+                    })}
+                </div>
+                
+            </div>
+            </>            
+        )
+    }
+
+    let content;
+    if(user){
+        if(channel === 0) {
+            content = <MixZone />;
+        }else if(channel === 1) {
+            content = <ShopZone />;
+        }else if(channel === 2) {
+            content = <ShelfZone />;
+        }
+    }else {
+        content = <h1>로그인 후 사용할 수 있습니다.</h1>
+    }
+    
+    
+    return (
+        <>
+        <div className="SceneContainer" >
+            {content}
+        </div>
+        </>
+    )
+}
+
+export default Scene;

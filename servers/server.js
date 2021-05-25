@@ -30,7 +30,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     store: new MongoStore({mongooseConnection: connectionGameDB}),
-    cookie:{maxAge:(3600)}
+    cookie:{maxAge:(1000*60*60)}
 }));
 
 const passport = require('passport'),

@@ -1,0 +1,190 @@
+/****************** COMMON CSS *******************/
+.SceneContainer .basic_bg {
+    position: relative;
+    width: 960px;
+    height: 540px;
+}
+
+.SceneContainer img {
+    position: absolute;
+}
+
+.SceneContainer .ui_button{
+    width: 100px;
+    height: 100px;
+    bottom: 5px;
+}
+
+.SceneContainer .ui_button_left {
+    left : 5px;
+}
+
+.SceneContainer .ui_button_right {
+    right : 5px;
+}
+
+
+/********************** MIX ZONE ***********************/
+.SceneContainer .red_button {
+    width: 80px;
+    height: 80px;
+    bottom: 100px;
+    right : 440px;
+}
+
+.SceneContainer .star_button {
+    width: 80px;
+}
+
+.SceneContainer .star_button_left {
+    right : 580px;
+    top : 140px;
+}
+
+.SceneContainer .star_button_right {
+    right : 275px;
+    top : 155px;
+}
+
+.SceneContainer .mixBox_toy {
+    height: 150px;
+    width:  150px;
+    position: absolute;
+}
+
+.SceneContainer .mixBox_toy_left {
+    top : 100px;
+    left : 190px;
+}
+
+.SceneContainer .mixBox_toy_right {
+    top : 115px;
+    right : 315px;
+}
+
+.SceneContainer .mixBox_toy > img {
+    width: 150px;
+    height: 150px;
+}
+
+.SceneContainer .baby_box {
+    position: absolute;
+    bottom: 195px;
+    left : 150px;
+}
+
+.SceneContainer .baby_box > img {
+    width: 150px;
+    height: 150px;
+}
+
+/********************** SHOP ZONE ***********************/
+.SceneContainer .customer_img {
+    width: 150px;
+    bottom: 148px;
+    right : 580px;
+}
+
+.SceneContainer .bell_img {
+    width: 150px;
+    bottom: 180px;
+    right : 197px;
+}
+
+.SceneContainer .message_box {
+    width: 215px;
+    top: 205px;
+    right : 400px;
+}
+
+/* .SceneContainer .selling_toys {
+    position: absolute;
+    width : 375px;
+    bottom : 110px;
+    left : 200px;
+    display: flex;
+    justify-content:space-around;
+} */
+
+.SceneContainer .selling_item {
+    position: absolute;
+    bottom : 240px;
+}
+
+.SceneContainer .selling_item > img {
+    width: 130px;
+    height: 130px;
+}
+
+.SceneContainer .selling_item_first {
+    left : 200px;
+}
+
+.SceneContainer .selling_item_second {
+    left : 325px;
+}
+
+.SceneContainer .selling_item_third {
+    left : 450px;
+}
+
+.SceneContainer .selling_not {
+    position: absolute;
+    font-size: 30px;
+    color : tomato;
+    cursor: pointer;
+}
+
+.SceneContainer .selling_not_first {
+    bottom: 110px;
+    left : 250px;
+}
+.SceneContainer .selling_not_second {
+    bottom: 110px;
+    left : 370px;
+}
+.SceneContainer .selling_not_third {
+    bottom: 110px;
+    left : 490px;
+}
+
+/************** SHELF ZONE **************/
+.SceneContainer .chara_item_list {
+    position: absolute;
+    top : 190px;
+    left : 180px;
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+}
+
+.SceneContainer .chara_item {
+    height : 150px;
+    cursor: pointer;
+}
+
+.SceneContainer .chara_item > img{
+    width: 150px;
+    height: 150px;
+}
+
+.SceneContainer .chooseButton {
+    position: absolute;
+    bottom : 10px;
+    right : 445px;
+    cursor: pointer;
+    background-color: tomato;
+    color : white;
+    padding : 5px;
+}
+
+/**************** SIMPLE SHELF **************/
+.SceneContainer .simple_shelf {
+    position: absolute;
+    z-index: 10;
+}
+
+.SceneContainer .cancel {
+    font-size: 50px;
+    text-align: right;
+    padding : 10px 30px 0 0;
+}

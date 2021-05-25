@@ -187,7 +187,7 @@ const AuctionAbout = ({match}) => {
                     </div>
                     <div className="auction-head">
                         <div className="character-img">
-                            {toy && <ToyImage dna={toy.dna} species={toy.species}/>}
+                            {toy && <ToyImage dna={toy.dna} species={toy.dna.substring(4,7)}/>}
                         </div>
                         
                         {toy?.market ? 
