@@ -38,11 +38,11 @@ router.get('/:id', (req, res) => {
     })
 });
 
-// router.get('/owners/:userId', (req, res) => {
-//     Toy.find({ ownerId: req.params.userId, market: false }, (err, toy) => {
-//         res.send(toy);
-//     })
-// })
+router.get('/owners/:userId', (req, res) => {
+    Toy.find({ ownerId: req.params.userId, market: null }, (err, toy) => {
+        res.send(toy);
+    })
+})
 
 router.put('/markets/update/:toyId', (req, res) => {
     if(req.body.marketType === 'sale'){
@@ -125,9 +125,6 @@ router.post('/markets/transaction/:id', (req, res) => {
     }
 })
 
-/******************Breeding java에서 오류********************/
-/******************Breeding java에서 오류********************/
-/******************Breeding java에서 오류********************/
 router.post("/breeding", (req, res) => {
     const babyId = gm.doBreedingSync(req.body.userId, req.body.mamaId, req.body.papaId);
     const response = JSON.parse(babyId);
