@@ -107,18 +107,29 @@ const AuctionAbout = ({match}) => {
             const data = {
                 toyId,
                 marketType : "rental",
-                rentalUser : "admin"
+                price : toy?.market.initPrice,
+                to : user.id,
+                from : toy?.ownerId
             }
-            await dispatch(updateMarket(data))
+            // 빌리는 로직 추가
+            await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
             .then(res => {
-                if(res.payload.status === 200){
-                    alert("장난감을 빌렸습니다! 마이룸에서 확인해 주세요.");
-                    window.location.reload();
-                }else{
-                    alert("실패했습니다.");
+                setDimmed(false);
+                if(res.data){
+                    alert("장난감을 빌렸습니다! 마이룸에서 확인해주세요!");
                     window.location.reload();
                 }
             });
+            // await dispatch(updateMarket(data))
+            // .then(res => {
+            //     if(res.payload.status === 200){
+            //         alert("장난감을 빌렸습니다! 마이룸에서 확인해 주세요.");
+            //         window.location.reload();
+            //     }else{
+            //         alert("실패했습니다.");
+            //         window.location.reload();
+            //     }
+            // });
             
         }
     }

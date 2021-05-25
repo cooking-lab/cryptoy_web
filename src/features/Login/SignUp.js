@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link , useHistory } from "react-router-dom";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import "css/SignUp.css"
 import axios from "axios";
 
@@ -48,8 +48,8 @@ const SignUp = () => {
             const idMsg = document.getElementById('id-msg');
             idMsg.style.color = "red";
             setCheckIdBox(false);
-            if(response.data == ""){
-                if(id == null || id == "") idMsg.innerHTML = "필수 항목입니다.";                    
+            if(response.data === ""){
+                if(id === null || id === "") idMsg.innerHTML = "필수 항목입니다.";                    
                 else { 
                     idMsg.style.color = "green";
                     idMsg.innerHTML = "사용 가능한 ID입니다";
@@ -67,7 +67,7 @@ const SignUp = () => {
         const pwMsg = document.getElementById('pw-msg');
         pwMsg.style.color = "red";
         setCheckPasswordBox(false);
-        if(password == null || password == "") {
+        if(password === null || password === "") {
             pwMsg.innerHTML = "필수 항목입니다.";
             pwMsg.style.display ='block';
         }
@@ -82,7 +82,7 @@ const SignUp = () => {
         const nnMsg = document.getElementById('nn-msg');
         nnMsg.style.color = "red";
         setCheckNicknameBox(false);
-        if(nickname == null || nickname == "") {
+        if(nickname === null || nickname === "") {
             nnMsg.innerHTML = "필수 항목입니다.";
             nnMsg.style.display ='block';
         }
