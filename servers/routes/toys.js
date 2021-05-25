@@ -21,9 +21,9 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.1.2.jar'));
-const DBClass = java.import('manager.GameManager');
-const gm = new DBClass();
+java.classpath.push(path.resolve('./lib/ver0.1.3.jar'));
+let DBClass = java.import('manager.GameManager');
+let gm = new DBClass();
 
 router.get('/', (req, res) => {
     Toy.find().populate('market').exec((err, toy) => {
@@ -109,7 +109,19 @@ router.post('/markets/transaction/:id', (req, res) => {
             })
         }
     }else if(data.marketType === 'rental'){
-
+        gm.testFunctionSync(); // 테스트 코드
+        const ret = gm.sellCharacterSync(data.from, data.to, data.price, req.params.id);
+        if(ret) {
+            // 거래 완료 + 타이머 설정
+            const rentTimer = setTimeout(() => {
+                gm.sendCharacterSync(data.to, data.from, req.params.id);
+                console.log("원래 주인에게 캐릭터가 돌아갔습니다.");
+            }, 1000 * 60);
+            Auction.deleteOne({regiNum : req.params.id})
+            .then(() => {
+                res.send('OK');
+            })
+        }
     }
 })
 

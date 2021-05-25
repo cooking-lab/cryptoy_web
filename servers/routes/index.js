@@ -1,9 +1,8 @@
-// '/api' directory
+// '/api' directory (page for test)
 
 const express = require('express');
 const http = require('http');
 const fs = require('fs');
-
 
 let mongoose = require('mongoose');
 
@@ -44,6 +43,5 @@ router.post('/', (req,res) => {
     // console.log(req.body.ID);
     res.json({username:'DK SHOWMAKER'});
 });
-
 
 module.exports = router;

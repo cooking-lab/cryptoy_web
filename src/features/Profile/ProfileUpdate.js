@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import "css/ProfileUpdate.css";
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
+
 const ProfileUpdate = () => {
+    const history = useHistory();
     const user = useSelector((state) => state.user.user);
+    const [id, setId] = useState(user?.id);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [nickName, setNickName] = useState(user?.nickname);
+    const [nickname, setNickname] = useState(user?.nickname);
     const [introduction, setIntroductione] = useState(user?.introduction);
 
     const updateProfile = async(e) => {
@@ -17,29 +20,28 @@ const ProfileUpdate = () => {
             alert("비밀번호를 다시 확인해 주세요.");
         }else{
             let ok = window.confirm(
-                `PASSWORD : ${password}\n
-                NICKNAME : ${nickName}\n
-                INTRODUCTION : ${introduction}\n
-                Is it Correct?.`
+                `PASSWORD : ${password}\nNICKNAME : ${nickname}\nINTRODUCTION : ${introduction}\nIs it Correct?.`
             )
             if(ok) {
                 const data = {
+                    id,
                     password,
-                    nickName,
+                    nickname,
                     introduction
                 };
-                await axios.post('/player/profile/'+user?.id, data)
+                await axios.post('/player/profile/', data)
                 .then(res => {
                     if(res.status === 200){
                         alert("변경되었습니다.");
-                        window.location.reload();
+                        history.push("/profile");
                     }else{
                         alert("잠시후 다시 시도하세요.");
                         window.location.reload();
                     }
+                }).catch((error) => {
+                    console.log(error);
                 })
-            }
-            
+            }            
         }
     }
 
@@ -63,7 +65,7 @@ const ProfileUpdate = () => {
                         </span>
                         <label className="profile-update-label">NICKNAME</label>
                         <span className="profile-update-input-box">
-                            <input className="profile-update-input" value={nickName} onChange={e => setNickName(e.target.value)}></input>
+                            <input className="profile-update-input" value={nickname} onChange={e => setNickname(e.target.value)}></input>
                         </span>
                         <label className="profile-update-label">INTRODUCE</label>
                         <span className="profile-update-input-box">
