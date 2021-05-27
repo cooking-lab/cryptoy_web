@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 const ToyImage = ({ dna, species }) => {
-    const dirpath = `/img/chara_${species}/`;
+    const dirpath = `/img/chara_${species}`;
     const [parsedDNA, setParsedDNA] = useState();
     const [damage, setDamage] = useState(false);
 
     const dnaParsing = () => {
+        setDamage(false);
         if(dna?.substring(1,2) === '0' && dna?.substring(3,4) === '0'){
             setDamage(true);
         }
@@ -43,7 +44,7 @@ const ToyImage = ({ dna, species }) => {
 
     useEffect(() => {
         dnaParsing();
-    }, [])
+    }, [dna])
 
     return (
         <>{
@@ -54,6 +55,7 @@ const ToyImage = ({ dna, species }) => {
                 <img alt='body_shape' src={`${dirpath}/body/body_shape.png`} />
                 {damage ? <img alt='damage' src={`${dirpath}/body/damage.png`} /> : null}
                 <img alt='eyes' src={`${dirpath}/eyes/${parsedDNA?.eyes}.png`} />
+                {species === "100" && <img alt='mat3_w' style={body_color_style(parsedDNA?.body_color)} src={`${dirpath}/mat3/${parsedDNA?.mat3}_w.png`} />}
                 <img alt='mat3' src={`${dirpath}/mat3/${parsedDNA?.mat3}.png`} />
                 <img alt='mat1' src={`${dirpath}/mat1/${parsedDNA?.mat1}.png`} />
                 <img alt='mat2' src={`${dirpath}/mat2/${parsedDNA?.mat2}.png`} /> 

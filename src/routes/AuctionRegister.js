@@ -9,11 +9,12 @@ import { makeStyles, TextField } from "@material-ui/core";
 // import { addMarket, getMarkets } from "features/TradingSystem/MarketsSlice";
 
 const AuctionRegister = ({match}) => {
-    const userId = useSelector((state) => state.user.user?.id);
+    const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
     // const marketStatus = useSelector((state) => state.markets.status);
-    const userToys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
-    const [isSelected, setIsSelected] = useState(false);
+    //const userToys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
+    const userToys = user?.characterList;
+   // const [isSelected, setIsSelected] = useState(false);
     const [isPopUp, setIsPopUp] = useState(false);
     const [active, setActive] = useState("sale");
     const [bPrice, setBPrice] = useState(null);
@@ -35,7 +36,6 @@ const AuctionRegister = ({match}) => {
     }
 
     const selectedPopupBtnOnClick = (toy) => {
-        setIsSelected(true);
         setIsPopUp(false);
         setSelectedToy(toy);
     }
@@ -77,11 +77,11 @@ const AuctionRegister = ({match}) => {
             }
         }
         if (marketType === 'rental') {
-            if (bPrice && rentalDuration) {
+            if (bPrice) {
                 data = {
                     regiNum: new Date().getTime().toString(16),
                     type: marketType,
-                    toyId: selectedToy.id,
+                    toyId: selectedToy._id,
                     deadline,
                     initPrice: bPrice,
                     rentalDuration
@@ -100,7 +100,7 @@ const AuctionRegister = ({match}) => {
                     if (res.payload.status === 200) {
                         alert("등록되었습니다.");
 
-                        history.push('/auction/' + selectedToy.id);
+                        history.push('/auction/' + selectedToy._id);
                     } else {
                         alert("등록 실패");
                         history.push('/auction');
@@ -122,26 +122,27 @@ const AuctionRegister = ({match}) => {
     return (
         <div className="AuctionRegisterContainer">
             <div className={isPopUp ? "seletedPopup display_block" : "seletedPopup display_hidden"}>
+            <div onClick={e => setIsPopUp(false)} className="cancel"><i className="fas fa-times"></i></div>
                 <div className="myToysList">
-                    {userToys?.map(toy => { return <div key={toy.id} onClick={() => selectedPopupBtnOnClick(toy)} className="myToyImage"><ToyImage dna={toy.dna} species={toy.species} /></div> })}
+                    {userToys?.map(toy => { return <div key={toy.id} onClick={() => {setSelectedToy(toy); setIsPopUp(false);}} className="myToyImage"><ToyImage dna={toy._DNA} species={toy._DNA.substring(4,7)} /></div> })}
                 </div>
             </div>
             <div className="AuctionRegister-content">
                 <div className="register-toy">
                     <div className="selectedToy">
-                        {isSelected ? (
-                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy?.dna} species={selectedToy?.species} /></div>
+                        {selectedToy ? (
+                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy._DNA} species={selectedToy._DNA.substring(4,7)} /></div>
                         ) : (
                             <button onClick={selectedBtnOnClick} className="selectedBtn">Click</button>
                         )}
                     </div>
                     <div className="selectedToy-info">
-                        {isSelected &&
+                        {selectedToy &&
                             <>
-                                <h1>{selectedToy?.name}</h1>
-                                <div className="selectedToy-detailInfo">
+                                <h1>{selectedToy._id}</h1>
+                                {/* <div className="selectedToy-detailInfo">
                                     detail info
-                        </div>
+                        </div> */}
                                 <div className="choose-input">
                                     <div className="choose-type">
                                         <h3>거래 타입</h3>
@@ -159,10 +160,10 @@ const AuctionRegister = ({match}) => {
                                                 type="number"
                                                 step="0.1"
                                                 defaultValue={minPrice}
-                                                label="최소매각금액"    
+                                                label="판매 가격"    
                                                 onChange={e => setMinPrice(e.target.value)}
                                             />
-                                            <TextField
+                                            {/* <TextField
                                                 className={classes.textfiled}
                                                 type="number"
                                                 step="0.1"
@@ -170,7 +171,7 @@ const AuctionRegister = ({match}) => {
 
                                                 label="바로구매금액"
                                                 onChange={e => setBPrice(e.target.value)}
-                                            />
+                                            /> */}
                                             </form>
                                         </div>
                                     :
@@ -182,17 +183,17 @@ const AuctionRegister = ({match}) => {
                                                 step="0.1"
                                                 defaultValue={bPrice}
                                 
-                                                label="대여 비용"
+                                                label="대여 가격"
                                                 onChange={e => setBPrice(e.target.value)}
                                             />
-                                            <TextField
+                                            {/* <TextField
                                                 className={classes.textfiled}
                                                 type="number"
                                                 defaultValue={rentalDuration}
                                 
                                                 label="일 수"
                                                 onChange={e => setRentalDuration(e.target.value)}
-                                            />
+                                            /> */}
                                         </div>
                                         
                                     }
