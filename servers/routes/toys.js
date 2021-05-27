@@ -21,7 +21,7 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.1.3.jar'));
+java.classpath.push(path.resolve('./lib/ver0.1.4.jar'));
 let DBClass = java.import('manager.GameManager');
 let gm = new DBClass();
 
