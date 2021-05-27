@@ -23,6 +23,12 @@ const Scene = () => {
         const [select, setSelect] = useState(0);
         const [dimmed, setDimmed] = useState(false);
 
+        if(dimmed){
+            document.body.style.overflow = "hidden";
+        }else{
+            document.body.style.overflow = "unset";
+        }
+
         const breedingOnClick = async() => {
             if(lChar && rChar) {
                 var avail = true;
@@ -35,8 +41,10 @@ const Scene = () => {
                     avail = false;
                 }
                 if(avail) {
+                    setDimmed(true);
                     await axios.post("/toys/breeding", {userId : user.id, papaId : lChar.id, mamaId : rChar.id})
                     .then(res => {
+                        setDimmed(false);
                         if(res.status === 200) {
                             alert("교배가 완료되었습니다.");
                             setBaby(res.data.toy);
@@ -52,6 +60,13 @@ const Scene = () => {
 
         return (
             <>
+            {dimmed && 
+            <>
+            <div className="pending">
+                <h1>교배중...</h1>
+            </div>
+            </>
+            }
             <div className="basic_bg" style={{backgroundImage:`url("/img/background_mix/bg_mix.png")`, backgroundSize:'cover'}}>
                 <img onClick={e => uiBtnOnClick(2)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_shelf_left.png" />
                 <img onClick={e => uiBtnOnClick(1)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shop_right.png" />
@@ -60,8 +75,8 @@ const Scene = () => {
                     { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setLChar} except={[rChar?.id]}/>}
                     { lChar ? (
                         <>
-                        <div className="mixBox_toy_left mixBox_toy">
-                            <ToyImage dna={lChar.dna} species={lChar.species} />
+                        <div onClick={e => setSelect(1)} className="mixBox_toy_left mixBox_toy">
+                            <ToyImage dna={lChar.dna} species={lChar.dna.substring(4,7)} />
                         </div>
                         </>
                     ) :
@@ -71,16 +86,15 @@ const Scene = () => {
                     }
                     </div>
                 <div className="right_mixBox mixBox">
-                    { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setLChar} except={[lChar?.id]}/>}
+                    { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setRChar} except={[lChar?.id]}/>}
                     { rChar ? (
                         <>
-                        <div className="mixBox_toy_right mixBox_toy">
-                            <ToyImage dna={rChar.dna} species={rChar.species} />
+                        <div onClick={e => setSelect(2)} className="mixBox_toy_right mixBox_toy">
+                            <ToyImage dna={rChar.dna} species={rChar.dna.substring(4,7)} />
                         </div>
                         </>
                     ) : 
                     <>
-                        { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setRChar} except={[lChar.id]} /> }
                         <img onClick={e => setSelect(2)} className="star_button star_button_right" src="/img/stars.png" />
                         </>
                     }
@@ -163,8 +177,7 @@ const Scene = () => {
                 <div onClick={e => setSelect(false)} className="cancel"><i className="fas fa-times"></i></div>
                 <div className="chara_item_list">
                     {toys?.filter(toy => !except.includes(toy._id)).map(toy => {
-                        let species = toy._DNA.substring(4, 7);
-                        return <div key={toy._id} onClick={e => {setChar({id : toy._id, dna : toy._DNA, species}); setSelect(false);}} className="chara_item"><ToyImage dna={toy._DNA} species={species}/></div>
+                        return <div key={toy._id} onClick={e => {setChar({id : toy._id, dna : toy._DNA}); setSelect(false);}} className="chara_item"><ToyImage dna={toy._DNA} species={toy._DNA.substring(4,7)}/></div>
                     })}
                 </div>
             </div>
@@ -186,8 +199,7 @@ const Scene = () => {
                 <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_mix_right.png" />
                 <div className="chara_item_list">
                     {toys?.map(toy => {
-                        let species = toy._DNA.substring(4, 7);
-                        return <div onClick={e => moveDetail(toy._id)} key={toy._id} className="chara_item"><ToyImage dna={toy._DNA} species={species}/></div>
+                        return <div onClick={e => moveDetail(toy._id)} key={toy._id} className="chara_item"><ToyImage dna={toy._DNA} species={toy._DNA.substring(4, 7)}/></div>
                     })}
                 </div>
                 
