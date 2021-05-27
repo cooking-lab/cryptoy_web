@@ -63,7 +63,7 @@ const AuctionAbout = ({match}) => {
     const BuyOnClick = async() => {
         if(user?.coin < toy?.market.goalPrice){
             alert("코인이 부족합니다.");
-            window.reload();
+            window.location.reload();
         }
         let ok = window.confirm(`바로 구매가 진행됩니다. 진행하시겠습니까?`);
         if(ok) {
@@ -82,7 +82,6 @@ const AuctionAbout = ({match}) => {
                     alert("구매가 완료되었습니다. 마이룸에서 확인해주세요!");
                     window.reload();
                 }
-
             });
                 // await dispatch(updateMarket(data))
                 // .then((res) => {
