@@ -29,7 +29,7 @@ const auctionSchema = new mongoose.Schema({
             partialFilterExpression: { deadline: { $lt : moment()} },
         }
     },
-    goalPrice : {
+    initPrice : {
         type : Number,
         required : true
     },
@@ -61,7 +61,8 @@ const rentalSchema = new mongoose.Schema({
     },
     rentalDuration : {
         type : Number,
-        default : 1
+        default : 1,
+        required : true,
     },
     deadline : {
         type : Date,

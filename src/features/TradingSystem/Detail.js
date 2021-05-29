@@ -220,7 +220,7 @@ const AuctionAbout = ({match}) => {
                                 <div className="character-auctionData">
                                     <div className="character-price character-goalPrice">
                                         <div>가격</div>
-                                        <div>{toy?.market.goalPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
+                                        <div>{toy?.market.initPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
                                     </div>
                                     {/* <div className="character-price character-currentPrice">
                                         <div>현재 가격</div>

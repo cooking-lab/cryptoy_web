@@ -60,7 +60,7 @@ const AuctionRegister = ({match}) => {
                     type: marketType,
                     toyId: selectedToy.id,
                     deadline,
-                    goalPrice: bPrice
+                    initPrice: bPrice
                 }
             } else {
                 alert("필수정보를 입력해주세요.");
@@ -75,7 +75,6 @@ const AuctionRegister = ({match}) => {
                     toyId: selectedToy.id,
                     deadline,
                     initPrice: bPrice,
-                    rentalDuration
                 }
             } else {
                 alert("필수정보를 입력해주세요.");
@@ -90,7 +89,7 @@ const AuctionRegister = ({match}) => {
                     console.log(res);
                     if (res.payload.status === 200) {
                         alert("등록되었습니다.");
-                        history.push('/auction/' + selectedToy._id);
+                        history.push('/auction/' + selectedToy.id);
                     } else {
                         alert("등록 실패");
                         history.push('/auction');
@@ -121,7 +120,7 @@ const AuctionRegister = ({match}) => {
                 <div className="register-toy">
                     <div className="selectedToy">
                         {selectedToy ? (
-                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy._DNA} species={selectedToy._DNA.substring(4,7)} /></div>
+                            <div className="myToyImage seletedToyImage"><ToyImage dna={selectedToy.dna} species={selectedToy.dna.substring(4,7)} /></div>
                         ) : (
                             <button onClick={selectedBtnOnClick} className="selectedBtn">Click</button>
                         )}
@@ -151,7 +150,7 @@ const AuctionRegister = ({match}) => {
                                                 step="0.1"
                                                 defaultValue={minPrice}
                                                 label="판매 가격"    
-                                                onChange={e => setMinPrice(e.target.value)}
+                                                onChange={e => setBPrice(e.target.value)}
                                             />
                                             {/* <TextField
                                                 className={classes.textfiled}
