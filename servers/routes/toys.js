@@ -39,7 +39,8 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/owners/:userId', (req, res) => {
-    Toy.find({ ownerId: req.params.userId, market: null }, (err, toy) => {
+    Toy.find({ ownerId: req.params.userId }).populate('market').exec((err, toy) => {
+        console.log(toy);
         res.send(toy);
     })
 })
@@ -78,6 +79,7 @@ router.put('/markets/update/:toyId', (req, res) => {
 })
 
 router.post('/markets/register', (req, res) => {
+    console.log(req.body);
     Toy.findOne({ id: req.body.toyId })
         .then(toy => {
             let newMarket;

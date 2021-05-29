@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "css/AuctionRegister.css";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
@@ -6,15 +6,13 @@ import ToyImage from "features/TradingSystem/ToyImage";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAllOwnerToysNotMarket, addMarket } from "features/Toy/ToysSlice";
 import { makeStyles, TextField } from "@material-ui/core";
+import { getUserToys, getUserToysNotMarket } from "features/Login/UserSlice";
 // import { addMarket, getMarkets } from "features/TradingSystem/MarketsSlice";
 
 const AuctionRegister = ({match}) => {
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch();
-    // const marketStatus = useSelector((state) => state.markets.status);
-    //const userToys = useSelector((state) => selectAllOwnerToysNotMarket(state, userId));
-    const userToys = user?.characterList;
-   // const [isSelected, setIsSelected] = useState(false);
+    const userToys = useSelector((state) => getUserToysNotMarket(state));
     const [isPopUp, setIsPopUp] = useState(false);
     const [active, setActive] = useState("sale");
     const [bPrice, setBPrice] = useState(null);
@@ -26,18 +24,13 @@ const AuctionRegister = ({match}) => {
     const history = useHistory();
     const [rentalDuration, setRentalDuration] = useState(null);
 
-    // useEffect(() => {
-    //     if(marketStatus === 'idle')
-    //         dispatch(getMarkets());
-    // }, [dispatch, marketStatus])
+    useEffect(() => {
+        dispatch(getUserToys(user?.id));
+        console.log(userToys);
+    }, [user])
 
     const selectedBtnOnClick = () => {
         setIsPopUp(true);
-    }
-
-    const selectedPopupBtnOnClick = (toy) => {
-        setIsPopUp(false);
-        setSelectedToy(toy);
     }
 
     const toggle = (position) => {
@@ -61,14 +54,12 @@ const AuctionRegister = ({match}) => {
         }
         let data;
         if (marketType === 'sale') {
-            if (bPrice && minPrice) {
+            if (bPrice) {
                 data = {
                     regiNum: new Date().getTime().toString(16),
                     type: marketType,
                     toyId: selectedToy.id,
                     deadline,
-                    initPrice: minPrice,
-                    currentPrice: minPrice,
                     goalPrice: bPrice
                 }
             } else {
@@ -81,7 +72,7 @@ const AuctionRegister = ({match}) => {
                 data = {
                     regiNum: new Date().getTime().toString(16),
                     type: marketType,
-                    toyId: selectedToy._id,
+                    toyId: selectedToy.id,
                     deadline,
                     initPrice: bPrice,
                     rentalDuration
@@ -99,7 +90,6 @@ const AuctionRegister = ({match}) => {
                     console.log(res);
                     if (res.payload.status === 200) {
                         alert("등록되었습니다.");
-
                         history.push('/auction/' + selectedToy._id);
                     } else {
                         alert("등록 실패");
@@ -124,7 +114,7 @@ const AuctionRegister = ({match}) => {
             <div className={isPopUp ? "seletedPopup display_block" : "seletedPopup display_hidden"}>
             <div onClick={e => setIsPopUp(false)} className="cancel"><i className="fas fa-times"></i></div>
                 <div className="myToysList">
-                    {userToys?.map(toy => { return <div key={toy.id} onClick={() => {setSelectedToy(toy); setIsPopUp(false);}} className="myToyImage"><ToyImage dna={toy._DNA} species={toy._DNA.substring(4,7)} /></div> })}
+                    {userToys?.map(toy => { return <div key={toy.id} onClick={() => {setSelectedToy(toy); setIsPopUp(false);}} className="myToyImage"><ToyImage dna={toy.dna} species={toy.dna.substring(4,7)} /></div> })}
                 </div>
             </div>
             <div className="AuctionRegister-content">

@@ -1,16 +1,55 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "css/Scene.css";
 import ToyImage from "features/TradingSystem/ToyImage";
 import axios from "axios";
+import { getUserToys, getUserToysNotMarket } from "features/Login/UserSlice";
 
 const Scene = () => {
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
-    const toys = user?.characterList;
+    const toysNotMarket = useSelector((state) => getUserToysNotMarket(state));
+    const toys = useSelector((state) => state.user.toys);
     const [channel, setChannel] = useState(0); // 0 : mixzone, 1 : shop, 2 : room
     const [sellFirst, setSellFirst] = useState();
     const [sellSecond, setSellSecond] = useState();
     const [sellThird, setSellThird] = useState();
+
+    // 게임에 대한 변수
+    const [gameStatus, setGameStatus] = useState('start');
+    const [timer, setTimer] = useState(0);
+    const [score, setScore] = useState(0);
+
+    let gameDir;
+    if(gameStatus === 'start'){
+        gameDir = <div className="startButton"><p onClick={e => {setGameStatus('ongoing'); setTimer(2);}} >START</p></div>
+    }else if(gameStatus === 'ongoing') {
+        gameDir = <></>
+    }else if(gameStatus === 'gameover') {
+        gameDir = <div className="gameover">
+            <p>GAMEOVER</p>
+            <p>{score}</p>
+            <p>상위 1%</p>
+            <p onClick={e => setGameStatus('start')}>다시하기</p>
+            </div>
+    }
+
+    useEffect(() => {
+        if(timer > 0) {
+            const counter = setInterval(() => {
+                setTimer(prev => prev - 1);
+            }, 1000);
+            return () => clearInterval(counter);
+        }
+        if(timer === 0 && gameStatus === 'ongoing') {
+            setGameStatus('gameover');
+        }
+    }, [timer])
+
+    
+    useEffect(() => {
+        dispatch(getUserToys(user?.id));
+    }, [user])
 
     const uiBtnOnClick = (ch) => {
         setChannel(ch);
@@ -120,6 +159,13 @@ const Scene = () => {
                 <img className="customer_img" src="/img/background_shop/bg_shop_chara1.png" />
                 <img className="message_box" src="/img/background_shop/bg_shop_sbubble.png" />
                 <img className="bell_img" src="/img/background_shop/bg_shop_bell.png" />
+                {gameDir}
+                <div className="gameScore">
+                    {score}
+                </div>
+                <div className="gameTimer">
+                    남은 시간 : {timer}
+                </div>
                 <div className="selling_toys">
                 { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
                     {sellFirst ? (
@@ -176,8 +222,8 @@ const Scene = () => {
             <div className="basic_bg simple_shelf" style={{backgroundImage:`url("/img/background_shelf/bg_shelf_final.png")`, backgroundSize:'cover'}} >
                 <div onClick={e => setSelect(false)} className="cancel"><i className="fas fa-times"></i></div>
                 <div className="chara_item_list">
-                    {toys?.filter(toy => !except.includes(toy._id)).map(toy => {
-                        return <div key={toy._id} onClick={e => {setChar({id : toy._id, dna : toy._DNA}); setSelect(false);}} className="chara_item"><ToyImage dna={toy._DNA} species={toy._DNA.substring(4,7)}/></div>
+                    {toysNotMarket?.filter(toy => !except.includes(toy._id)).map(toy => {
+                        return <div key={toy.id} onClick={e => {setChar(toy); setSelect(false);}} className="chara_item"><ToyImage dna={toy.dna} species={toy.dna.substring(4,7)}/></div>
                     })}
                 </div>
             </div>
@@ -199,7 +245,7 @@ const Scene = () => {
                 <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_mix_right.png" />
                 <div className="chara_item_list">
                     {toys?.map(toy => {
-                        return <div onClick={e => moveDetail(toy._id)} key={toy._id} className="chara_item"><ToyImage dna={toy._DNA} species={toy._DNA.substring(4, 7)}/></div>
+                        return <div onClick={e => moveDetail(toy.id)} key={toy.id} className="chara_item"><ToyImage dna={toy.dna} species={toy.dna.substring(4, 7)}/></div>
                     })}
                 </div>
                 
