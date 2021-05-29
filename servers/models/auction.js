@@ -29,14 +29,6 @@ const auctionSchema = new mongoose.Schema({
             partialFilterExpression: { deadline: { $lt : moment()} },
         }
     },
-    initPrice : {
-        type : Number,
-        required : true
-    },
-    currentPrice : {
-        type : Number,
-        required : true
-    },
     goalPrice : {
         type : Number,
         required : true

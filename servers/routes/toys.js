@@ -78,8 +78,10 @@ router.put('/markets/update/:toyId', (req, res) => {
 })
 
 router.post('/markets/register', (req, res) => {
+    console.log(req.body.toyId);
     Toy.findOne({ id: req.body.toyId })
         .then(toy => {
+            console.log(toy);
             let newMarket;
             if(req.body.type === 'sale'){
                 newMarket = new Auction(req.body);
@@ -116,6 +118,7 @@ router.post('/markets/transaction/:id', (req, res) => {
             const rentTimer = setTimeout(() => {
                 gm.sendCharacterSync(data.to, data.from, req.params.id);
                 console.log("원래 주인에게 캐릭터가 돌아갔습니다.");
+                
             }, 1000 * 60);
             Auction.deleteOne({regiNum : req.params.id})
             .then(() => {
