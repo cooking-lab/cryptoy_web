@@ -62,9 +62,9 @@ const toysSlice = createSlice({
             state.error = action.payload;
         },
         [addMarket.fulfilled] : (state, action) => {
-            const newAuction = action.payload;
-            const exToy = state.toys.find(toy => toy.id === newAuction.data.toyId);
-            exToy.market = newAuction.data;
+            // const newAuction = action.payload;
+            // const exToy = state.toys.find(toy => toy.id === newAuction.data.toyId);
+            // exToy.market = newAuction.data;
             state.status = 'idle';
         },
         [addMarket.rejected] : (state, action) => {

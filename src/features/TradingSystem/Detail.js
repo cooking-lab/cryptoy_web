@@ -101,6 +101,7 @@ const AuctionAbout = ({match}) => {
     }
     
     const RentalOnClick = async() => {
+
         let ok = window.confirm("대여하시겠습니까?");
         if(ok) {
             const data = {
@@ -155,7 +156,7 @@ const AuctionAbout = ({match}) => {
               },
         },
         rentalButton : {
-            padding : "10px 150px",
+            padding : "10px 140px",
             fontSize : "16px",
             fontWeight : "bold",
             backgroundColor : "#f2b591",
