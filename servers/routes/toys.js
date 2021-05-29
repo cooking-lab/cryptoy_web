@@ -78,10 +78,8 @@ router.put('/markets/update/:toyId', (req, res) => {
 })
 
 router.post('/markets/register', (req, res) => {
-    console.log(req.body.toyId);
     Toy.findOne({ id: req.body.toyId })
         .then(toy => {
-            console.log(toy);
             let newMarket;
             if(req.body.type === 'sale'){
                 newMarket = new Auction(req.body);

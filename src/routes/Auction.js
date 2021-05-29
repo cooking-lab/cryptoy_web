@@ -9,10 +9,16 @@ import { CircularProgress, makeStyles, Slider } from '@material-ui/core';
 
 const Auction = () => {
     const dispatch = useDispatch();
-    const toys = useSelector(selectAllFilteredToys);
+    let toys = useSelector((state) => state.toys.toys);
+    const filteredToys = useSelector(selectAllFilteredToys);
     //const marketStatus = useSelector((state) => state.markets.status);
     const toysStatus = useSelector((state) => state.toys.status);
     const error = useSelector((state) => state.toys.error);
+    const [onFilter, setOnFilter] = useState(false);
+
+    if(onFilter) {
+        toys = filteredToys;
+    }
 
     useEffect(() => {
         if(toysStatus === 'idle'){
@@ -129,7 +135,7 @@ const Auction = () => {
             filterPrice
         }
         dispatch(updateFilteredToys(data));
-        
+        setOnFilter(true);
     }
 
     const useStyle = makeStyles({

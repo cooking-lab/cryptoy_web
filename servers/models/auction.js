@@ -37,9 +37,6 @@ const auctionSchema = new mongoose.Schema({
         type : Boolean,
         required : true,
         default : true
-    },
-    currentUser : {
-        type : String
     }
 });
 
@@ -64,7 +61,7 @@ const rentalSchema = new mongoose.Schema({
     },
     rentalDuration : {
         type : Number,
-        required : true
+        default : 1
     },
     deadline : {
         type : Date,
