@@ -24,7 +24,7 @@ const AuctionItem = ({item}) => {
                     )
                     }
                 <div className="item-img">
-                    <ToyImage dna={item.dna} species={item.species} />
+                    <ToyImage dna={item.dna} species={item.dna.substring(4,7)} />
                 </div>
             </div>   
             <div className="item-info">

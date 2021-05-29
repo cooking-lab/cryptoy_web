@@ -1,0 +1,73 @@
+*{margin: 0px; padding: 0px;}
+.home_button{border: 0; padding: 0; position: absolute; background-color: rgba( 255, 255, 255, 0 );}
+
+.scene{width: 640px; height: 360px; position: relative; top: 0px; left: 0px;}
+.canv{width:640px; height:360px;}
+
+/*shop scene components*/
+#ShopScene{display: none; }
+/*#ShopCanvas{background-image: url("/img/background_shop/bg_shop.png"); background-size:cover; }
+#customer{height: 90px; width: 90px; background-image: url("./resource/background_shop/bg_shop_chara1.png");background-size: cover; position: absolute; top:170px; left: 150px;}
+#sbubble{width: 150px; height: 50px; background-image: url("./resource/background_shop/bg_shop_sbubble.png");background-size: cover; position: absolute; top:140px; left: 220px;} */
+.cpart{width: 40px; height: 40px; top:10px; background-size: cover; position: absolute;}
+/* #part1{left:25px; background-image: url("./resource/chara_doll100/mat1/0001.png");}	
+#part2{left:65px; background-image: url("./resource/chara_doll100/mat1/0001.png");}	
+#part3{left:105px; background-image: url("./resource/chara_doll100/mat1/0001.png");}	 */
+.gamebox{width: 100px; height: 100px; position: absolute;}
+.gamebox>img{position: absolute; top: 0px; left: 0px; width: 100px; height: 100px; margin: 0px;}
+#Gbox1{top:185px; left: 110px;}
+#Gbox2{top:185px; left: 210px;}
+#Gbox3{top:185px; left: 310px;}
+
+/*mix scene components*/
+#MixScene{display: block;}
+/* #MixCanvas{background-image: url("./resource/background_mix/bg_mix.png"); background-size: cover; } */
+.charabox{width: 100px; height: 100px; position: absolute; }
+.charabox>img{position: absolute; top: 0px; left: 0px; width: 100px; height: 100px; margin: 0px;}
+#Mbox{display: none; top: 70px; left: 175px;}
+#Fbox{display: none; top: 80px; left: 382px;}
+#Nbox{display: none; top: 250px; left: 110px;}
+
+.ChooseButton{width: 50px; height: 50px; }
+.ChooseButton>img{width: 50px; height: 50px;}
+#MChooseButton{top: 100px; left: 200px; }
+#FChooseButton{top: 110px; left: 410px;}
+
+#MixButton{width: 50px; height:50px; top:240px;left: 295px;}
+#MixButtonimg{width: 50px; height:50px; }
+
+#ChoosePopUp{width: 300px; height: 300px; background-color: #FFEA6F; position: absolute; top: 50px; left:170px; display: none; text-align: center; border-radius: 10px;}
+#ChoosePopUp>p{font-size: 10px;}
+#ChoosePopUp>div>img{position: absolute; top: 0px; left: 0px; width: 130px; height: 130px; margin: 0px;}
+#box1{position: absolute; top: 10px; left:10px; width: 130px; height: 130px;}
+#box2{position: absolute; top: 10px; left:160px; width: 130px; height: 130px;}
+#box3{position: absolute; top: 140px; left:10px; width: 130px; height: 130px;}
+#box4{position: absolute; top: 140px; left:160px; width: 130px; height: 130px;}
+#ChoosePopUp>button{width: 50px; position: relative; top: 265px;}
+
+/*shelf scene components*/
+#ShelfScene{display: none; position: relative; text-align: center;}
+/* #ShelfCanvas{background-image: url("./resource/background_shelf/bg_shelf_final.png"); background-size: cover; } */
+.shelfbox{width: 100px; height: 100px; position: absolute; top:0px; left: 0px;}
+.shelfbox>img{position: absolute; top: 0px; left: 0px; width: 100px; height: 100px; margin: 0px;}
+#ShelfLeft{left:110px;top: 320px;font-size: 30px;}
+#ShelfRight{left:500px; top: 320px;font-size: 30px;}
+
+#SelectionButton{top:335px; font-size: 15px; line-height: 15px;}
+#SelectionPopUp{width: 380px; height: 160px; background-color: #FFEA6F; position: absolute; top: 120px; left:130px; display: none;text-align: center; border-radius: 10px;}
+#SelectionPopUp>p{font-size: 10px;}
+#SelectionPopUp>div>img{position: absolute; top: 0px; left: 0px; width: 120px; height: 120px; margin: 0px;}
+#Pbox1{position: absolute; top: 10px; left:10px; width: 120px; height: 120px;}
+#Pbox2{position: absolute; top: 10px; left:130px; width: 120px; height: 120px;}
+#Pbox3{position: absolute; top: 10px; left:250px; width: 120px; height: 120px;}
+#SelectionPopUp>button{width: 50px; position: relative; top: 130px;}
+
+/*arrows*/
+.arrowButton{width: 50px; height:50px; top: 300px; }
+.arrowButton>img{width: 50px; height: 50px; margin: 0; }
+#arrow_shop_right{left: 580px;}
+#arrow_shop_left{left: 10px;}
+#arrow_shelf_right{left: 580px;}
+#arrow_shelf_left{left: 10px;}
+#arrow_mix_right{left: 580px;}
+#arrow_mix_left{left: 10px;}

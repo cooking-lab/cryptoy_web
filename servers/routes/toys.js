@@ -21,9 +21,9 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.1.2.jar'));
-const DBClass = java.import('manager.GameManager');
-const gm = new DBClass();
+java.classpath.push(path.resolve('./lib/ver0.1.4.jar'));
+let DBClass = java.import('manager.GameManager');
+let gm = new DBClass();
 
 router.get('/', (req, res) => {
     Toy.find().populate('market').exec((err, toy) => {
@@ -38,11 +38,11 @@ router.get('/:id', (req, res) => {
     })
 });
 
-// router.get('/owners/:userId', (req, res) => {
-//     Toy.find({ ownerId: req.params.userId, market: false }, (err, toy) => {
-//         res.send(toy);
-//     })
-// })
+router.get('/owners/:userId', (req, res) => {
+    Toy.find({ ownerId: req.params.userId, market: null }, (err, toy) => {
+        res.send(toy);
+    })
+})
 
 router.put('/markets/update/:toyId', (req, res) => {
     if(req.body.marketType === 'sale'){
@@ -109,13 +109,23 @@ router.post('/markets/transaction/:id', (req, res) => {
             })
         }
     }else if(data.marketType === 'rental'){
-
+        gm.testFunctionSync(); // 테스트 코드
+        const ret = gm.sellCharacterSync(data.from, data.to, data.price, req.params.id);
+        if(ret) {
+            // 거래 완료 + 타이머 설정
+            const rentTimer = setTimeout(() => {
+                gm.sendCharacterSync(data.to, data.from, req.params.id);
+                console.log("원래 주인에게 캐릭터가 돌아갔습니다.");
+                
+            }, 1000 * 60);
+            Auction.deleteOne({regiNum : req.params.id})
+            .then(() => {
+                res.send('OK');
+            })
+        }
     }
 })
 
-/******************Breeding java에서 오류********************/
-/******************Breeding java에서 오류********************/
-/******************Breeding java에서 오류********************/
 router.post("/breeding", (req, res) => {
     const babyId = gm.doBreedingSync(req.body.userId, req.body.mamaId, req.body.papaId);
     const response = JSON.parse(babyId);

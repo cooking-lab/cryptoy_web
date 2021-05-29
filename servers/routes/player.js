@@ -7,7 +7,7 @@ const auth = require('../lib/auth');
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.1.2.jar'));
+java.classpath.push(path.resolve('./lib/ver0.1.4.jar'));
 let DBClass = java.import('manager.GameManager');
 let gm = new DBClass();
 
@@ -75,7 +75,15 @@ router.post('/signup', (req, res) => {
 // checkid
 router.post('/checkid', (req, res) => {
     console.log("check id");
-    const data = Players.findOne({id:req.body.id}).exec((err, user) => {
+    console.log(req.body.id);
+    // Players.findById(req.body.id, (err, user) => {
+    //     console.log(user);
+    //     res.send(user);
+    // });
+    Players.findOne({
+        'Players.id':req.body.id
+    }).exec((err, user) => {
+        console.log(user);
         res.send(user);
     });
 });
@@ -144,27 +152,24 @@ router.get('/', (req, res) => {
     }
 });
 
-// 프로필 정보 변경
-/*******************업데이트안돼!!!!!!!************* */
-router.post('/profile/:id', (req, res) => {
+router.post('/profile', async (req, res) => {
     const data = req.body;
-    console.log("테스트 : ", req.params.id);
-    Players.findOne({
-        'Players.id' : req.params.id
-    }).exec((err, player) => {
+    console.log("테스트 : ", req.body);
+
+    const filter = {'Players.id' : req.body.id};
+    const update = {
+        'Players.password': req.body.password,
+        'Players.nickname': req.body.nickname,
+        'Players.introduction': req.body.introduction
+    };
+
+    await Players.findOneAndUpdate(filter, update, {new:true}, (err) => {
         if(err) throw err;
-        console.log("parse 실행 전", player.players.id);
-        let object = JSON.stringify(player);
-        let jsonData = JSON.parse(object);
-        console.log("mongoDB 리턴 결과 : ", jsonData.Players);
-        let findId = JSON.stringify(jsonData.Players);
-        let findIdJson = JSON.parse(findId);
-        console.log("최종 ID : ", findIdJson.wallet.publicKey);
-        
-        // if(player) {
-        //     console.log(player.);
-        // }
-    })
+        else{
+            console.log("profile update fin");
+            return res.status(200).send("fin");
+        }
+    });
 })
 
 module.exports = router;

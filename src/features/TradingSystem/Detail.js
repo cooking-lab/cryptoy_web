@@ -63,7 +63,7 @@ const AuctionAbout = ({match}) => {
     const BuyOnClick = async() => {
         if(user?.coin < toy?.market.goalPrice){
             alert("코인이 부족합니다.");
-            window.reload();
+            window.location.reload();
         }
         let ok = window.confirm(`바로 구매가 진행됩니다. 진행하시겠습니까?`);
         if(ok) {
@@ -82,7 +82,6 @@ const AuctionAbout = ({match}) => {
                     alert("구매가 완료되었습니다. 마이룸에서 확인해주세요!");
                     window.reload();
                 }
-
             });
                 // await dispatch(updateMarket(data))
                 // .then((res) => {
@@ -102,23 +101,35 @@ const AuctionAbout = ({match}) => {
     }
     
     const RentalOnClick = async() => {
+
         let ok = window.confirm("대여하시겠습니까?");
         if(ok) {
             const data = {
                 toyId,
                 marketType : "rental",
-                rentalUser : "admin"
+                price : toy?.market.initPrice,
+                to : user.id,
+                from : toy?.ownerId
             }
-            await dispatch(updateMarket(data))
+            // 빌리는 로직 추가
+            await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
             .then(res => {
-                if(res.payload.status === 200){
-                    alert("장난감을 빌렸습니다! 마이룸에서 확인해 주세요.");
-                    window.location.reload();
-                }else{
-                    alert("실패했습니다.");
+                setDimmed(false);
+                if(res.data){
+                    alert("장난감을 빌렸습니다! 마이룸에서 확인해주세요!");
                     window.location.reload();
                 }
             });
+            // await dispatch(updateMarket(data))
+            // .then(res => {
+            //     if(res.payload.status === 200){
+            //         alert("장난감을 빌렸습니다! 마이룸에서 확인해 주세요.");
+            //         window.location.reload();
+            //     }else{
+            //         alert("실패했습니다.");
+            //         window.location.reload();
+            //     }
+            // });
             
         }
     }
@@ -145,7 +156,7 @@ const AuctionAbout = ({match}) => {
               },
         },
         rentalButton : {
-            padding : "10px 150px",
+            padding : "10px 140px",
             fontSize : "16px",
             fontWeight : "bold",
             backgroundColor : "#f2b591",
@@ -187,7 +198,7 @@ const AuctionAbout = ({match}) => {
                     </div>
                     <div className="auction-head">
                         <div className="character-img">
-                            {toy && <ToyImage dna={toy.dna} species={toy.species}/>}
+                            {toy && <ToyImage dna={toy.dna} species={toy.dna.substring(4,7)}/>}
                         </div>
                         
                         {toy?.market ? 
@@ -209,7 +220,7 @@ const AuctionAbout = ({match}) => {
                                 <div className="character-auctionData">
                                     <div className="character-price character-goalPrice">
                                         <div>가격</div>
-                                        <div>{toy?.market.goalPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
+                                        <div>{toy?.market.initPrice} <span style={{ fontSize: "16px" }}>YAM</span></div>
                                     </div>
                                     {/* <div className="character-price character-currentPrice">
                                         <div>현재 가격</div>

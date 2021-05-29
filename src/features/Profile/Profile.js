@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import "css/Profile.css";
-import axios from "axios";
 import { useSelector } from 'react-redux';
 
 const Profile = () => {
