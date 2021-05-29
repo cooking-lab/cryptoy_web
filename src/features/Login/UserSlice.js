@@ -32,6 +32,6 @@ const userSlice = createSlice({
     }
 })
 
-export const getUserToysNotMarket = (state) => state.user.toys.filter(toy => toy.market === null);
+export const getUserToysNotMarket = (state) => state.user.toys.filter(toy => toy.market === null || toy.market === undefined);
 
 export default userSlice.reducer;

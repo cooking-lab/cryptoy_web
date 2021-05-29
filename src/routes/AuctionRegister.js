@@ -60,7 +60,7 @@ const AuctionRegister = ({match}) => {
                     type: marketType,
                     toyId: selectedToy.id,
                     deadline,
-                    goalPrice: bPrice
+                    initPrice: bPrice
                 }
             } else {
                 alert("필수정보를 입력해주세요.");
@@ -75,7 +75,6 @@ const AuctionRegister = ({match}) => {
                     toyId: selectedToy.id,
                     deadline,
                     initPrice: bPrice,
-                    rentalDuration
                 }
             } else {
                 alert("필수정보를 입력해주세요.");
