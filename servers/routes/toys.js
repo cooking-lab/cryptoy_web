@@ -131,7 +131,7 @@ router.post("/breeding", (req, res) => {
     const babyId = gm.doBreedingSync(req.body.userId, req.body.mamaId, req.body.papaId);
     const response = JSON.parse(babyId);
     console.log(response);
-    if(response.map.status != 200){
+    if(response.map.status !== 200){
         res.send(response.map);
     }else{
         Toy.findOne({id : response.map.baby._id}).populate('market').exec((err, toy) => {
