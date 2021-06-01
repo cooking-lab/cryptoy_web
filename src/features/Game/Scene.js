@@ -103,7 +103,7 @@ const Scene = () => {
         if(timer === 0 && gameStatus === 'ongoing'){
             setGameStatus('gameover');
         }
-    }, [timer])
+    }, [timer, gameStatus])
 
     const startBtnOnClick = () => {
         setScore(0);
