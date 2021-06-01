@@ -21,7 +21,7 @@ const Rental = Base.discriminator("Rental", rentalSchema);
 const path = require("path");
 const java = require("java");
 
-java.classpath.push(path.resolve('./lib/ver0.1.3.jar'));
+java.classpath.push(path.resolve('./lib/ver0.1.4.jar'));
 let DBClass = java.import('manager.GameManager');
 let gm = new DBClass();
 
@@ -39,8 +39,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/owners/:userId', (req, res) => {
-    Toy.find({ ownerId: req.params.userId }).populate('market').exec((err, toy) => {
-        console.log(toy);
+    Toy.find({ ownerId: req.params.userId, market: null }, (err, toy) => {
         res.send(toy);
     })
 })
@@ -79,7 +78,6 @@ router.put('/markets/update/:toyId', (req, res) => {
 })
 
 router.post('/markets/register', (req, res) => {
-    console.log(req.body);
     Toy.findOne({ id: req.body.toyId })
         .then(toy => {
             let newMarket;
@@ -118,6 +116,7 @@ router.post('/markets/transaction/:id', (req, res) => {
             const rentTimer = setTimeout(() => {
                 gm.sendCharacterSync(data.to, data.from, req.params.id);
                 console.log("원래 주인에게 캐릭터가 돌아갔습니다.");
+                
             }, 1000 * 60);
             Auction.deleteOne({regiNum : req.params.id})
             .then(() => {
