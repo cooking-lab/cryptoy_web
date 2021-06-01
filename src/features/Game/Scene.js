@@ -10,11 +10,17 @@ const Scene = () => {
     const user = useSelector((state) => state.user.user);
     const toysNotMarket = useSelector((state) => getUserToysNotMarket(state));
     const toys = useSelector((state) => state.user.toys);
+
     const [channel, setChannel] = useState(0); // 0 : mixzone, 1 : shop, 2 : room
     const [sellFirst, setSellFirst] = useState();
     const [sellSecond, setSellSecond] = useState();
     const [sellThird, setSellThird] = useState();
     const [gameDir, setGameDir] = useState();
+
+
+    // 마이룸에 캐릭터를 띄울 페이지
+    const [pageNum, setPageNum] = useState(0);
+    const [myRoomCharacterList, setMyRoomCharacterList] = useState();
 
     // 게임에 대한 변수
     const [gameStatus, setGameStatus] = useState('start');
@@ -206,6 +212,15 @@ const Scene = () => {
         }
     }
 
+    useEffect(() => {
+        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
+    }, [toys])
+
+    useEffect(() => {
+        console.log(pageNum);
+        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
+    }, [pageNum])
+
     const uiBtnOnClick = (ch) => {
         setChannel(ch);
     }
@@ -379,19 +394,31 @@ const Scene = () => {
                 window.location.href = "/auction/"+toyId;
             }
         }
+
+        const previousPage = () => {
+            if(pageNum - 1 < 0) setPageNum(0);
+            else setPageNum(pageNum - 1);
+        }
+
+        const nextPage = () => {
+            if((pageNum + 1) * 6 < toys.length) setPageNum(pageNum + 1);
+            else setPageNum(pageNum);
+        }
+
         return (
             <>
             <div className="basic_bg" style={{backgroundImage:`url("/img/background_shelf/bg_shelf_final.png")`, backgroundSize:'cover'}}>
                 <img onClick={e=> uiBtnOnClick(1)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_shop_left.png" />
                 <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_mix_right.png" />
                 <div className="chara_item_list">
-                    {toys?.map(toy => {
+                    {myRoomCharacterList?.map(toy => {
                         return <div onClick={e => moveDetail(toy.id)} key={toy.id} className="chara_item">
-                                <ToyImage dna={toy.dna} species={toy.dna.substring(4, 7)}/>
-                            </div>
+                        <ToyImage dna={toy.dna} species={toy.dna.substring(4, 7)}/>
+                    </div>  
                     })}
-                </div>
-                
+                </div>                
+                <button id="previous_page" onClick={previousPage}>이전 페이지로</button>
+                <button id="next_page" onClick={nextPage}>다음 페이지로</button>
             </div>
             </>            
         )

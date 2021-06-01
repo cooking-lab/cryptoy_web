@@ -80,7 +80,7 @@ const AuctionAbout = ({match}) => {
                 setDimmed(false);
                 if(res.data){
                     alert("구매가 완료되었습니다. 마이룸에서 확인해주세요!");
-                    window.reload();
+                    window.location.reload();
                 }
             });
                 // await dispatch(updateMarket(data))
@@ -116,6 +116,7 @@ const AuctionAbout = ({match}) => {
             .then(res => {
                 setDimmed(false);
                 if(res.data){
+                    console.log(res.data);
                     alert("장난감을 빌렸습니다! 마이룸에서 확인해주세요!");
                     window.location.reload();
                 }
