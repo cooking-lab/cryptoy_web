@@ -71,7 +71,7 @@ const AuctionAbout = ({match}) => {
             const data = {
                 toyId,
                 marketType : "sale",
-                price : toy?.market.goalPrice,
+                price : toy?.market.initPrice,
                 to : user.id,
                 from : toy?.ownerId
             };
@@ -216,7 +216,7 @@ const AuctionAbout = ({match}) => {
                                             disabled={!isOnTime}
                                         /> */}
                                         <Button disabled={!isOnTime} onClick={BuyOnClick} className={classes.rentalButton} variant="contained">바로 구매</Button>
-                                    </div>
+                                    </div>  
                                 <div className="character-auctionData">
                                     <div className="character-price character-goalPrice">
                                         <div>가격</div>
@@ -295,10 +295,7 @@ const AuctionAbout = ({match}) => {
                                 </ul>
                             </div>    
                         </div>
-                        <div className="toy-stat">
-                            <h1>Stat</h1>
-                            <div>toy-stat</div>
-                        </div>
+                        
                         <div className="toy-family">
                             <h1>Family</h1>
                             <div className="family">
@@ -310,7 +307,7 @@ const AuctionAbout = ({match}) => {
                                     </>
                                 ) : (
                                     <div onClick={e => anotherDetail(mama.id)} className="family-img">
-                                    <ToyImage dna={mama.dna} species={mama.species}/>                       
+                                    <ToyImage dna={mama.dna} species={mama.dna.substring(4, 7)}/>                       
                                     </div>
                                 )
                                 }
@@ -329,7 +326,7 @@ const AuctionAbout = ({match}) => {
                                     </>
                                 ) : (
                                     <div onClick={e => anotherDetail(papa.id)} className="family-img">
-                                    <ToyImage dna={papa.dna} species={papa.species}/>                           
+                                    <ToyImage dna={papa.dna} species={papa.dna.substring(4,7)}/>                           
                                     </div>
                                 )
                                 }

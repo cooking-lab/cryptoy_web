@@ -21,7 +21,11 @@ export const getUserToys = createAsyncThunk('user/getUserToys', async(userId) =>
 const userSlice = createSlice({
     name : 'user',
     initialState,
-    reducers : {},
+    reducers : {
+        postToy : (state, action) => {
+            state.toys.push(action.payload);
+        }
+    },
     extraReducers : {
         [getUser.fulfilled] : (state, action) => {
             state.user = action.payload;
@@ -31,6 +35,8 @@ const userSlice = createSlice({
         }
     }
 })
+
+export const { postToy } = userSlice.actions;
 
 export const getUserToysNotMarket = (state) => state.user.toys.filter(toy => toy.market === null || toy.market === undefined);
 

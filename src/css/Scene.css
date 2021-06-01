@@ -142,15 +142,15 @@
 }
 
 .SceneContainer .selling_not_first {
-    bottom: 110px;
+    bottom: 45px;
     left : 250px;
 }
 .SceneContainer .selling_not_second {
-    bottom: 110px;
+    bottom: 45px;
     left : 370px;
 }
 .SceneContainer .selling_not_third {
-    bottom: 110px;
+    bottom: 45px;
     left : 490px;
 }
 
@@ -226,11 +226,31 @@
     padding : 10px 20px 0 0;
 }
 
+.SceneContainer .missionImgs > img {
+    width: 50px;
+    height: 50px;
+}
+
+.SceneContainer .missionImgs > img:first-child {
+    top : 215px;
+    left : 390px;
+}
+
+.SceneContainer .missionImgs > img:nth-child(2) {
+    top : 215px;
+    left : 440px;
+}
+
+.SceneContainer .missionImgs > img:nth-child(3) {
+    top : 215px;
+    left : 490px;
+}
+
 /************** SHELF ZONE **************/
 .SceneContainer .chara_item_list {
     position: absolute;
     top : 190px;
-    left : 180px;
+    left : 205px;
     display: grid;
     grid-template-columns: repeat(3, 150px);
 }
@@ -258,7 +278,17 @@
 /**************** SIMPLE SHELF **************/
 .SceneContainer .simple_shelf {
     position: absolute;
+    top : 0;
     z-index: 10;
+}
+
+.SceneContainer .chara_item > span {
+    float: right;
+    z-index: 1;
+    background-color: rgba(0,0,0,0.5);
+    padding : 5px;
+    color : white;
+    position : relative;
 }
 
 .SceneContainer .cancel {

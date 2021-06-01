@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "css/Scene.css";
 import ToyImage from "features/TradingSystem/ToyImage";
 import axios from "axios";
-import { getUserToys, getUserToysNotMarket } from "features/Login/UserSlice";
+import { getUserToys, getUserToysNotMarket, postToy } from "features/Login/UserSlice";
 
 const Scene = () => {
     const dispatch = useDispatch();
@@ -14,42 +14,197 @@ const Scene = () => {
     const [sellFirst, setSellFirst] = useState();
     const [sellSecond, setSellSecond] = useState();
     const [sellThird, setSellThird] = useState();
+    const [gameDir, setGameDir] = useState();
 
     // 게임에 대한 변수
     const [gameStatus, setGameStatus] = useState('start');
     const [timer, setTimer] = useState(0);
     const [score, setScore] = useState(0);
+    const [mission, setMission] = useState();
+    const [missionTimer, setMissionTimer] = useState(0);
+    //const [content, setContent] = useState();
+    
 
-    let gameDir;
-    if(gameStatus === 'start'){
-        gameDir = <div className="startButton"><p onClick={e => {setGameStatus('ongoing'); setTimer(2);}} >START</p></div>
-    }else if(gameStatus === 'ongoing') {
-        gameDir = <></>
-    }else if(gameStatus === 'gameover') {
-        gameDir = <div className="gameover">
-            <p>GAMEOVER</p>
-            <p>{score}</p>
-            <p>상위 1%</p>
-            <p onClick={e => setGameStatus('start')}>다시하기</p>
-            </div>
+    const initMission  = () => {
+        const species = ['100', '010', '001'];
+        var mat = [null, null, null];
+        const sp = species[Math.floor(Math.random() * 3)];
+        
+        for(var i=0; i<3; i++) {
+            var matNum = Math.floor(Math.random() * 3)+1; // 1 ~ 3
+            switch (sp) {
+                case '100' : {
+                    // doll
+                    if(matNum === 1) {
+                        mat[matNum-1] = Math.floor(Math.random() * 6).toString(2).padStart(4, '0'); // 0 ~ 5
+                    }else if(matNum === 2) {
+                        const matLists = ['0000', '0001', '0110', '0111'];
+                        mat[matNum-1] = matLists[Math.floor(Math.random() * 4)];
+                    }else if(matNum === 3) {
+                        mat[matNum-1] = Math.floor(Math.random() * 6).toString(2).padStart(4, '0'); // 0 ~ 5
+                    }
+                    break;
+                }
+                case '010' : {
+                    // robot
+                    if(matNum === 1) {
+                        mat[matNum-1] = (Math.floor(Math.random() * 5)+6).toString(2).padStart(4, '0'); // 6 ~ 10
+                    }else if(matNum === 2) {
+                        const matLists = ['0010', '0011', '0100', '0110', '0111'];
+                        mat[matNum-1] = matLists[Math.floor(Math.random() * 5)];
+                    }else if(matNum === 3) {
+                        mat[matNum-1] = (Math.floor(Math.random() * 5)+6).toString(2).padStart(4, '0'); // 6 ~ 10
+                    }
+                    break;
+                }
+                case '001' : {
+                    // car
+                    if(matNum === 1) {
+                        mat[matNum-1] = (Math.floor(Math.random() * 5)+11).toString(2).padStart(4, '0'); // 11 ~ 15
+                    }else if(matNum === 2) {
+                        const matLists = ['0101', '0110', '0111'];
+                        mat[matNum-1] = matLists[Math.floor(Math.random() * 3)];
+                    }else if(matNum === 3) {
+                        mat[matNum-1] = (Math.floor(Math.random() * 5)+11).toString(2).padStart(4, '0'); // 11 ~ 15
+                    }
+                    break;
+                }
+                default : {
+                    
+                }
+            }
+        }
+        
+        let missionData = {
+            species : sp,
+            mats : []
+        };
+
+        for(var i=0; i<3; i++) {
+            if(mat[i]) {
+                const temp = {
+                    num : i+1,
+                    mat : mat[i]
+                };
+                missionData.mats.push(temp);
+            }
+        }
+        setMission(missionData);
+        console.log(missionData);
     }
 
     useEffect(() => {
-        if(timer > 0) {
-            const counter = setInterval(() => {
+        if(timer > 0 && gameStatus === 'ongoing') {
+            const count = setInterval(() => {
                 setTimer(prev => prev - 1);
             }, 1000);
-            return () => clearInterval(counter);
+            return () => clearInterval(count);
         }
-        if(timer === 0 && gameStatus === 'ongoing') {
+        if(timer === 0 && gameStatus === 'ongoing'){
             setGameStatus('gameover');
         }
     }, [timer])
 
+    const startBtnOnClick = () => {
+        setScore(0);
+        setSellFirst(null);
+        setSellSecond(null);
+        setSellThird(null);
+        setGameStatus('ongoing');
+        setTimer(180);
+        setMissionTimer(10);
+        initMission();
+    }
+
+    useEffect(() => {
+        if(gameStatus === 'start'){
+            setGameDir(<div className="startButton"><p onClick={startBtnOnClick}>START</p></div>);
+        }else if(gameStatus === 'ongoing') {
+            setGameDir(<div className="missionImgs">
+                {mission.mats?.map(m => {
+                    return <img src={`/img/game/chara_${mission.species}/mat${m.num}/${m.mat}.png`} />
+                })}
+            </div>)
+        }else if(gameStatus === 'gameover') {
+            setGameDir(<div className="gameover">
+                <p>GAMEOVER</p>
+                <p>{score}</p>
+                <p>상위 1%</p>
+                <p onClick={e => setGameStatus('start')}>다시하기</p>
+                </div>)
+        }
+    }, [gameStatus, mission])
+    
+
+    useEffect(() => {
+        if(missionTimer > 0 && gameStatus === 'ongoing') {
+            const counter = setInterval(() => {
+                setMissionTimer(prev => prev - 1);
+            }, 1000);
+            console.log(missionTimer);
+            return () => clearInterval(counter);
+        }
+        if(missionTimer === 0 && gameStatus === 'ongoing') {
+            if(sellFirst && checkAnswer(sellFirst.dna)){
+                setScore(prev => prev + mission.mats.length * 10);
+            }else if(sellSecond && checkAnswer(sellSecond.dna)) {
+                setScore(prev => prev + mission.mats.length * 10);
+            }else if(sellThird && checkAnswer(sellThird.dna)) {
+                setScore(prev => prev + mission.mats.length * 10);
+            }
+            initMission();
+            setMissionTimer(10);
+        }
+    }, [missionTimer])
     
     useEffect(() => {
         dispatch(getUserToys(user?.id));
     }, [user])
+    
+    const chooseAnswer = (dna) => {
+        let flag = true;
+        if(mission.species === dna.substring(4, 7)) {
+            mission.mats.map(mat => {
+                switch(mat.num) {
+                    case 1 : {
+                        if(mat.mat !== dna.substring(7, 11)){
+                            console.log("hihi");
+                            flag = false;
+                        }
+                        break;
+                    }
+                    case 2 : {
+                        if(mat.mat !== dna.substring(11, 15)) {
+                            console.log("hihi");
+                            flag = false;
+                        }
+                        break;
+                    }
+                    case 3 : {
+                        if(mat.mat !== dna.substring(15, 19)){
+                            console.log("hihi");
+                            flag = false;
+                        }
+                        break;
+                    }
+                }
+            })
+            if(flag) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const checkAnswer = (dna) => {
+        if(chooseAnswer(dna)) {
+            setScore(prev => prev + mission.mats.length * 10);
+            setMissionTimer(10);
+            initMission();
+        }else {
+            alert("틀렸습니다.");
+        }
+    }
 
     const uiBtnOnClick = (ch) => {
         setChannel(ch);
@@ -71,11 +226,11 @@ const Scene = () => {
         const breedingOnClick = async() => {
             if(lChar && rChar) {
                 var avail = true;
-                if(lChar.dna.charAt(3) !== '0') {
+                if(lChar.dna.charAt(2) !== '0') {
                     alert("왼쪽에는 남자를 선택해주세요.");
                     avail = false;
                 }
-                if(rChar.dna.charAt(3) !== '1') {
+                if(rChar.dna.charAt(2) !== '1') {
                     alert("오른쪽에는 여자를 선택해주세요.");
                     avail = false;
                 }
@@ -84,9 +239,10 @@ const Scene = () => {
                     await axios.post("/toys/breeding", {userId : user.id, papaId : lChar.id, mamaId : rChar.id})
                     .then(res => {
                         setDimmed(false);
-                        if(res.status === 200) {
+                        if(res.data.status === 200) {
                             alert("교배가 완료되었습니다.");
                             setBaby(res.data.toy);
+                            dispatch(postToy(res.data.toy));
                         }else{
                             alert(res.data.error);
                         }
@@ -157,6 +313,7 @@ const Scene = () => {
                 <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_mix_left.png" />
                 <img onClick={e=> uiBtnOnClick(2)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shelf_right.png" />
                 <img className="customer_img" src="/img/background_shop/bg_shop_chara1.png" />
+                
                 <img className="message_box" src="/img/background_shop/bg_shop_sbubble.png" />
                 <img className="bell_img" src="/img/background_shop/bg_shop_bell.png" />
                 {gameDir}
@@ -168,48 +325,29 @@ const Scene = () => {
                 </div>
                 <div className="selling_toys">
                 { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
-                    {sellFirst ? (
-                        <>
-                        <div onClick={e=> setSelect(1)} className="selling_item_first selling_item">
-                            <ToyImage dna={sellFirst.dna} species={sellFirst.dna.substring(4,7)} />
-                        </div>
-                        </>
-                    ) : (
-                        <>
-                        <div onClick={e=> setSelect(1)} className="selling_not_first selling_not">
-                            <i  class="fas fa-plus-circle"></i>
-                        </div>
-                        </>
-                    )}
+                    {sellFirst && <div onClick={e => checkAnswer(sellFirst.dna)} className="selling_item_first selling_item">
+                        <ToyImage dna={sellFirst.dna} species={sellFirst.dna.substring(4,7)} />
+                    </div>}
+                    <div onClick={e=> setSelect(1)} className="selling_not_first selling_not">
+                        <i  class="fas fa-plus-circle"></i>
+                    </div>
+                    
                     { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setSellSecond} except={[]}/>}
-                    {sellSecond ? (
-                        <>
-                        <div onClick={e=> setSelect(2)} className="selling_item_second selling_item">
-                            <ToyImage dna={sellSecond.dna} species={sellSecond.dna.substring(4,7)} />
-                        </div>                        
-                        </>
-                    ) : (
-                        <>
-                        <div onClick={e=> setSelect(2)} className="selling_not_second selling_not">
-                            <i class="fas fa-plus-circle"></i>
-                        </div>
-                        </>
-                    )}
+                    {sellSecond && <div onClick={e => checkAnswer(sellSecond.dna)} className="selling_item_second selling_item">
+                        <ToyImage dna={sellSecond.dna} species={sellSecond.dna.substring(4,7)} />
+                    </div>}
+                    <div onClick={e=> setSelect(2)} className="selling_not_second selling_not">
+                        <i  class="fas fa-plus-circle"></i>
+                    </div>
+                    
                     { select === 3 && <SimpleShelf setSelect={setSelect} setChar={setSellThird} except={[]}/>}
-                    {sellThird ? (
-                        <>
-                        <div onClick={e=> setSelect(3)} className="selling_item_third selling_item">
-                            <ToyImage dna={sellThird.dna} species={sellThird.dna.substring(4,7)} />
-                        </div>                        
-                        </>
-                    ) : (
-                        <>
-                        { select === 3 && <SimpleShelf setSelect={setSelect} setChar={setSellThird} except={[]}/>}
-                        <div onClick={e=> setSelect(3)} className="selling_not_third selling_not">
-                            <i class="fas fa-plus-circle"></i>
-                        </div>
-                        </>
-                    )}
+                    {sellThird && <div onClick={e => checkAnswer(sellThird.dna)} className="selling_item_third selling_item">
+                        <ToyImage dna={sellThird.dna} species={sellThird.dna.substring(4,7)} />
+                    </div>}
+                    <div onClick={e=> setSelect(3)} className="selling_not_third selling_not">
+                        <i  class="fas fa-plus-circle"></i>
+                    </div>
+                
                 </div>
             </div>
             </>            
@@ -220,10 +358,13 @@ const Scene = () => {
         return (
             <>
             <div className="basic_bg simple_shelf" style={{backgroundImage:`url("/img/background_shelf/bg_shelf_final.png")`, backgroundSize:'cover'}} >
-                <div onClick={e => setSelect(false)} className="cancel"><i className="fas fa-times"></i></div>
+                <div className="cancel"><i onClick={e => setSelect(false)} className="fas fa-times"></i></div>
                 <div className="chara_item_list">
                     {toysNotMarket?.filter(toy => !except.includes(toy._id)).map(toy => {
-                        return <div key={toy.id} onClick={e => {setChar(toy); setSelect(false);}} className="chara_item"><ToyImage dna={toy.dna} species={toy.dna.substring(4,7)}/></div>
+                        return <div key={toy.id} onClick={e => {setChar(toy); setSelect(false);}} className="chara_item">
+                            <span>{toy.dna.charAt(2) === '0' ? "MALE" : "FEMALE"}</span>
+                            <ToyImage dna={toy.dna} species={toy.dna.substring(4,7)}/>
+                            </div>
                     })}
                 </div>
             </div>
@@ -245,7 +386,9 @@ const Scene = () => {
                 <img onClick={e=> uiBtnOnClick(0)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_mix_right.png" />
                 <div className="chara_item_list">
                     {toys?.map(toy => {
-                        return <div onClick={e => moveDetail(toy.id)} key={toy.id} className="chara_item"><ToyImage dna={toy.dna} species={toy.dna.substring(4, 7)}/></div>
+                        return <div onClick={e => moveDetail(toy.id)} key={toy.id} className="chara_item">
+                                <ToyImage dna={toy.dna} species={toy.dna.substring(4, 7)}/>
+                            </div>
                     })}
                 </div>
                 
@@ -254,6 +397,20 @@ const Scene = () => {
         )
     }
 
+    // const [content, setContent] = useState();
+    // useEffect(() => {
+    //     if(user){
+    //         if(channel === 0) {
+    //             setContent(<MixZone />);
+    //         }else if(channel === 1) {
+    //             setContent(<ShopZone />);
+    //         }else if(channel === 2) {
+    //             setContent(<ShelfZone />);
+    //         }
+    //     }else {
+    //         setContent(<h1>로그인 후 사용할 수 있습니다.</h1>);
+    //     }
+    // }, [user, channel, gameDir])
     let content;
     if(user){
         if(channel === 0) {
@@ -264,7 +421,7 @@ const Scene = () => {
             content = <ShelfZone />;
         }
     }else {
-        content = <h1>로그인 후 사용할 수 있습니다.</h1>
+        content  = <h1>로그인 후 사용할 수 있습니다.</h1>;
     }
     
     
