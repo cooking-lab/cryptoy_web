@@ -52,19 +52,22 @@
 }
 
 .selectedToy{
-    float: left;
     width: 250px;
     height: 300px;
     background-color: #bfb4b0;
 }
 
 .selectedBtn {
-    background-color: white;
+    background-color: #bfb4b0;
     font-size: 16px;
     border : none;
     border-radius: 1em;
     font-weight: bold;
     padding : 10px 20px;
+    text-align: center;
+    width: 250px;
+    line-height: 280px;
+    display: block;
 }
 
 .selectedToy-info{
