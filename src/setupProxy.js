@@ -13,6 +13,10 @@ module.exports = function(app){
       createProxyMiddleware('/toys', {
           target: 'http://localhost:3001/',
           changeOrigin: true
+      }),
+      createProxyMiddleware('/game', {
+          target: 'http://localhost:3001/',
+          changeOrigin: true
       })
   )
 };
