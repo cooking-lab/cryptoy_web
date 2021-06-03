@@ -10,7 +10,6 @@ const Scene = () => {
     const user = useSelector((state) => state.user.user);
     const toysNotMarket = useSelector((state) => getUserToysNotMarket(state));
     const toys = useSelector((state) => state.user.toys);
-    
     const [channel, setChannel] = useState(0); // 0 : mixzone, 1 : shop, 2 : room
     
     // 마이룸에 캐릭터를 띄울 페이지
@@ -27,6 +26,15 @@ const Scene = () => {
     }, [user])
     
     
+
+    useEffect(() => {
+        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
+    }, [toys])
+
+    useEffect(() => {
+        console.log(pageNum);
+        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
+    }, [pageNum])
 
     useEffect(() => {
         setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
