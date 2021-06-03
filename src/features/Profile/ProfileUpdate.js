@@ -33,7 +33,7 @@ const ProfileUpdate = () => {
                 .then(res => {
                     if(res.status === 200){
                         alert("변경되었습니다.");
-                        history.push("/profile");
+                        window.location.reload();
                     }else{
                         alert("잠시후 다시 시도하세요.");
                         window.location.reload();

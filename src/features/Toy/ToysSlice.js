@@ -33,6 +33,13 @@ const toysSlice = createSlice({
     name : 'toys',
     initialState,
     reducers : {
+        clearState : (state, action) => {
+            state.toys = [];
+            state.filteredToys = [];
+            state.status = 'idle';
+            state.error = null;
+            state.breedingStatus = 'idle';
+        },
         updateToysStatus : (state, action) => {
             state.status = action.payload;
         },
@@ -84,7 +91,7 @@ const toysSlice = createSlice({
     }
 })
 
-export const { updateToysStatus, updateFilteredToys } = toysSlice.actions;
+export const { clearState, updateToysStatus, updateFilteredToys } = toysSlice.actions;
 
 export default toysSlice.reducer;
 

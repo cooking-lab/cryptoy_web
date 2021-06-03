@@ -128,7 +128,7 @@ const AuctionRegister = ({match}) => {
                     <div className="selectedToy-info">
                         {selectedToy &&
                             <>
-                                <h1>{selectedToy._id}</h1>
+                                <h1>{selectedToy.id}</h1>
                                 {/* <div className="selectedToy-detailInfo">
                                     detail info
                         </div> */}

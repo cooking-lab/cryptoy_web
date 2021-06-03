@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import ToyImage from "features/TradingSystem/ToyImage";
 
 const AuctionItem = ({item}) => {
+    console.log(item);
     let auctionType = "";
     const auction_type_class = (type) => {
         switch (type) {

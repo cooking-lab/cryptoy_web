@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/owners/:userId', (req, res) => {
-    Toy.find({ ownerId: req.params.userId, market: null }, (err, toy) => {
+    Toy.find({ ownerId: req.params.userId}).populate('market').exec((err, toy) => {
         res.send(toy);
     })
 })
@@ -99,13 +99,13 @@ router.post('/markets/register', (req, res) => {
 
 router.post('/markets/transaction/:id', (req, res) => {
     const data = req.body;
+    console.log(req.params.id);
     if(data.marketType === 'sale'){
         const ret = gm.sellCharacterSync(data.from, data.to, data.price, req.params.id);
         if(ret) {
             // 거래 완료
-            Auction.deleteOne({regiNum : req.params.id})
-            .then(() => {
-                res.send('OK');
+            Auction.deleteOne({regiNum : req.params.id}, (err, results) => {
+                res.send('ok');
             })
         }
     }else if(data.marketType === 'rental'){
@@ -113,15 +113,14 @@ router.post('/markets/transaction/:id', (req, res) => {
         const ret = gm.sellCharacterSync(data.from, data.to, data.price, req.params.id);
         if(ret) {
             // 거래 완료 + 타이머 설정
+            console.log(req.params.id);
             const rentTimer = setTimeout(() => {
                 gm.sendCharacterSync(data.to, data.from, req.params.id);
-                console.log("원래 주인에게 캐릭터가 돌아갔습니다.");
-                
+                console.log("원래 주인에게 캐릭터가 돌아갔습니다.");                
             }, 1000 * 60);
-            Auction.deleteOne({regiNum : req.params.id})
-            .then(() => {
-                res.send('OK');
-            })
+            res.send('ok');
+            // Rental.deleteOne({regiNum : req.params.id}, (err, results) => {                
+            // })
         }
     }
 })
