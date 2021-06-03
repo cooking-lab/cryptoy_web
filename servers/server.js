@@ -11,6 +11,7 @@ const flash = require('connect-flash');
 const index = require('./routes/index');
 const player = require('./routes/player');
 const toys = require('./routes/toys');
+const game = require('./routes/game');
 
 const port = process.env.PORT || 3001;
 
@@ -85,6 +86,7 @@ app.post('/player/login',
 app.use('/api', index); // 아래와 동일
 app.use('/player', player);
 app.use('/toys', toys);
+app.use('/game', game);
 
 app.listen(port, () => {
     console.log(`express is running on ${port}`);

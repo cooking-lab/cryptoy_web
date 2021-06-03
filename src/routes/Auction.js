@@ -3,7 +3,7 @@ import "css/Auction.css";
 import AuctionItem from 'features/TradingSystem/AuctionItem';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getToys, selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
+import { clearState, getToys, selectAllFilteredToys, updateFilteredToys } from 'features/Toy/ToysSlice';
 import { CircularProgress, makeStyles, Slider } from '@material-ui/core';
 // import { getMarkets } from 'features/TradingSystem/MarketsSlice';
 
@@ -24,6 +24,9 @@ const Auction = () => {
         if(toysStatus === 'idle'){
             dispatch(getToys());
         }
+        // return () => {
+        //     dispatch(clearState());
+        // }
     }, [toysStatus, dispatch]);
 
     let content;

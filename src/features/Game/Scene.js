@@ -10,207 +10,31 @@ const Scene = () => {
     const user = useSelector((state) => state.user.user);
     const toysNotMarket = useSelector((state) => getUserToysNotMarket(state));
     const toys = useSelector((state) => state.user.toys);
-
     const [channel, setChannel] = useState(0); // 0 : mixzone, 1 : shop, 2 : room
-    const [sellFirst, setSellFirst] = useState();
-    const [sellSecond, setSellSecond] = useState();
-    const [sellThird, setSellThird] = useState();
-    const [gameDir, setGameDir] = useState();
-
-
+    
     // 마이룸에 캐릭터를 띄울 페이지
     const [pageNum, setPageNum] = useState(0);
     const [myRoomCharacterList, setMyRoomCharacterList] = useState();
 
-    // 게임에 대한 변수
-    const [gameStatus, setGameStatus] = useState('start');
-    const [timer, setTimer] = useState(0);
     const [score, setScore] = useState(0);
-    const [mission, setMission] = useState();
-    const [missionTimer, setMissionTimer] = useState(0);
+    const [ranking, setRanking] = useState(null);
     //const [content, setContent] = useState();
-    
-
-    const initMission  = () => {
-        const species = ['100', '010', '001'];
-        var mat = [null, null, null];
-        const sp = species[Math.floor(Math.random() * 3)];
-        
-        for(var i=0; i<3; i++) {
-            var matNum = Math.floor(Math.random() * 3)+1; // 1 ~ 3
-            switch (sp) {
-                case '100' : {
-                    // doll
-                    if(matNum === 1) {
-                        mat[matNum-1] = Math.floor(Math.random() * 6).toString(2).padStart(4, '0'); // 0 ~ 5
-                    }else if(matNum === 2) {
-                        const matLists = ['0000', '0001', '0110', '0111'];
-                        mat[matNum-1] = matLists[Math.floor(Math.random() * 4)];
-                    }else if(matNum === 3) {
-                        mat[matNum-1] = Math.floor(Math.random() * 6).toString(2).padStart(4, '0'); // 0 ~ 5
-                    }
-                    break;
-                }
-                case '010' : {
-                    // robot
-                    if(matNum === 1) {
-                        mat[matNum-1] = (Math.floor(Math.random() * 5)+6).toString(2).padStart(4, '0'); // 6 ~ 10
-                    }else if(matNum === 2) {
-                        const matLists = ['0010', '0011', '0100', '0110', '0111'];
-                        mat[matNum-1] = matLists[Math.floor(Math.random() * 5)];
-                    }else if(matNum === 3) {
-                        mat[matNum-1] = (Math.floor(Math.random() * 5)+6).toString(2).padStart(4, '0'); // 6 ~ 10
-                    }
-                    break;
-                }
-                case '001' : {
-                    // car
-                    if(matNum === 1) {
-                        mat[matNum-1] = (Math.floor(Math.random() * 5)+11).toString(2).padStart(4, '0'); // 11 ~ 15
-                    }else if(matNum === 2) {
-                        const matLists = ['0101', '0110', '0111'];
-                        mat[matNum-1] = matLists[Math.floor(Math.random() * 3)];
-                    }else if(matNum === 3) {
-                        mat[matNum-1] = (Math.floor(Math.random() * 5)+11).toString(2).padStart(4, '0'); // 11 ~ 15
-                    }
-                    break;
-                }
-                default : {
-                    
-                }
-            }
-        }
-        
-        let missionData = {
-            species : sp,
-            mats : []
-        };
-
-        for(var i=0; i<3; i++) {
-            if(mat[i]) {
-                const temp = {
-                    num : i+1,
-                    mat : mat[i]
-                };
-                missionData.mats.push(temp);
-            }
-        }
-        setMission(missionData);
-        console.log(missionData);
-    }
-
-    useEffect(() => {
-        if(timer > 0 && gameStatus === 'ongoing') {
-            const count = setInterval(() => {
-                setTimer(prev => prev - 1);
-            }, 1000);
-            return () => clearInterval(count);
-        }
-        if(timer === 0 && gameStatus === 'ongoing'){
-            setGameStatus('gameover');
-        }
-    }, [timer, gameStatus])
-
-    const startBtnOnClick = () => {
-        setScore(0);
-        setSellFirst(null);
-        setSellSecond(null);
-        setSellThird(null);
-        setGameStatus('ongoing');
-        setTimer(180);
-        setMissionTimer(10);
-        initMission();
-    }
-
-    useEffect(() => {
-        if(gameStatus === 'start'){
-            setGameDir(<div className="startButton"><p onClick={startBtnOnClick}>START</p></div>);
-        }else if(gameStatus === 'ongoing') {
-            setGameDir(<div className="missionImgs">
-                {mission.mats?.map(m => {
-                    return <img src={`/img/game/chara_${mission.species}/mat${m.num}/${m.mat}.png`} />
-                })}
-            </div>)
-        }else if(gameStatus === 'gameover') {
-            setGameDir(<div className="gameover">
-                <p>GAMEOVER</p>
-                <p>{score}</p>
-                <p>상위 1%</p>
-                <p onClick={e => setGameStatus('start')}>다시하기</p>
-                </div>)
-        }
-    }, [gameStatus, mission])
-    
-
-    useEffect(() => {
-        if(missionTimer > 0 && gameStatus === 'ongoing') {
-            const counter = setInterval(() => {
-                setMissionTimer(prev => prev - 1);
-            }, 1000);
-            console.log(missionTimer);
-            return () => clearInterval(counter);
-        }
-        if(missionTimer === 0 && gameStatus === 'ongoing') {
-            if(sellFirst && checkAnswer(sellFirst.dna)){
-                setScore(prev => prev + mission.mats.length * 10);
-            }else if(sellSecond && checkAnswer(sellSecond.dna)) {
-                setScore(prev => prev + mission.mats.length * 10);
-            }else if(sellThird && checkAnswer(sellThird.dna)) {
-                setScore(prev => prev + mission.mats.length * 10);
-            }
-            initMission();
-            setMissionTimer(10);
-        }
-    }, [missionTimer])
+    const [gameStatus, setGameStatus] = useState('start');
     
     useEffect(() => {
         dispatch(getUserToys(user?.id));
     }, [user])
     
-    const chooseAnswer = (dna) => {
-        let flag = true;
-        if(mission.species === dna.substring(4, 7)) {
-            mission.mats.map(mat => {
-                switch(mat.num) {
-                    case 1 : {
-                        if(mat.mat !== dna.substring(7, 11)){
-                            console.log("hihi");
-                            flag = false;
-                        }
-                        break;
-                    }
-                    case 2 : {
-                        if(mat.mat !== dna.substring(11, 15)) {
-                            console.log("hihi");
-                            flag = false;
-                        }
-                        break;
-                    }
-                    case 3 : {
-                        if(mat.mat !== dna.substring(15, 19)){
-                            console.log("hihi");
-                            flag = false;
-                        }
-                        break;
-                    }
-                }
-            })
-            if(flag) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
 
-    const checkAnswer = (dna) => {
-        if(chooseAnswer(dna)) {
-            setScore(prev => prev + mission.mats.length * 10);
-            setMissionTimer(10);
-            initMission();
-        }else {
-            alert("틀렸습니다.");
-        }
-    }
+    useEffect(() => {
+        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
+    }, [toys])
+
+    useEffect(() => {
+        console.log(pageNum);
+        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
+    }, [pageNum])
 
     useEffect(() => {
         setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
@@ -321,6 +145,239 @@ const Scene = () => {
 
     const ShopZone = () => {
         const [select, setSelect] = useState(0);
+        // 게임에 대한 변수
+        const [sellFirst, setSellFirst] = useState();
+        const [sellSecond, setSellSecond] = useState();
+        const [sellThird, setSellThird] = useState();
+        const [timer, setTimer] = useState(180);
+        const [mission, setMission] = useState();
+        const [missionTimer, setMissionTimer] = useState(0);
+       // const [gameDir, setGameDir] = useState();
+
+        const startBtnOnClick = () => {
+            setScore(0);
+            setSellFirst(null);
+            setSellSecond(null);
+            setSellThird(null);
+            setTimer(180);
+            setGameStatus('ongoing');
+            setMissionTimer(5);
+            initMission();
+            setRanking(null);
+        }
+
+        const chooseAnswer = (dna) => {
+            let flag = true;
+            if(mission && mission.species === dna.substring(4, 7)) {
+                mission.mats.map(mat => {
+                    switch(mat.num) {
+                        case 1 : {
+                            if(mat.mat !== dna.substring(7, 11)){
+                              
+                                flag = false;
+                            }
+                            break;
+                        }
+                        case 2 : {
+                            if(mat.mat !== dna.substring(11, 15)) {
+                             
+                                flag = false;
+                            }
+                            break;
+                        }
+                        case 3 : {
+                            if(mat.mat !== dna.substring(15, 19)){
+                        
+                                flag = false;
+                            }
+                            break;
+                        }
+                    }
+                })
+                if(flag) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    
+        const checkAnswer = (dna) => {
+            if(chooseAnswer(dna)) {
+                setScore(prev => prev + mission.mats.length * 10);
+                setMissionTimer(5);
+                initMission();
+            }
+        }
+
+        const initMission  = () => {
+            const species = ['100', '010', '001'];
+            var mat = [null, null, null];
+            const sp = species[Math.floor(Math.random() * 3)];
+            
+            for(var i=0; i<3; i++) {
+                var matNum = Math.floor(Math.random() * 3)+1; // 1 ~ 3
+                switch (sp) {
+                    case '100' : {
+                        // doll
+                        if(matNum === 1) {
+                            mat[matNum-1] = Math.floor(Math.random() * 6).toString(2).padStart(4, '0'); // 0 ~ 5
+                        }else if(matNum === 2) {
+                            const matLists = ['0000', '0001', '0110', '0111'];
+                            mat[matNum-1] = matLists[Math.floor(Math.random() * 4)];
+                        }else if(matNum === 3) {
+                            mat[matNum-1] = Math.floor(Math.random() * 6).toString(2).padStart(4, '0'); // 0 ~ 5
+                        }
+                        break;
+                    }
+                    case '010' : {
+                        // robot
+                        if(matNum === 1) {
+                            mat[matNum-1] = (Math.floor(Math.random() * 5)+6).toString(2).padStart(4, '0'); // 6 ~ 10
+                        }else if(matNum === 2) {
+                            const matLists = ['0010', '0011', '0100', '0110', '0111'];
+                            mat[matNum-1] = matLists[Math.floor(Math.random() * 5)];
+                        }else if(matNum === 3) {
+                            mat[matNum-1] = (Math.floor(Math.random() * 5)+6).toString(2).padStart(4, '0'); // 6 ~ 10
+                        }
+                        break;
+                    }
+                    case '001' : {
+                        // car
+                        if(matNum === 1) {
+                            mat[matNum-1] = (Math.floor(Math.random() * 5)+11).toString(2).padStart(4, '0'); // 11 ~ 15
+                        }else if(matNum === 2) {
+                            const matLists = ['0101', '0110', '0111'];
+                            mat[matNum-1] = matLists[Math.floor(Math.random() * 3)];
+                        }else if(matNum === 3) {
+                            mat[matNum-1] = (Math.floor(Math.random() * 5)+11).toString(2).padStart(4, '0'); // 11 ~ 15
+                        }
+                        break;
+                    }
+                    default : {
+                        
+                    }
+                }
+            }
+            var cnt = 0;
+            for(var i=0; i<3; i++) {
+                if(mat[i]) cnt++;
+            }
+        
+            if(cnt > 1) {
+                if(Math.floor(Math.random()*2)) {
+                    mat[Math.floor(Math.random() * 3)] = null;
+                }
+            }
+            
+            let missionData = {
+                species : sp,
+                mats : []
+            };
+    
+            for(var i=0; i<3; i++) {
+                if(mat[i]) {
+                    const temp = {
+                        num : i+1,
+                        mat : mat[i]
+                    };
+                    missionData.mats.push(temp);
+                }
+            }
+            setMission(missionData);
+        }
+
+        const nextMission = () => {
+            if(gameStatus === 'ongoing') {
+                setTimer(prev => prev - 5);
+                initMission();
+                setMissionTimer(5);
+            }
+        }
+
+        const postRanking = async() => {
+            await axios.get('/game?score='+score)
+            .then(res => {
+                if(res.status === 200){
+                    setRanking(res.data.ranking);
+                    setGameStatus('gameover');
+                }
+            })
+        }
+    
+        useEffect(() => {
+            if(gameStatus === 'ongoing' && timer > 0 ) {
+                const count = setInterval(() => {
+                    setTimer(timer - 1);
+                }, 1000);
+                return () => clearInterval(count);
+            }
+            if(timer <= 0 && gameStatus === 'ongoing'){
+                setGameStatus('rankingLoading');
+                postRanking();
+            }
+        }, [timer])
+
+        let gameDir;
+            if(gameStatus === 'start'){
+                gameDir = (<div className="startButton"><p onClick={startBtnOnClick}>START</p></div>);
+            }else if(gameStatus === 'ongoing') {
+                gameDir = (<div onClick={nextMission} className="missionImgs">
+                    {mission && mission.mats?.map(m => {
+                        return <img src={`/img/game/chara_${mission.species}/mat${m.num}/${m.mat}.png`} />
+                    })}
+                </div>)
+            }else if(gameStatus === 'rankingLoading') {
+                gameDir = (<div className="gameover"></div>)
+            }else if(gameStatus === 'gameover') {
+                gameDir = (<div className="gameover">
+                <p>GAMEOVER</p>
+                <p>{score}</p>
+                <p>상위 {ranking}%</p>
+                <p onClick={e => setGameStatus('start')}>다시하기</p>
+            </div>)
+            }
+
+        // useEffect(() => {
+        //     if(gameStatus === 'start'){
+        //         setGameDir(<div className="startButton"><p onClick={startBtnOnClick}>START</p></div>);
+        //     }else if(gameStatus === 'ongoing') {
+        //         setGameDir(<div onClick={nextMission} className="missionImgs">
+        //             {mission && mission.mats?.map(m => {
+        //                 return <img src={`/img/game/chara_${mission.species}/mat${m.num}/${m.mat}.png`} />
+        //             })}
+        //         </div>)
+        //     }else if(gameStatus === 'rankingLoading') {
+        //         setGameDir(<div className="gameover"></div>)
+        //     }else if(gameStatus === 'gameover') {
+        //         setGameDir(<div className="gameover">
+        //         <p>GAMEOVER</p>
+        //         <p>{score}</p>
+        //         <p>상위 {ranking}%</p>
+        //         <p onClick={e => setGameStatus('start')}>다시하기</p>
+        //     </div>)
+        //     }
+        // }, [gameStatus, mission])
+        
+    
+        useEffect(() => {
+            if(missionTimer > 0 && gameStatus === 'ongoing') {
+                const counter = setInterval(() => {
+                    setMissionTimer(missionTimer-1);
+                }, 1000);
+                return () => clearInterval(counter);
+            }
+            if(missionTimer === 0 && gameStatus === 'ongoing') {
+                if(sellFirst && checkAnswer(sellFirst.dna)){
+                    setScore(prev => prev + mission.mats.length * 10);
+                }else if(sellSecond && checkAnswer(sellSecond.dna)) {
+                    setScore(prev => prev + mission.mats.length * 10);
+                }else if(sellThird && checkAnswer(sellThird.dna)) {
+                    setScore(prev => prev + mission.mats.length * 10);
+                }
+                initMission();
+                setMissionTimer(5);
+            }
+        }, [missionTimer])
 
         return (
             <>
@@ -329,9 +386,9 @@ const Scene = () => {
                 <img onClick={e=> uiBtnOnClick(2)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shelf_right.png" />
                 <img className="customer_img" src="/img/background_shop/bg_shop_chara1.png" />
                 
-                <img className="message_box" src="/img/background_shop/bg_shop_sbubble.png" />
+                <img onClick={nextMission} className="message_box" src="/img/background_shop/bg_shop_sbubble.png" />
                 <img className="bell_img" src="/img/background_shop/bg_shop_bell.png" />
-                {gameDir}
+                    {gameDir}
                 <div className="gameScore">
                     {score}
                 </div>
@@ -339,7 +396,7 @@ const Scene = () => {
                     남은 시간 : {timer}
                 </div>
                 <div className="selling_toys">
-                { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
+                    { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
                     {sellFirst && <div onClick={e => checkAnswer(sellFirst.dna)} className="selling_item_first selling_item">
                         <ToyImage dna={sellFirst.dna} species={sellFirst.dna.substring(4,7)} />
                     </div>}
