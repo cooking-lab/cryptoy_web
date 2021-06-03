@@ -24,8 +24,8 @@ const auctionSchema = new mongoose.Schema({
     deadline : {
         type : Date,
         required : true,
-        index : {
-            expires : 120,
+        index : {       
+            expires : 0,     
             partialFilterExpression: { deadline: { $lt : moment()} },
         }
     },
@@ -37,6 +37,10 @@ const auctionSchema = new mongoose.Schema({
         type : Boolean,
         required : true,
         default : true
+    },
+    expireAt: {
+        type: Date, 
+        required : true
     }
 });
 
@@ -67,9 +71,7 @@ const rentalSchema = new mongoose.Schema({
     deadline : {
         type : Date,
         required : true,
-        index : {
-            expires : '1440m'
-        }
+        expires : 0
     },
     initPrice : {
         type : Number,
@@ -82,8 +84,15 @@ const rentalSchema = new mongoose.Schema({
     },
     rentalUser : {
         type : String
+    },
+    expireAt: {
+        type: Date, 
+        required : true
     }
 });
+
+auctionSchema.index({expireAt:1}, {expireAfterSeconds:0});
+rentalSchema.index({expireAt:1}, {expireAfterSeconds:0});
 
 module.exports = {
     auctionSchema,

@@ -474,8 +474,8 @@ const Scene = () => {
                     </div>  
                     })}
                 </div>                
-                <button id="previous_page" onClick={previousPage}>이전 페이지로</button>
-                <button id="next_page" onClick={nextPage}>다음 페이지로</button>
+                <button className="myroom_move_btn" id="previous_page" onClick={previousPage}>◀</button>
+                <button className="myroom_move_btn" id="next_page" onClick={nextPage}>▶</button>
             </div>
             </>            
         )

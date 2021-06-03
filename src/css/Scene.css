@@ -296,3 +296,20 @@
     text-align: right;
     padding : 10px 30px 0 0;
 }
+
+.myroom_move_btn {
+    border: white;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 24px;
+    position: absolute;
+    top: 500px;
+}
+
+#previous_page{
+    left: 400px;
+}
+
+#next_page{
+    right: 400px;
+}
