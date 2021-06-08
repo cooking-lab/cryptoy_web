@@ -8,7 +8,7 @@ const Profile = () => {
     const userId = user?.id;
     const userNickname = user?.nickname;
     const userIntroduce = user?.introduction;
-   
+
     return(
         <div className="profile-container">
             <div className="profile-content">
