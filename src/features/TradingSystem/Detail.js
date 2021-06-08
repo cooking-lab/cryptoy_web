@@ -61,78 +61,95 @@ const AuctionAbout = ({match}) => {
     };
 
     const BuyOnClick = async() => {
-        if(user?.coin < toy?.market.goalPrice){
-            alert("코인이 부족합니다.");
-            window.location.reload();
-        }
-        let ok = window.confirm(`바로 구매가 진행됩니다. 진행하시겠습니까?`);
-        if(ok) {
-            setDimmed(true);
-            const data = {
-                toyId,
-                marketType : "sale",
-                price : toy?.market.initPrice,
-                to : user.id,
-                from : toy?.ownerId
-            };
-            await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
-            .then(res => {
-                setDimmed(false);
-                if(res.data){
-                    alert("구매가 완료되었습니다. 마이룸에서 확인해주세요!");
-                    window.location.reload();
+        if(!user) {
+            window.location.href = '/login';
+        }else {
+            if(user?.coin < toy?.market.initPrice){
+                alert("코인이 부족합니다.");
+                window.location.reload();
+            }else{
+                let ok = window.confirm(`바로 구매가 진행됩니다. 진행하시겠습니까?`);
+                if(ok) {
+                    setDimmed(true);
+                    const data = {
+                        toyId,
+                        marketType : "sale",
+                        price : toy?.market.initPrice,
+                        to : user.id,
+                        from : toy?.ownerId
+                    };
+                    await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
+                    .then(res => {
+                        setDimmed(false);
+                        if(res.data){
+                            alert("구매가 완료되었습니다. 마이룸에서 확인해주세요!");
+                            window.location.reload();
+                        }
+                    });
+                        // await dispatch(updateMarket(data))
+                        // .then((res) => {
+                        //     if(res.error) {
+                        //         alert("실패하였습니다.");
+                        //         window.location.reload();
+                        //     }
+                        //     if(res?.payload.status === 200){
+                        //         alert("입찰되었습니다.");
+                        //         window.location.reload();
+                                
+                        //     }
+                        // });
                 }
-            });
-                // await dispatch(updateMarket(data))
-                // .then((res) => {
-                //     if(res.error) {
-                //         alert("실패하였습니다.");
-                //         window.location.reload();
-                //     }
-                //     if(res?.payload.status === 200){
-                //         alert("입찰되었습니다.");
-                //         window.location.reload();
-                        
-                //     }
-                // });
+            }
+            
         }
+        
         
             
     }
     
     const RentalOnClick = async() => {
-
-        let ok = window.confirm("대여하시겠습니까?");
-        if(ok) {
-            const data = {
-                toyId,
-                marketType : "rental",
-                price : toy?.market.initPrice,
-                to : user.id,
-                from : toy?.ownerId
-            }
-            // 빌리는 로직 추가
-            await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
-            .then(res => {
-                setDimmed(false);
-                if(res.data){
-                    console.log(res.data);
-                    alert("장난감을 빌렸습니다! 마이룸에서 확인해주세요!");
-                    window.location.reload();
+        if(!user) {
+            window.location.href = "/login";
+        }else {
+            if(user?.coin < toy?.market.initPrice){
+                alert("코인이 부족합니다.");
+                window.location.reload();
+            }else{
+                let ok = window.confirm("대여하시겠습니까?");
+                if(ok) {
+                    const data = {
+                        toyId,
+                        marketType : "rental",
+                        price : toy?.market.initPrice,
+                        to : user.id,
+                        from : toy?.ownerId
+                    }
+                    // 빌리는 로직 추가
+                    await axios.post('/toys/markets/transaction/'+toy?.market.regiNum, data)
+                    .then(res => {
+                        setDimmed(false);
+                        if(res.data){
+                            console.log(res.data);
+                            alert("장난감을 빌렸습니다! 마이룸에서 확인해주세요!");
+                            window.location.reload();
+                        }
+                    });
+                    // await dispatch(updateMarket(data))
+                    // .then(res => {
+                    //     if(res.payload.status === 200){
+                    //         alert("장난감을 빌렸습니다! 마이룸에서 확인해 주세요.");
+                    //         window.location.reload();
+                    //     }else{
+                    //         alert("실패했습니다.");
+                    //         window.location.reload();
+                    //     }
+                    // });
+                    
                 }
-            });
-            // await dispatch(updateMarket(data))
-            // .then(res => {
-            //     if(res.payload.status === 200){
-            //         alert("장난감을 빌렸습니다! 마이룸에서 확인해 주세요.");
-            //         window.location.reload();
-            //     }else{
-            //         alert("실패했습니다.");
-            //         window.location.reload();
-            //     }
-            // });
+            }
             
         }
+        
     }
 
     const anotherDetail = (parentId) => {
