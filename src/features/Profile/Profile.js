@@ -8,7 +8,8 @@ const Profile = () => {
     const userId = user?.id;
     const userNickname = user?.nickname;
     const userIntroduce = user?.introduction;
-
+    const userCoinNum = user?.coin;
+   
     return(
         <div className="profile-container">
             <div className="profile-content">
@@ -26,6 +27,10 @@ const Profile = () => {
                         <tr>
                             <th><label className="profile-label">INTRODUCE</label></th>
                             <td><label className="profile-label" value={userIntroduce}>{userIntroduce}</label></td>
+                        </tr>
+                        <tr>
+                            <th><label className="profile-label">COIN AMOUNT</label></th>
+                            <td><label className="profile-label" value={userCoinNum}>{userCoinNum}</label></td>
                         </tr>
                     </table>
                 </div>
