@@ -16,6 +16,7 @@ const ToyImage = ({ dna, species }) => {
         let eyes = dna?.substring(19, 22);
         let nose_mouth = dna?.substring(22, 25);
         let body_color = dna?.substring(25, 49);
+       
         const dnaData = {
             damage,
             mat1,

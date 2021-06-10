@@ -24,7 +24,6 @@ router.get('/', (req, res) => {
     Rank.find({}, (err, rank) => {
         let ranking;
         if(rank) {
-            //let temp = rank.filter(r => r.score > req.query.score);
             let total = 0;
             let len = 0;
             for(var i=0; i<rank.length; i++) {
