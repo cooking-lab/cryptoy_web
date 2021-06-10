@@ -52,6 +52,7 @@
 }
 
 .selectedToy{
+    float : left;
     width: 250px;
     height: 300px;
     background-color: #bfb4b0;
@@ -96,6 +97,7 @@
 }
 
 .myToyImage {
+    padding : 20px 0;
     height: 250px;
 }
 
