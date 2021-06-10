@@ -10,6 +10,7 @@ import AuctionAbout from "features/TradingSystem/Detail";
 import Profile from "features/Profile/Profile";
 import ProfileUpdate from "features/Profile/ProfileUpdate";
 import Breeding from "features/Toy/Breeding";
+import Description from "./Description";
 
 const AppRouter = () => {
     return (
@@ -28,9 +29,7 @@ const AppRouter = () => {
                     <Route exact path='/breeding' component={Breeding} />
                 </Switch>
             </Router>
-            <footer>
-            FOOTER
-            </footer>
+            <Description />
         </>
     )
 }
