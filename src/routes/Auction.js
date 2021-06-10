@@ -9,6 +9,7 @@ import { CircularProgress, makeStyles, Slider } from '@material-ui/core';
 
 const Auction = () => {
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     let toys = useSelector((state) => state.toys.toys);
     const filteredToys = useSelector(selectAllFilteredToys);
     //const marketStatus = useSelector((state) => state.markets.status);
@@ -186,7 +187,8 @@ const Auction = () => {
         <div className="auction-container">
             <div className="auction-content">
             {Filter}
-            <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link>
+            { user ? <Link to="/auction/register"><button className="auction-register">REGISTER</button></Link> 
+            : <Link to="/login"><button className="auction-register">REGISTER</button></Link>}
                 <div className="auction-item-groups">
                     {content}
                 </div>
