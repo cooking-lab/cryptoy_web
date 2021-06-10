@@ -16,10 +16,11 @@ const Scene = () => {
     const [pageNum, setPageNum] = useState(0);
     const [myRoomCharacterList, setMyRoomCharacterList] = useState();
 
-    const [score, setScore] = useState(0);
+    const [gameStatus, setGameStatus] = useState('start');
+    const [totalScore, setTotalScore] = useState();
     const [ranking, setRanking] = useState(null);
     //const [content, setContent] = useState();
-    const [gameStatus, setGameStatus] = useState('start');
+    
     
     useEffect(() => {
         dispatch(getUserToys(user?.id));
@@ -142,6 +143,7 @@ const Scene = () => {
             </>
         )
     }
+ 
 
     const ShopZone = () => {
         const [select, setSelect] = useState(0);
@@ -149,21 +151,22 @@ const Scene = () => {
         const [sellFirst, setSellFirst] = useState();
         const [sellSecond, setSellSecond] = useState();
         const [sellThird, setSellThird] = useState();
-        const [timer, setTimer] = useState(180);
+        const [gameTimer, setGameTimer] = useState(180);
+        const [score, setScore] = useState(0);
         const [mission, setMission] = useState();
-        const [missionTimer, setMissionTimer] = useState(0);
-       // const [gameDir, setGameDir] = useState();
+        const [missionTimer, setMissionTimer] = useState(0);       
 
         const startBtnOnClick = () => {
             setScore(0);
             setSellFirst(null);
             setSellSecond(null);
             setSellThird(null);
-            setTimer(180);
+            setGameTimer(180);
             setGameStatus('ongoing');
             setMissionTimer(5);
             initMission();
             setRanking(null);
+            setTotalScore(0);
         }
 
         const chooseAnswer = (dna) => {
@@ -288,7 +291,7 @@ const Scene = () => {
 
         const nextMission = () => {
             if(gameStatus === 'ongoing') {
-                setTimer(prev => prev - 5);
+                setGameTimer(prev => prev - 5);
                 initMission();
                 setMissionTimer(5);
             }
@@ -299,23 +302,25 @@ const Scene = () => {
             .then(res => {
                 if(res.status === 200){
                     setRanking(res.data.ranking);
+                    setTotalScore(score);
+                    console.log("over");
                     setGameStatus('gameover');
                 }
             })
         }
     
         useEffect(() => {
-            if(gameStatus === 'ongoing' && timer > 0 ) {
+            if(gameStatus === 'ongoing' && gameTimer > 0 ) {
                 const count = setInterval(() => {
-                    setTimer(timer - 1);
+                    setGameTimer(gameTimer - 1);
                 }, 1000);
                 return () => clearInterval(count);
             }
-            if(timer <= 0 && gameStatus === 'ongoing'){
-                setGameStatus('rankingLoading');
+            if(gameTimer <= 0 && gameStatus === 'ongoing'){
+                //setGameStatus('gameover');
                 postRanking();
             }
-        }, [timer])
+        }, [gameTimer, gameStatus])
 
         let gameDir;
             if(gameStatus === 'start'){
@@ -331,33 +336,12 @@ const Scene = () => {
             }else if(gameStatus === 'gameover') {
                 gameDir = (<div className="gameover">
                 <p>GAMEOVER</p>
-                <p>{score}</p>
+                <p>{totalScore}</p>
                 <p>상위 {ranking}%</p>
                 <p onClick={e => setGameStatus('start')}>다시하기</p>
             </div>)
             }
-
-        // useEffect(() => {
-        //     if(gameStatus === 'start'){
-        //         setGameDir(<div className="startButton"><p onClick={startBtnOnClick}>START</p></div>);
-        //     }else if(gameStatus === 'ongoing') {
-        //         setGameDir(<div onClick={nextMission} className="missionImgs">
-        //             {mission && mission.mats?.map(m => {
-        //                 return <img src={`/img/game/chara_${mission.species}/mat${m.num}/${m.mat}.png`} />
-        //             })}
-        //         </div>)
-        //     }else if(gameStatus === 'rankingLoading') {
-        //         setGameDir(<div className="gameover"></div>)
-        //     }else if(gameStatus === 'gameover') {
-        //         setGameDir(<div className="gameover">
-        //         <p>GAMEOVER</p>
-        //         <p>{score}</p>
-        //         <p>상위 {ranking}%</p>
-        //         <p onClick={e => setGameStatus('start')}>다시하기</p>
-        //     </div>)
-        //     }
-        // }, [gameStatus, mission])
-        
+            
     
         useEffect(() => {
             if(missionTimer > 0 && gameStatus === 'ongoing') {
@@ -393,7 +377,7 @@ const Scene = () => {
                     {score}
                 </div>
                 <div className="gameTimer">
-                    남은 시간 : {timer}
+                    남은 시간 : {gameTimer}
                 </div>
                 <div className="selling_toys">
                     { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
@@ -481,20 +465,6 @@ const Scene = () => {
         )
     }
 
-    // const [content, setContent] = useState();
-    // useEffect(() => {
-    //     if(user){
-    //         if(channel === 0) {
-    //             setContent(<MixZone />);
-    //         }else if(channel === 1) {
-    //             setContent(<ShopZone />);
-    //         }else if(channel === 2) {
-    //             setContent(<ShelfZone />);
-    //         }
-    //     }else {
-    //         setContent(<h1>로그인 후 사용할 수 있습니다.</h1>);
-    //     }
-    // }, [user, channel, gameDir])
     let content;
     if(user){
         if(channel === 0) {
