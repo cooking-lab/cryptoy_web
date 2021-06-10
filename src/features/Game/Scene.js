@@ -23,20 +23,11 @@ const Scene = () => {
     
     
     useEffect(() => {
-        dispatch(getUserToys(user?.id));
+        if(user){
+            dispatch(getUserToys(user.id));
+        }
     }, [user])
     
-    
-
-    useEffect(() => {
-        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
-    }, [toys])
-
-    useEffect(() => {
-        console.log(pageNum);
-        setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
-    }, [pageNum])
-
     useEffect(() => {
         setMyRoomCharacterList(toys.slice(pageNum * 6, (pageNum+1) * 6));
     }, [toys])
@@ -56,12 +47,14 @@ const Scene = () => {
         const [baby, setBaby] = useState();
         const [select, setSelect] = useState(0);
         const [dimmed, setDimmed] = useState(false);
+        const [breedingOk, setBreedingOk] = useState(false);
 
         if(dimmed){
             document.body.style.overflow = "hidden";
         }else{
             document.body.style.overflow = "unset";
         }
+
 
         const breedingOnClick = async() => {
             if(lChar && rChar) {
@@ -80,9 +73,8 @@ const Scene = () => {
                     .then(res => {
                         setDimmed(false);
                         if(res.data.status === 200) {
-                            alert("교배가 완료되었습니다.");
                             setBaby(res.data.toy);
-                            dispatch(postToy(res.data.toy));
+                            setBreedingOk(true);
                         }else{
                             alert(res.data.error);
                         }
@@ -103,6 +95,7 @@ const Scene = () => {
             </>
             }
             <div className="basic_bg" style={{backgroundImage:`url("/img/background_mix/bg_mix.png")`, backgroundSize:'cover'}}>
+                { breedingOk && baby && <div className="breedingConfirm"><p onClick={e => dispatch(postToy(baby))}>CLICK</p></div> }
                 <img onClick={e => uiBtnOnClick(2)} className="ui_button ui_button_left" src="/img/background_UI_resized/arrow_shelf_left.png" />
                 <img onClick={e => uiBtnOnClick(1)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shop_right.png" />
                 <img onClick={breedingOnClick} className="red_button" src="/img/background_mix/bg_mix_btn_normal.png" />
