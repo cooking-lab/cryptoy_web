@@ -310,6 +310,7 @@ const AuctionAbout = ({match}) => {
                                     <li><span>종족</span> {toy?.species}</li>
                                     <li><span>세대</span> {toy?.generation} Gen</li>
                                     <li><span>성별</span> {toy?.gender}</li>
+                                    <li><span>DNA</span> {toy?.dna}</li>
                                 </ul>
                             </div>    
                         </div>

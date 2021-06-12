@@ -4,9 +4,20 @@ const ToyImage = ({ dna, species }) => {
     const dirpath = `/img/chara_${species}`;
     const [parsedDNA, setParsedDNA] = useState();
     const [damage, setDamage] = useState(false);
+    const [hidden, setHidden] = useState();
 
     const dnaParsing = () => {
         setDamage(false);
+        setHidden(null);
+        const hiddenDna = dna?.substring(49,51);
+        if(hiddenDna === "01") {
+            setHidden("balloon");
+        }else if(hiddenDna === "10") {
+            setHidden("jack");
+        }else if(hiddenDna === "11") {
+            setHidden("stego");
+        }
+
         if(dna?.substring(1,2) === '0' && dna?.substring(3,4) === '0'){
             setDamage(true);
         }
@@ -48,8 +59,15 @@ const ToyImage = ({ dna, species }) => {
     }, [dna])
 
     return (
-        <>{
-            parsedDNA && (
+        <>
+        { hidden && parsedDNA && (
+            <>
+            <img alt="hidden_back" style={body_color_style(parsedDNA?.body_color)} src={`/img/chara_hidden/${hidden}_white.png`} />
+            <img alt="hidden"   src={`/img/chara_hidden/${hidden}.png`} />
+            </>
+        )}
+        {
+            !hidden && parsedDNA && (
                 <>
                 <img alt='body_back' src={`${dirpath}/body/body_color_white.png`} />
                 <img alt='body_color' style={body_color_style(parsedDNA?.body_color)} src={`${dirpath}/body/body_color_white.png`} />
