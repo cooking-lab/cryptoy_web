@@ -9,15 +9,12 @@ const toySchema = new mongoose.Schema({
     },
     name : {
         type : String,
-        required : true
     },
     gender : {
         type : String,
-        required : true
     },
     generation : {
         type : Number,
-        required : true
     },
     dna : {
         type : String,
@@ -35,7 +32,6 @@ const toySchema = new mongoose.Schema({
     },
     adventure : {
         type : Boolean,
-        required : true,
         default : false
     },
     cooltime : {
