@@ -15,7 +15,7 @@ const Scene = () => {
     // 마이룸에 캐릭터를 띄울 페이지
     const [pageNum, setPageNum] = useState(0);
     const [myRoomCharacterList, setMyRoomCharacterList] = useState();
-
+    
     const [gameStatus, setGameStatus] = useState('start');
     const [totalScore, setTotalScore] = useState();
     const [ranking, setRanking] = useState(null);
@@ -42,10 +42,11 @@ const Scene = () => {
     }
 
     const MixZone = () => {
+        const [mixSelect, setMixSelect] = useState(0);
         const [lChar, setLChar] = useState();
         const [rChar, setRChar] = useState();
         const [baby, setBaby] = useState();
-        const [select, setSelect] = useState(0);
+        //const [select, setSelect] = useState(0);
         const [dimmed, setDimmed] = useState(false);
         const [breedingOk, setBreedingOk] = useState(false);
 
@@ -100,30 +101,30 @@ const Scene = () => {
                 <img onClick={e => uiBtnOnClick(1)} className="ui_button ui_button_right" src="/img/background_UI_resized/arrow_shop_right.png" />
                 <img onClick={breedingOnClick} className="red_button" src="/img/background_mix/bg_mix_btn_normal.png" />
                 <div className="left_mixBox mixBox">
-                    { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setLChar} except={[rChar?.id]}/>}
+                    { mixSelect === 1 && <SimpleShelf setSelect={setMixSelect} setChar={setLChar} except={[rChar?.id]}/>}
                     { lChar ? (
                         <>
-                        <div onClick={e => setSelect(1)} className="mixBox_toy_left mixBox_toy">
+                        <div onClick={e => setMixSelect(1)} className="mixBox_toy_left mixBox_toy">
                             <ToyImage dna={lChar.dna} species={lChar.dna.substring(4,7)} />
                         </div>
                         </>
                     ) :
                         <>
-                        <img onClick={e => setSelect(1)} className="star_button star_button_left" src="/img/stars.png" />
+                        <img onClick={e => setMixSelect(1)} className="star_button star_button_left" src="/img/stars.png" />
                         </>
                     }
                     </div>
                 <div className="right_mixBox mixBox">
-                    { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setRChar} except={[lChar?.id]}/>}
+                    { mixSelect === 2 && <SimpleShelf setSelect={setMixSelect} setChar={setRChar} except={[lChar?.id]}/>}
                     { rChar ? (
                         <>
-                        <div onClick={e => setSelect(2)} className="mixBox_toy_right mixBox_toy">
+                        <div onClick={e => setMixSelect(2)} className="mixBox_toy_right mixBox_toy">
                             <ToyImage dna={rChar.dna} species={rChar.dna.substring(4,7)} />
                         </div>
                         </>
                     ) : 
                     <>
-                        <img onClick={e => setSelect(2)} className="star_button star_button_right" src="/img/stars.png" />
+                        <img onClick={e => setMixSelect(2)} className="star_button star_button_right" src="/img/stars.png" />
                         </>
                     }
                 </div>
@@ -139,8 +140,8 @@ const Scene = () => {
  
 
     const ShopZone = () => {
-        const [select, setSelect] = useState(0);
         // 게임에 대한 변수
+        const [shopSelect, setShopSelect] = useState(0);
         const [sellFirst, setSellFirst] = useState();
         const [sellSecond, setSellSecond] = useState();
         const [sellThird, setSellThird] = useState();
@@ -373,27 +374,27 @@ const Scene = () => {
                     남은 시간 : {gameTimer}
                 </div>
                 <div className="selling_toys">
-                    { select === 1 && <SimpleShelf setSelect={setSelect} setChar={setSellFirst} except={[]}/>}
+                    { shopSelect === 1 && <SimpleShelf setSelect={setShopSelect} setChar={setSellFirst} except={[]}/>}
                     {sellFirst && <div onClick={e => checkAnswer(sellFirst.dna)} className="selling_item_first selling_item">
                         <ToyImage dna={sellFirst.dna} species={sellFirst.dna.substring(4,7)} />
                     </div>}
-                    <div onClick={e=> setSelect(1)} className="selling_not_first selling_not">
+                    <div onClick={e=> setShopSelect(1)} className="selling_not_first selling_not">
                         <i  class="fas fa-plus-circle"></i>
                     </div>
                     
-                    { select === 2 && <SimpleShelf setSelect={setSelect} setChar={setSellSecond} except={[]}/>}
+                    { shopSelect === 2 && <SimpleShelf setSelect={setShopSelect} setChar={setSellSecond} except={[]}/>}
                     {sellSecond && <div onClick={e => checkAnswer(sellSecond.dna)} className="selling_item_second selling_item">
                         <ToyImage dna={sellSecond.dna} species={sellSecond.dna.substring(4,7)} />
                     </div>}
-                    <div onClick={e=> setSelect(2)} className="selling_not_second selling_not">
+                    <div onClick={e=> setShopSelect(2)} className="selling_not_second selling_not">
                         <i  class="fas fa-plus-circle"></i>
                     </div>
                     
-                    { select === 3 && <SimpleShelf setSelect={setSelect} setChar={setSellThird} except={[]}/>}
+                    { shopSelect === 3 && <SimpleShelf setSelect={setShopSelect} setChar={setSellThird} except={[]}/>}
                     {sellThird && <div onClick={e => checkAnswer(sellThird.dna)} className="selling_item_third selling_item">
                         <ToyImage dna={sellThird.dna} species={sellThird.dna.substring(4,7)} />
                     </div>}
-                    <div onClick={e=> setSelect(3)} className="selling_not_third selling_not">
+                    <div onClick={e=> setShopSelect(3)} className="selling_not_third selling_not">
                         <i  class="fas fa-plus-circle"></i>
                     </div>
                 
@@ -403,13 +404,15 @@ const Scene = () => {
         )
     }
 
+    
     const SimpleShelf = ({setSelect, setChar, except}) => {
+
         return (
             <>
             <div className="basic_bg simple_shelf" style={{backgroundImage:`url("/img/background_shelf/bg_shelf_final.png")`, backgroundSize:'cover'}} >
                 <div className="cancel"><i onClick={e => setSelect(false)} className="fas fa-times"></i></div>
-                <div className="chara_item_list">
-                    {toysNotMarket?.filter(toy => !except.includes(toy._id)).map(toy => {
+                <div className="chara_item_list simpleShelf_list">
+                    {toys?.filter(toy => !except.includes(toy.id)).map(toy => {
                         return <div key={toy.id} onClick={e => {setChar(toy); setSelect(false);}} className="chara_item">
                             <span>{toy.dna.charAt(2) === '0' ? "MALE" : "FEMALE"}</span>
                             <ToyImage dna={toy.dna} species={toy.dna.substring(4,7)}/>

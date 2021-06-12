@@ -299,6 +299,16 @@
 }
 
 /**************** SIMPLE SHELF **************/
+.SceneContainer .simpleShelf_list {
+    overflow: scroll;
+    width: 100%;
+    height: 360px;
+}
+
+.SceneContainer .simpleShelf_list::-webkit-scrollbar{
+    display: none;
+}
+
 .SceneContainer .simple_shelf {
     position: absolute;
     top : 0;

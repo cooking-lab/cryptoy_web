@@ -88,11 +88,11 @@ router.post('/markets/register', (req, res) => {
             }
             toy.market = newMarket;
             toy.save(err => {
+                if(err) throw err;
                 newMarket.save( err => {
                     if(err) throw err;
                     res.status(200).send(newMarket);
-                })
-               ;
+                });
             })
         })
 })
