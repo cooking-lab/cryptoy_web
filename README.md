@@ -15,15 +15,15 @@
 
 ## 기본 가이드   
 **- 메인화면**   
-  * 로그인시 게임을 플레이 할 수 있는 메인화면(비회원)   
 ![image](https://user-images.githubusercontent.com/29244603/125058952-c14b4400-e0e5-11eb-9ca3-784bbffd6735.png)   
+  * 로그인시 게임을 플레이 할 수 있는 메인화면(비회원)   
 
 **- All Toy**   
 ![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)   
   * 블록체인 내 모든 정보를 볼 수 있는 탭   
   * 본인이 소유한 NFT 토큰 뿐 아니라 타인의 토큰도 확인할 수 있다.   
 
-- 필터 기능   
+<Filter>   
   1. Auction Type   
     + for sale : 판매 등록된 캐릭터   
     + rental : 대여를 위해 등록된 캐릭터   
@@ -40,10 +40,10 @@
   4. Search   
     설정한 필터값이 적용된 캐릭터 조회   
 
-- Register   
+<Register>   
   자신이 소유한 캐릭터를 마켓에 등록   
   
-- 그 외   
+<Other>   
   캐릭터 이미지 클릭시 해당 캐릭터의 상세 페이지로 이동   
   Gen : 캐릭터 세대   
   male / female : 성별   
@@ -66,9 +66,9 @@
 - - -   
 ## 게임 가이드   
 **- 메인화면**   
+![image](https://user-images.githubusercontent.com/29244603/125062342-3e2bed00-e0e9-11eb-99cb-e7c3dad53c2f.png)   
   * 오른쪽 화살표는 게임 화면으로의 전환   
   * 왼쪽 화살표는 마이룸으로의 전환   
-![image](https://user-images.githubusercontent.com/29244603/125062342-3e2bed00-e0e9-11eb-99cb-e7c3dad53c2f.png)   
 
 **A. 시작**   
 ![image](https://user-images.githubusercontent.com/29244603/125062389-4b48dc00-e0e9-11eb-8507-4d3cb6cdb619.png)   
