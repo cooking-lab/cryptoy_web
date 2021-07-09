@@ -15,12 +15,12 @@
 
 ## 가이드
 **- 비회원 메인화면**
-> 로그인시 게임을 플레이 할 수 있는 메인화면   
+  로그인시 게임을 플레이 할 수 있는 메인화면   
 ![image](https://user-images.githubusercontent.com/29244603/125058952-c14b4400-e0e5-11eb-9ca3-784bbffd6735.png)   
 
 **- All Toy**
-> 블록체인 내 모든 정보를 볼 수 있는 탭   
-> 본인이 소유한 NFT 토큰 뿐 아니라 타인의 토큰도 확인할 수 있다.   
+  블록체인 내 모든 정보를 볼 수 있는 탭   
+  본인이 소유한 NFT 토큰 뿐 아니라 타인의 토큰도 확인할 수 있다.   
 ![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)   
 **- 필터 기능**
   1. Auction Type   
