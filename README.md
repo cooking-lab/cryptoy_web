@@ -24,13 +24,13 @@
 ![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)   
 **- 필터 기능**
   1. Auction Type   
-    * for sale : 판매 등록된 캐릭터   
-    * rental : 대여를 위해 등록된 캐릭터   
-    * other : 마켓에 등록되지 않은 캐릭터   
+    + for sale : 판매 등록된 캐릭터   
+    + rental : 대여를 위해 등록된 캐릭터   
+    + other : 마켓에 등록되지 않은 캐릭터   
   2. Species   
-    * Doll : 인형   
-    * Car : 자동차   
-    * Robot : 로봇   
+    + Doll : 인형   
+    + Car : 자동차   
+    + Robot : 로봇   
   3. Price   
     마켓에 등록된 캐릭터 중 설정된 가격대에 있는 캐릭터 조회   
   4. Search   
