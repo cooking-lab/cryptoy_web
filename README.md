@@ -19,9 +19,10 @@
 ![image](https://user-images.githubusercontent.com/29244603/125058952-c14b4400-e0e5-11eb-9ca3-784bbffd6735.png)   
 
 **- All Toy**   
+![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)   
   * 블록체인 내 모든 정보를 볼 수 있는 탭   
   * 본인이 소유한 NFT 토큰 뿐 아니라 타인의 토큰도 확인할 수 있다.   
-![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)   
+
 - 필터 기능   
   1. Auction Type   
     + for sale : 판매 등록된 캐릭터   
@@ -73,17 +74,17 @@
 ![image](https://user-images.githubusercontent.com/29244603/125062389-4b48dc00-e0e9-11eb-8507-4d3cb6cdb619.png)   
 
 **B. 진행**   
-  * 말풍선에서 요구하는 부품을 지니고 있는 개체를 선택해서 제시한다.   
 ![image](https://user-images.githubusercontent.com/29244603/125062412-50a62680-e0e9-11eb-9a4f-ada39dd84c29.png)   
+  * 말풍선에서 요구하는 부품을 지니고 있는 개체를 선택해서 제시한다.   
 
 **C. 완료**   
 ![image](https://user-images.githubusercontent.com/29244603/125062429-556ada80-e0e9-11eb-821e-44cac864a1d5.png)   
 
 **- 합성**   
-  * 같은 종족에 성별이 다른 두 개체를 선택하여 합성을 진행한다.   
-  * 단, 족보상 5촌 이내로 판별될 경우 합성을 진행할 수 없다. (자가증식방지)   
 ![image](https://user-images.githubusercontent.com/29244603/125062721-ac70af80-e0e9-11eb-8a28-97164fc4a3fb.png)   
 ![image](https://user-images.githubusercontent.com/29244603/125063010-f78ac280-e0e9-11eb-8f83-303d6b18d54a.png)   
+  * 같은 종족에 성별이 다른 두 개체를 선택하여 합성을 진행한다.   
+  * 단, 족보상 5촌 이내로 판별될 경우 합성을 진행할 수 없다. (자가증식방지)   
 
-**- 마이룸**
+**- 마이룸**   
 ![image](https://user-images.githubusercontent.com/29244603/125063186-23a64380-e0ea-11eb-89ad-70613471b70e.png)
