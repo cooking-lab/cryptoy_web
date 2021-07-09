@@ -21,6 +21,26 @@
 **- All Toy**
 > 블록체인 내 모든 정보를 볼 수 있는 탭   
 > 본인이 소유한 NFT 토큰 뿐 아니라 타인의 토큰도 확인할 수 있다.   
-![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)
+![image](https://user-images.githubusercontent.com/29244603/125059154-fbb4e100-e0e5-11eb-8319-e655ae91a31e.png)   
+**- 필터 기능**
+  1. Auction Type
+    * for sale : 판매 등록된 캐릭터
+    * rental : 대여를 위해 등록된 캐릭터
+    * other : 마켓에 등록되지 않은 캐릭터
+  2. Species
+    * Doll : 인형
+    * Car : 자동차
+    * Robot : 로봇
+  3. Price 
+    마켓에 등록된 캐릭터 중 설정된 가격대에 있는 캐릭터 조회
+  4. Search
+    설정한 필터값이 적용된 캐릭터 조회
 
+**- Register**
+  자신이 소유한 캐릭터를 마켓에 등록
+  
+**- 그 외**
+  캐릭터 이미지 클릭시 해당 캐릭터의 상세 페이지로 이동
+  Gen : 캐릭터 세대
+  male / female : 성별
 
