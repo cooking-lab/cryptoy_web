@@ -9,9 +9,8 @@
 - Toy NFT 토큰 거래 마켓 제공   
 - 플레이어가 보유한 NFT로 게임을 플레이 할 수 있는 환경 제공   
 
-## 구조 
-- [BlockChain & Genetic Algorithm](https://github.com/cooking-lab/GeneLab)   
-![image](https://user-images.githubusercontent.com/29244603/125054425-27819800-e0e1-11eb-94ce-2b80eb5bcf1f.png)   
+## 모듈
+- [BlockChain & Genetic Algorithm](https://github.com/cooking-lab/GeneLab)    
 
 ## 기본 가이드   
 **- 메인화면**   
